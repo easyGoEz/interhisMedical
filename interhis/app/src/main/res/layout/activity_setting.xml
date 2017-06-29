@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:layout_width="550px"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="85px"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/ll_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="20px"
+                android:paddingRight="20px">
+
+                <ImageView
+                    android:layout_width="35px"
+                    android:layout_height="35px"
+                    android:background="@drawable/back"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/setting_title"
+                android:textColor="@color/text_dark_color"
+                android:textSize="@dimen/text_big"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color"/>
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_divider_color"
+            android:orientation="vertical">
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:id="@+id/rl_my_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_item_height">
+
+                <ImageView
+                    android:id="@+id/iv_my_info"
+                    android:layout_width="35px"
+                    android:layout_height="35px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:background="@drawable/my_info"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:layout_toRightOf="@id/iv_my_info"
+                    android:text="@string/my_info"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_medium"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider_color"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:id="@+id/rl_my_history"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_item_height">
+
+                <ImageView
+                    android:id="@+id/iv_my_history"
+                    android:layout_width="35px"
+                    android:layout_height="35px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:background="@drawable/ask_history"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:layout_toRightOf="@id/iv_my_history"
+                    android:text="@string/my_ask_history"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_medium"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider_color"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:id="@+id/rl_my_income"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_item_height">
+
+                <ImageView
+                    android:id="@+id/iv_my_income"
+                    android:layout_width="35px"
+                    android:layout_height="35px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:background="@drawable/to_crash"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:layout_toRightOf="@id/iv_my_income"
+                    android:text="@string/my_income"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_medium"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider_color"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:id="@+id/rl_about"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_item_height">
+
+                <ImageView
+                    android:id="@+id/iv_about"
+                    android:layout_width="35px"
+                    android:layout_height="35px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:background="@drawable/about"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:layout_toRightOf="@id/iv_about"
+                    android:text="@string/about"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_medium"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider_color"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="@color/divider_color"/>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleFrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_divider_color">
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleFrameLayout>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

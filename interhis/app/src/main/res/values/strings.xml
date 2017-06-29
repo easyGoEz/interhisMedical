@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">中怡在线</string>
+    <dimen name="key_height">45.0dip</dimen>
+    <string name="quit">再按一次退出程序</string>
+
+    <!--LoginActivity begin-->
+    <string name="enter_user_name">请输入用户名</string>
+    <string name="user_password">请输入密码</string>
+    <string name="user_login">登 录</string>
+    <string name="no_user_name_tip">用户名不能为空</string>
+    <string name="no_user_password_tip">密码不能为空</string>
+    <string name="login_failed">登录失败</string>
+    <string name="logout_failed">登出失败</string>
+    <!--LoginActivity end-->
+    <string name="no_contact_list">请选择一个联系人会话</string>
+    <string name="not_ever_visit">还未出诊或暂无患者会话</string>
+    <string name="load_done">已经全部加载完毕</string>
+    <string name="load_more">加载更多…</string>
+    <string name="visit">出诊</string>
+    <string name="visiting">接诊中</string>
+    <string name="take_rest">收工</string>
+    <string name="logout">退出登录</string>
+    <string name="chat_failed">聊天创建失败</string>
+    <string name="chat_logout_failed">聊天退出失败</string>
+    <string name="waiting">等待中</string>
+    <string name="all_count">累计</string>
+    <string name="today_income">本日收入</string>
+
+    <!--SettingActivity end-->
+    <string name="setting_title">设置</string>
+    <string name="my_info">我的信息</string>
+    <string name="my_ask_history">我的问诊记录</string>
+    <string name="my_income">我的收入</string>
+    <string name="about">关于</string>
+    <string name="personal_introduction">个人简介</string>
+    <string name="personal_my_expert">我的擅长</string>
+    <string name="input_personal_introduction">填写个人简介</string>
+    <string name="input_my_expert">填写我的擅长</string>
+    <string name="edit">编辑</string>
+    <string name="save">保存</string>
+    <string name="income_balance">账户余额(¥)：</string>
+    <string name="my_all_income">我的总收入(¥)：</string>
+    <string name="my_month_income">本月收入金额(¥)：</string>
+    <string name="to_cash">提现</string>
+    <string name="my_bank_card">我的银行卡</string>
+    <string name="income_bill">收入账单</string>
+    <string name="visit_count_all">总计接诊量：</string>
+    <string name="visit_count_daily">本日接诊量：</string>
+    <string name="visit_count_month">月接诊量：</string>
+    <string name="imprint">版本说明</string>
+    <string name="about_version_name">中怡在线%1$s</string>
+    <string name="head_take_photo">拍照</string>
+    <string name="head_from_photo">从相册选择</string>
+    <string name="cancel">取消</string>
+    <string name="card_fali_msg">请确认是否开启了存储权限</string>
+    <string name="permission_not_enough">缺少权限，请确认是否开启了录音，摄像头等权限！</string>
+    <string name="camera_fail_msg">请确认是否开启了摄像头权限</string>
+    <string name="go_setting">去设置</string>
+    <string name="fileprovider">com.witnsoft.interhis.fileprovider</string>
+    <string name="evaluate">患者评价</string>
+    <string name="none_permission">请允许开启权限</string>
+    <string name="chat_has_been_tick_out">聊天在其他设备登录</string>
+    <string name="is_update_photo">是否保存头像</string>
+    <string name="update_success">上传成功</string>
+    <!--SettingActivity end-->
+
+    <!-- 更新(Start) -->
+    <string name="apk_name">app-debug%1$s.apk</string>
+    <string name="update_title">软件版本更新</string>
+    <string name="update_otherwise">您的软件版本过低，如不更新将无法使用</string>
+    <string name="update_txt">有最新的软件包，请确认更新！</string>
+    <string name="update_ok">更 新</string>
+    <string name="update_cancel">以后再说</string>
+    <string name="not_need_update">已经是最新版</string>
+    <string name="network_is_mobile">您正处于移动网络环境下，下载会消耗您的数据流量，是否继续？</string>
+    <string name="later_wifi_download">等待WiFi</string>
+    <string name="network_continue">继续</string>
+    <string name="download_fail_title">下载失败</string>
+    <string name="download_fail_message">创建下载失败，请尝试去官网下载最新版</string>
+    <string name="cancle">取消</string>
+    <string name="confirm">确定</string>
+    <string name="alert_dialog_title">温馨提示</string>
+    <string name="share_title_url">https://zy.renyibao.com/ver.json</string>
+    <string name="updating_progress_tittle">正在更新...</string>
+    <!-- 更新(End) -->
+</resources>

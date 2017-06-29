@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_divider_color"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="85px"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="35px"
+                android:layout_height="35px"
+                android:background="@drawable/back"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_info"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_color"/>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_head"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginTop="@dimen/margin_normal_25"
+                android:src="@mipmap/touxiang"/>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_25">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/text_dark_color"
+                    android:textSize="@dimen/text_medium"
+                    tools:text="名字"/>
+
+                <TextView
+                    android:id="@+id/tv_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="20px"
+                    android:layout_toRightOf="@id/tv_name"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_small"
+                    tools:text="主任医师"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px">
+
+                <TextView
+                    android:id="@+id/tv_hosp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_small"
+                    tools:text="天津市第一人民医院"/>
+
+                <TextView
+                    android:id="@+id/tv_dept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20px"
+                    android:layout_toRightOf="@id/tv_hosp"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_small"
+                    tools:text="科室"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+            <com.witnsoft.interhis.utils.ui.ItemSettingRight
+                android:id="@+id/view_introduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_25"/>
+
+            <com.witnsoft.interhis.utils.ui.ItemSettingRight
+                android:id="@+id/view_my_expert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.witnsoft.interhis.utils.ui.ItemSettingRight
+                android:id="@+id/view_evaluate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal_25"/>
+
+            <!--注销-->
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:id="@+id/rl_logout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_item_height"
+                android:layout_marginLeft="@dimen/margin_normal_25"
+                android:layout_marginRight="@dimen/margin_normal_25"
+                android:layout_marginTop="@dimen/margin_normal_25"
+                android:background="@color/colorWhite">
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:background="@color/divider_color"/>
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/divider_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/divider_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider_color"/>
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/logout"
+                    android:textColor="@color/colorRed"
+                    android:textSize="@dimen/text_medium"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

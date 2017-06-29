@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:layout_width="480px"
+        android:layout_height="match_parent">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/doctor_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGray"
+                android:orientation="horizontal"
+                android:paddingBottom="10px"
+                android:paddingLeft="@dimen/margin_normal_25"
+                android:paddingRight="@dimen/margin_normal_25"
+                android:paddingTop="@dimen/margin_normal_25">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fragment_doctor_image"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:src="@mipmap/touxiang"/>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:orientation="vertical">
+
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_doctor_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_medium_color"
+                            android:textSize="@dimen/text_medium"
+                            tools:text="张强强"/>
+
+                        <TextView
+                            android:id="@+id/tv_doctor_duties"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="60px"
+                            android:textColor="@color/text_medium_color"
+                            android:textSize="@dimen/text_small"
+                            tools:text="主任医师"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5px"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="36px"
+                            android:layout_height="36px"
+                            android:src="@mipmap/xingxing"/>
+
+                        <TextView
+                            android:id="@+id/tv_doctor_grade"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="bottom"
+                            android:textColor="@color/colorRed"
+                            android:textSize="@dimen/text_small"
+                            tools:text="9.5"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="接诊量"
+                            android:textColor="@color/text_medium_color"
+                            android:textSize="@dimen/text_small"/>
+
+                        <TextView
+                            android:id="@+id/tv_doctor_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:textColor="@color/text_medium_color"
+                            android:textSize="@dimen/text_small"
+                            tools:text="77"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5px"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_hospital"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_medium_color"
+                            android:textSize="@dimen/text_small"
+                            tools:text="天津市宝坻中医院    内科"/>
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/doctor_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/doctor_message"
+                android:background="@color/colorGray"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="1px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="10px">
+
+                    <TextView
+                        android:id="@+id/tv_pats_waiting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_big"
+                        tools:text="20"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/waiting"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_small"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="1px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="10px">
+
+                    <TextView
+                        android:id="@+id/tv_pats_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_big"
+                        tools:text="77"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/all_count"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_small"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="1px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="10px">
+
+                    <TextView
+                        android:id="@+id/tv_daily_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_big"
+                        tools:text="320"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/today_income"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_small"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="1px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingBottom="10px">
+
+                    <TextView
+                        android:id="@+id/tv_all_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_big"
+                        tools:text="320"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/all_count"
+                        android:textColor="@color/text_medium_color"
+                        android:textSize="@dimen/text_small"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/sl_refresh_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/doctor_count"
+                android:layout_marginTop="20px">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_pat_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGray"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"/>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <TextView
+                android:id="@+id/tv_no_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/doctor_count"
+                android:layout_marginTop="20px"
+                android:background="@color/colorGray"
+                android:gravity="center"
+                android:text="@string/not_ever_visit"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/text_big"
+                android:visibility="visible"/>
+
+            <Button
+                android:id="@+id/doctor_visit"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="40px"
+                android:background="@drawable/btn_visit"
+                android:text="@string/visit"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_big"/>
+
+            <Button
+                android:id="@+id/btn_take_rest"
+                android:layout_width="80px"
+                android:layout_height="80px"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="40px"
+                android:layout_marginRight="20px"
+                android:background="@drawable/btn_logout"
+                android:text="@string/logout"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_small"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleFrameLayout
+        android:id="@+id/fl_helper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10px">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_contact_list"
+            android:textColor="@color/text_gray_color"
+            android:textSize="@dimen/text_big"/>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleFrameLayout>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

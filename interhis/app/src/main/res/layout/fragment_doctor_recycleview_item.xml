@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_doctor_recycleview_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:id="@+id/ll_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_read"
+                android:layout_width="30px"
+                android:layout_height="30px"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/unread_message"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="20px"
+                tools:text="2"/>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/tv_read"
+                android:orientation="horizontal"
+                android:paddingBottom="15px"
+                android:paddingLeft="@dimen/margin_normal_25"
+                android:paddingRight="@dimen/margin_normal_25"
+                android:paddingTop="15px">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fragment_doctor_recycleView_item_image"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:src="@mipmap/touxiang"/>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:layout_toRightOf="@id/fragment_doctor_recycleView_item_image"
+                    android:orientation="vertical">
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:id="@+id/ll_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/fragment_doctor_recycleView_item_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_small"
+                            tools:text="李四"/>
+
+                        <TextView
+                            android:id="@+id/fragment_doctor_recycleView_item_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_small"
+                            tools:text="男"/>
+
+                        <TextView
+                            android:id="@+id/fragment_doctor_recycleView_item_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_small"
+                            tools:text="54"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <TextView
+                        android:id="@+id/fragment_doctor_recycleView_item_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/ll_top"
+                        android:layout_marginTop="15px"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_small"
+                        tools:text="咳嗽头痛"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+                >
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_color"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:padding="10px">
+
+    <TextView
+        android:id="@+id/load_more"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="10px"
+        android:text="@string/load_done"
+        android:textSize="@dimen/text_small"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

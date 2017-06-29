@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="40px"
+        android:paddingTop="40px"
+        android:text="@string/head_take_photo"
+        android:textColor="@color/text_dark_color"
+        android:textSize="@dimen/text_big"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@color/divider_color"/>
+
+    <TextView
+        android:id="@+id/tv_from_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="40px"
+        android:paddingTop="40px"
+        android:text="@string/head_from_photo"
+        android:textColor="@color/text_dark_color"
+        android:textSize="@dimen/text_big"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@color/divider_color"/>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="40px"
+        android:paddingTop="40px"
+        android:text="@string/cancel"
+        android:textColor="@color/text_dark_color"
+        android:textSize="@dimen/text_big"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

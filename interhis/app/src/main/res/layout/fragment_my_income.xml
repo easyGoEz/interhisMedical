@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_divider_color"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_normal_25"
+            android:paddingRight="@dimen/margin_normal_25"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="35px"
+                android:layout_height="35px"
+                android:background="@drawable/back"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_income"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_color"/>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="90px"
+        android:layout_marginTop="30px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/balance_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:text="@string/income_balance"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_medium"/>
+
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:gravity="bottom"
+            android:textColor="@color/text_dark_color"
+            android:textSize="45px"
+            tools:text="100202020"/>
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="90px"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_income_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:text="@string/my_all_income"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_medium"/>
+
+        <TextView
+            android:id="@+id/tv_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:gravity="bottom"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_medium"
+            tools:text="100202020"/>
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="90px"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_month_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:text="@string/my_month_income"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_medium"/>
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:gravity="bottom"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_medium"
+            tools:text="100202020"/>
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <!--提现-->
+    <com.witnsoft.interhis.utils.ui.ItemSettingRight
+        android:id="@+id/rl_to_cash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal_25"/>
+
+    <!--我的银行卡-->
+    <com.witnsoft.interhis.utils.ui.ItemSettingRight
+        android:id="@+id/rl_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal_25"/>
+
+    <!--收入账单-->
+    <com.witnsoft.interhis.utils.ui.ItemSettingRight
+        android:id="@+id/rl_bill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

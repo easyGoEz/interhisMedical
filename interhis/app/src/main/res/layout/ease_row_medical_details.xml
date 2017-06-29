@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/number_dialog_shape"
+    android:id="@+id/chinese_ll_root">
+
+    <LinearLayout
+    android:id="@+id/ease_linearLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:textColor="@color/colorBlack">
+
+    <TextView
+    style="@style/bigSize"
+    android:text="姓名:"
+    android:layout_marginLeft="10dp"/>
+
+    <TextView
+    android:id="@+id/ease_name"
+    style="@style/bigSize"
+    android:text="张三"
+    android:layout_marginLeft="10dp"/>
+
+    <TextView
+    style="@style/bigSize"
+    android:text="性别："
+    android:layout_marginLeft="60dp" />
+
+    <TextView
+    android:id="@+id/ease_sex"
+    style="@style/bigSize"
+    android:text="男"
+    android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ease_second_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ease_linearLayout"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            style="@style/bigSize"
+            android:text="病人ID："
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/ease_acid"
+            style="@style/bigSize"
+            android:text="123435465"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            style="@style/bigSize"
+            android:text="就诊ID"
+            android:layout_marginLeft="40dp"/>
+
+        <TextView
+            android:id="@+id/ease_aiid"
+            style="@style/bigSize"
+            android:text="72374723472"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ease_third_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ease_second_linearLayout"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="15dp">
+
+        <TextView
+         style="@style/bigSize"
+         android:text="开方时间"
+         android:layout_marginLeft="10dp"/>
+
+        <TextView
+        android:id="@+id/ease_time"
+        style="@style/bigSize"
+        android:text="2017-6-22 14:52"
+        android:layout_marginLeft="10dp"/>
+
+        <TextView
+            style="@style/bigSize"
+            android:text="金额"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:id="@+id/ease_price"
+            style="@style/bigSize"
+            android:text="1300"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            style="@style/bigSize"
+            android:text="处方数量"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:id="@+id/ease_number"
+            style="@style/bigSize"
+            android:text="10"
+            android:layout_marginLeft="10dp"/>
+
+
+    </LinearLayout>
+
+    <View
+    android:id="@+id/ease_view"
+    android:layout_width="580dp"
+    android:layout_height="1dp"
+    android:background="#000000"
+    android:layout_below="@id/ease_third_linearLayout"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/four_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ease_view"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/colorBlack">
+
+        <TextView
+            style="@style/bigSize"
+            android:text="用法用量"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/ease_advice"
+            style="@style/bigSize"
+            android:text="一日两次"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+    <View
+    android:id="@+id/ease_second_view"
+    android:layout_width="580dp"
+    android:layout_height="1dp"
+    android:background="#000000"
+    android:layout_below="@id/four_linearLayout"
+    android:layout_marginTop="15dp"
+    android:layout_marginLeft="10dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ease_recycleview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ease_second_view"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

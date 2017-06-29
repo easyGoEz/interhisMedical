@@ -1,0 +1,10 @@
+/build
+.idea
+*.iml
+.DS_Store
+
+.gradle
+
+
+/local.properties
+easeUI_CN/build

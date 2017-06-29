@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+        <LinearLayout
+           android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RadioGroup
+                android:id="@+id/fragment_helper_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/fragment_helper_radioButton_ask"
+                    style="@style/radioButton"
+                    android:background="@drawable/radiobutton"
+                    android:gravity="center"
+                    android:text="咨询"/>
+
+                <RadioButton
+                    android:id="@+id/fragment_helper_radioButton_chat"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/radiobutton"
+                    android:gravity="center"
+                    android:text="诊断"/>
+
+                <RadioButton
+                    android:id="@+id/fragment_helper_radioButton_chinese"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/radiobutton"
+                    android:gravity="center"
+                    android:text="中药"/>
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/radiobutton"
+                    android:gravity="center"
+                    android:text="中成药"/>
+
+                <RadioButton
+                    android:id="@+id/fragment_helper_radioButton_western"
+                    style="@style/radioButton"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/radiobutton"
+                    android:gravity="center"
+                    android:text="西药"/>
+
+                <RadioButton
+                    style="@style/radioButton"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/radiobutton"
+                    android:gravity="center"
+                    android:text="历史记录"/>
+
+            </RadioGroup>
+
+            <FrameLayout
+                android:id="@+id/fragment_helper_ask_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/fragment_helper_ask_linearLayout_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_helper_diagnosis_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/fragment_helper_diagnosis_editText"
+                    android:layout_width="660dp"
+                    android:layout_height="200dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext"
+                    android:hint="请输入诊断，该诊断内容将会在处方中显示出来"
+                    android:paddingBottom="150dp"
+                    android:paddingLeft="10dp"/>
+
+                <Button
+                    android:id="@+id/fragment_helper_diagnosis_button"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button"
+                    android:text="保存诊断"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_helper_chinese_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/fragment_helper_chinese_linearLayout_recycleView"
+                    android:layout_width="690dp"
+                    android:layout_height="150dp"/>
+
+                <EditText
+                    android:id="@+id/fragment_helper_chinese_advice"
+                    android:layout_width="395dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edittext"
+                    android:hint="请输入用法用量"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/colorBlack"/>
+
+                <LinearLayout
+                    android:layout_width="395dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:id="@+id/fragment_helper_chinese_edittext"
+                        android:layout_width="395dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/edittext"
+                        android:hint="请输入拼音首字母"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/fragment_helper_chinese_chahao"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="-40dp"
+                        android:src="@mipmap/chahao"/>
+
+                </LinearLayout>
+
+
+                <android.inputmethodservice.KeyboardView
+                    android:id="@+id/keyboard_view"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
+
+                <ListView
+                    android:id="@+id/fragment_helper_chinese_listview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="290dp"
+                    android:layout_marginLeft="410dp"
+                    android:layout_marginTop="-290dp"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+
+                    android:id="@+id/fragment_helper_chinese_fixed_recycleview"
+                    android:layout_width="270dp"
+                    android:layout_height="290dp"
+                    android:layout_marginLeft="410dp"
+                    android:layout_marginTop="-290dp"/>
+
+                <Button
+                    android:id="@+id/fragment_helper_chinese_button"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button"
+                    android:text="保存"
+                    android:textColor="@color/colorWhite"/>
+
+                <LinearLayout
+                    android:id="@+id/fragment_helper_chinese_linearLayout_linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="-30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/bigSize"
+                        android:text="医师签名:"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/fragment_helper_chinese_linearLayout_linearLayout_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="-13dp"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/fragment_helper_chinese_medical_allNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="330dp"
+                    android:layout_marginTop="-35dp">
+
+                    <TextView
+                        style="@style/bigSize"
+                        android:text="共"/>
+
+                    <TextView
+                        android:id="@+id/fragment_helper_chinese_medical_number"
+                        style="@style/bigSize"
+                        android:layout_marginLeft="10dp"
+                       />
+
+                    <TextView
+                        style="@style/bigSize"
+                        android:layout_marginLeft="10dp"
+                        android:text="付"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:background="@color/colorWhite"
+                android:id="@+id/fragment_helper_western_medical_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="690dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:background="@color/colorYellow">-->
+
+                <!--<TextView-->
+                <!--style="@style/smallSize"-->
+                <!--android:text="天津市瑞城大药房王顶缇店  022-38475896\n南开区王顶缇应随路92号"-->
+                <!--android:textColor="@color/colorBlack"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:layout_gravity="center"/>-->
+
+                <!--</LinearLayout>-->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/fragment_helper_western_linearLayout_recycleView"
+                    android:layout_width="690dp"
+                    android:layout_height="150dp"/>
+
+                <EditText
+                    android:id="@+id/fragment_helper_western_advice"
+                    android:layout_width="395dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edittext"
+                    android:hint="请输入医嘱"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/colorBlack"/>
+
+
+                <LinearLayout
+                    android:layout_width="395dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:id="@+id/fragment_helper_western_edittext"
+                        android:layout_width="395dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/edittext"
+                        android:hint="请输入药方"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/fragment_helper_western_chahao"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="-40dp"
+                        android:src="@mipmap/chahao"/>
+
+
+                </LinearLayout>
+
+                <android.inputmethodservice.KeyboardView
+                    android:id="@+id/western_keyboard_view"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
+
+                <ListView
+                    android:id="@+id/fragment_helper_western_listview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="290dp"
+                    android:layout_marginLeft="410dp"
+                    android:layout_marginTop="-290dp"
+                    android:visibility="gone"/>
+
+                <android.support.v7.widget.RecyclerView
+
+                    android:id="@+id/fragment_helper_western_fixed_recycleview"
+                    android:layout_width="270dp"
+                    android:layout_height="290dp"
+                    android:layout_marginLeft="410dp"
+                    android:layout_marginTop="-290dp"/>
+
+                <Button
+                    android:id="@+id/fragment_helper_western_button"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button"
+                    android:text="保存"
+                    android:textColor="@color/colorWhite"/>
+
+                <LinearLayout
+                    android:id="@+id/fragment_helper_western_linearLayout_linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="-30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/bigSize"
+                        android:text="医师签名:"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/fragment_helper_western_linearLayout_linearLayout_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="-13dp"/>
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/fragment_helper_western_medical_number"
+                    style="@style/bigSize"
+                    android:layout_marginLeft="330dp"
+                    android:layout_marginTop="-35dp"
+                    android:text="共7付"/>
+
+                <TextView
+                    style="@style/bigSize"
+                    android:layout_marginLeft="450dp"
+                    android:layout_marginTop="-18dp"
+                    android:text="金额：      700元"
+                    android:textColor="@color/colorBlack"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+

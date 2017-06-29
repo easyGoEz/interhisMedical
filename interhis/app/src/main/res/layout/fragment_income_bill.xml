@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_divider_color"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_normal_25"
+            android:paddingRight="@dimen/margin_normal_25"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="35px"
+                android:layout_height="35px"
+                android:background="@drawable/back"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/income_bill"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_color"/>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

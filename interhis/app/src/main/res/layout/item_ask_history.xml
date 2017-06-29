@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_doctor_recycleview_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:id="@+id/ll_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/tv_read"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_normal_25">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fragment_doctor_recycleView_item_image"
+                    android:layout_width="90px"
+                    android:layout_height="90px"
+                    android:src="@mipmap/touxiang"/>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
+                    android:orientation="vertical">
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/fragment_doctor_recycleView_item_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="李四"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_small"/>
+
+                        <TextView
+                            android:id="@+id/fragment_doctor_recycleView_item_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:text="男"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_small"/>
+
+                        <TextView
+                            android:id="@+id/fragment_doctor_recycleView_item_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:text="54"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_small"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <TextView
+                        android:id="@+id/fragment_doctor_recycleView_item_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4px"
+                        android:text="咳嗽头痛"
+                        android:textSize="@dimen/text_small"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
