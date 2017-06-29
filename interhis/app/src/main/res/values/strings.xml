@@ -83,4 +83,13 @@
     <string name="share_title_url">https://zy.renyibao.com/ver.json</string>
     <string name="updating_progress_tittle">正在更新...</string>
     <!-- 更新(End) -->
+
+    <!--RightMainFragment begin-->
+    <string name="rb_ask">咨询</string>
+    <string name="rb_diagnosis">诊断</string>
+    <string name="rb_chinese_medical">中药</string>
+    <string name="rb_with_chinese_medical">中成药</string>
+    <string name="rb_western_medical">西药</string>
+    <string name="rb_history">历史记录</string>
+    <!--RightMainFragment end-->
 </resources>

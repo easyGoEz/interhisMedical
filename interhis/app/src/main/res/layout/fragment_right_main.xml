@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleRadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_ask"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/rb_ask"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+        <RadioButton
+            android:id="@+id/rb_diagnosis"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5px"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/rb_diagnosis"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+        <RadioButton
+            android:id="@+id/rb_chinese_medical"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5px"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/rb_chinese_medical"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+        <RadioButton
+            android:id="@+id/rb_with_chinese_medical"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5px"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/rb_with_chinese_medical"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+        <RadioButton
+            android:id="@+id/rb_western_medical"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5px"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/rb_western_medical"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+        <RadioButton
+            android:id="@+id/rb_history"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5px"
+            android:layout_weight="1"
+            android:background="@drawable/radiobutton"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/rb_history"
+            android:textColor="@color/text_dark_color"
+            android:textSize="@dimen/text_big"/>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleRadioGroup>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

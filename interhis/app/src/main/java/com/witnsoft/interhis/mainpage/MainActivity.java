@@ -3,8 +3,6 @@ package com.witnsoft.interhis.mainpage;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +41,7 @@ import com.witnsoft.interhis.adapter.PatAdapter;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.fragment.HelperFragment;
+import com.witnsoft.interhis.rightpage.RightMainFragment;
 import com.witnsoft.interhis.setting.SettingActivity;
 import com.witnsoft.interhis.tool.Application;
 import com.witnsoft.interhis.utils.AppUtils;
@@ -431,7 +431,7 @@ public class MainActivity extends BaseActivity {
     private List<Map<String, String>> respList;
     // 记录点击位置
     private int checkedPosition = -1;
-    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentManager;
 
     /**
      * F27.APP.01.02 查询问诊人员列表
@@ -566,7 +566,7 @@ public class MainActivity extends BaseActivity {
                                         Log.e(TAG, "onClick: " + dataChatList.get(position).get("AIID"));
                                         //启动会话列表
                                         try {
-                                            HelperFragment helperFragment = new HelperFragment();
+                                            RightMainFragment helperFragment = new RightMainFragment();
                                             Bundle bundle = new Bundle();
                                             bundle.putString("aiid", dataChatList.get(position).get("AIID"));
                                             bundle.putString("userName", EaseConstant.EXTRA_USER_ID);
@@ -576,11 +576,11 @@ public class MainActivity extends BaseActivity {
                                             bundle.putString("img_doc", headImg);
                                             bundle.putString("img_pat", dataChatList.get(position).get("PHOTOURL"));
                                             helperFragment.setArguments(bundle);
-                                            fragmentManager = getFragmentManager();
-                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                            fragmentTransaction.replace(R.id.fl_helper, helperFragment, MainActivity.class.getSimpleName());
-                                            fragmentTransaction.addToBackStack(null);
-                                            fragmentTransaction.commitAllowingStateLoss();
+                                            fragmentManager = getSupportFragmentManager().beginTransaction();
+//                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                            fragmentManager.replace(R.id.fl_helper, helperFragment, MainActivity.class.getSimpleName());
+                                            fragmentManager.addToBackStack(null);
+                                            fragmentManager.commitAllowingStateLoss();
                                         } catch (ArrayIndexOutOfBoundsException e) {
                                             e.printStackTrace();
                                             Log.e(TAG, "!!!!!!!!!!!!!ArrayIndexOutOfBoundsException in freshUi()");
@@ -853,9 +853,11 @@ public class MainActivity extends BaseActivity {
                         recyclerView.setVisibility(View.GONE);
                         slRefresh.setEnabled(false);
                         slRefresh.setRefreshing(true);
-                        fragmentManager = getFragmentManager();
-                        // 出栈所有fragment
-                        fragmentManager.popBackStack(null, 1);
+//                        fragmentManager = getSupportFragmentManager().beginTransaction();
+//                        fragmentManager = getFragmentManager().beginTransaction();
+//                        // 出栈所有fragment
+//                        fragmentManager.popBackStack(null, 1);
+                        getSupportFragmentManager().popBackStack(null,1);
                     }
                 });
             }

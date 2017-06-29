@@ -435,7 +435,8 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
                 bundle.putString("img_doc", this.imgDoc);
                 bundle.putString("img_pat", this.imgPat);
                 chatFragment.setArguments(bundle);
-                getChildFragmentManager().beginTransaction().add(R.id.fragment_helper_ask_linearLayout, chatFragment).commit();
+                // TODO: 2017/6/29  
+//                getChildFragmentManager().beginTransaction().add(R.id.fragment_helper_ask_linearLayout, chatFragment).commit();
 
                 break;
             //诊断界面
@@ -790,7 +791,8 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
         bundle.putString("img_doc", this.imgDoc);
         bundle.putString("img_pat", this.imgPat);
         chatFragment.setArguments(bundle);
-        getChildFragmentManager().beginTransaction().add(R.id.fragment_helper_ask_linearLayout, chatFragment).commit();
+        // TODO: 2017/6/ 
+//        getChildFragmentManager().beginTransaction().add(R.id.fragment_helper_ask_linearLayout, chatFragment).commit();
     }
 
 
