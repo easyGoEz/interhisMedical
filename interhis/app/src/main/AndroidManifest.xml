@@ -48,7 +48,8 @@
 
         <activity
             android:name=".mainpage.MainActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
 
         <activity
             android:name=".mainpage.LoginActivity"

@@ -3,11 +3,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
+        android:layout_height="400px"
+        android:layout_margin="20px"
+        android:background="@drawable/edittext"
+        android:gravity="start"
+        android:hint="@string/diagnosis_enter_tip"
+        android:padding="20px"
+        android:textColor="@color/text_dark_color"
+        android:textSize="@dimen/text_big"/>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DiagnosisFragment"/>
+        android:layout_margin="20px"
+        android:background="@drawable/btn_login"
+        android:padding="@dimen/margin_normal_25"
+        android:text="@string/save_diagnosis"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_big"/>
 
 </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

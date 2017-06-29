@@ -92,4 +92,17 @@
     <string name="rb_western_medical">西药</string>
     <string name="rb_history">历史记录</string>
     <!--RightMainFragment end-->
+
+    <!--DiagnosisFragment begin-->
+    <string name="diagnosis_enter_tip">请输入诊断，该诊断内容将会在处方中显示出来</string>
+    <string name="save_diagnosis">保存诊断</string>
+    <!--DiagnosisFragment begin-->
+
+    <!--ChineseMedicalFragment begin-->
+    <string name="doc_signature">医师签名:</string>
+    <string name="medical_count">共  %1$s  付</string>
+    <string name="count">金额：</string>
+    <string name="enter_usage">请输入用法用量</string>
+    <string name="enter_letter">请输入拼音字母</string>
+    <!--ChineseMedicalFragment begin-->
 </resources>

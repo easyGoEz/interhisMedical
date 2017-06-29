@@ -95,7 +95,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         Fragment withChineseMedicalFragment = new WithChineseMedicalFragment();
         Fragment westernFragment = new WesternFragment();
         Fragment historyFragment = new HistoryFragment();
-        //viewpager开始添加view
+        // viewpager开始添加view
         viewContainter.add(chatFragment);
         viewContainter.add(diagnosisFragment);
         viewContainter.add(chineseMedicalFragment);

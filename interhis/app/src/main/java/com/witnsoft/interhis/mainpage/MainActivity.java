@@ -566,7 +566,7 @@ public class MainActivity extends BaseActivity {
                                         Log.e(TAG, "onClick: " + dataChatList.get(position).get("AIID"));
                                         //启动会话列表
                                         try {
-                                            RightMainFragment helperFragment = new RightMainFragment();
+                                            RightMainFragment rightMainFragment = new RightMainFragment();
                                             Bundle bundle = new Bundle();
                                             bundle.putString("aiid", dataChatList.get(position).get("AIID"));
                                             bundle.putString("userName", EaseConstant.EXTRA_USER_ID);
@@ -575,10 +575,10 @@ public class MainActivity extends BaseActivity {
                                             bundle.putInt("single", EaseConstant.CHATTYPE_SINGLE);
                                             bundle.putString("img_doc", headImg);
                                             bundle.putString("img_pat", dataChatList.get(position).get("PHOTOURL"));
-                                            helperFragment.setArguments(bundle);
+                                            rightMainFragment.setArguments(bundle);
                                             fragmentManager = getSupportFragmentManager().beginTransaction();
 //                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                            fragmentManager.replace(R.id.fl_helper, helperFragment, MainActivity.class.getSimpleName());
+                                            fragmentManager.replace(R.id.fl_helper, rightMainFragment, MainActivity.class.getSimpleName());
                                             fragmentManager.addToBackStack(null);
                                             fragmentManager.commitAllowingStateLoss();
                                         } catch (ArrayIndexOutOfBoundsException e) {
