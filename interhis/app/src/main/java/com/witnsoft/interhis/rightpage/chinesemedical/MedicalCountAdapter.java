@@ -46,16 +46,16 @@ public class MedicalCountAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_search, null);
             holder = new MedicalCountAdapter.ViewHolder();
-            holder.tv_ss = (TextView) convertView.findViewById(R.id.item_text);
+            holder.tvName = (TextView) convertView.findViewById(R.id.item_text);
             convertView.setTag(holder);
         }
         holder = (MedicalCountAdapter.ViewHolder) convertView.getTag();
-        holder.tv_ss.setText(list.get(position));
+        holder.tvName.setText(list.get(position) + "g");
         return convertView;
     }
 
     class ViewHolder {
-        TextView tv_ss;
+        TextView tvName;
 
     }
 }

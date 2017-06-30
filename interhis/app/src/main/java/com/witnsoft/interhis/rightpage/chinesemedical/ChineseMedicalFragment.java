@@ -6,12 +6,9 @@ import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.ArrayMap;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +55,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private View rootView;
 
     private List<ChineseDetailModel> searchList = new ArrayList<>();
+    private List<ChineseDetailModel> medTopList = new ArrayList<>();
     private ChineseMedSearchAdapter chineseMedSearchAdapter = null;
+    private ChineseMedicalTopAdapter chineseMedTopAdapter = null;
 
     private List<ChineseModel> chineseTopList = new ArrayList<>();
 
@@ -127,19 +126,28 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
             }
         }
+        // TODO: 2017/6/30 medToList未初始化
+        if (null == chineseMedTopAdapter) {
+            chineseMedTopAdapter = new ChineseMedicalTopAdapter(getActivity(), medTopList);
+            gvMedTop.setAdapter(chineseMedTopAdapter);
+        } else {
+            chineseMedTopAdapter.notifyDataSetChanged();
+        }
     }
 
     // 选择处方药品存数据库并刷新上方列表视图
     @Override
-    public void setMedCount(ChineseDetailModel searchModel, String medCount) {
+    public void setMedCount(ChineseDetailModel searchModel) {
         // 选处方药回调
-        Toast.makeText(getActivity(), medCount, Toast.LENGTH_LONG).show();
-        if (!TextUtils.isEmpty(searchModel.getCmc()) && !TextUtils.isEmpty(medCount)) {
+        if (null != searchModel) {
+            medTopList.add(searchModel);
+            chineseMedTopAdapter.notifyDataSetChanged();
             // TODO: 2017/6/30 搜索选择返回存数据库并刷新视图
 //            try {
 //                ChineseModel chineseModel = new ChineseModel();
-//                HisDbManager.getManager().saveAskChinese();
-//            }catch (DbException e){
+//                chineseModel.setChineseDetailModel(medTopList);
+//                HisDbManager.getManager().saveAskChinese(chineseModel);
+//            } catch (DbException e) {
 //
 //            }
         }
@@ -171,13 +179,12 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         searchList.clear();
         for (Map<String, String> map : asd) {
             ChineseDetailModel chinese = new ChineseDetailModel();
+            // 药品名称
             chinese.setCmc(map.get("xmmc"));
-            // TODO: 2017/6/30 重新改表结构，将数据set进去
-//                chinese.setCmc(map.get("bzjg"));
-//                chinese.setCmc(map.get("sfxmbm"));
-//                chinese.setCmc(map.get("sfdlbm"));
-//                chinese.setCmc(map.get("xmrj"));
-//                chinese.setCmc(map.get("yaoid"));
+            // 单价
+            chinese.setDj(map.get("bzjg"));
+            // 中药代码
+            chinese.setCdm(map.get("sfxmbm"));
             searchList.add(chinese);
         }
         if (null == chineseMedSearchAdapter) {
@@ -186,36 +193,31 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             gvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
-                    final MedicalCountDialog medicalCountDialog
-                            = new MedicalCountDialog(ChineseMedicalFragment.this, searchList.get(position), medCountNum);
-                    medicalCountDialog.init();
+                    boolean isSame = false;
+                    if (null != medTopList && 0 < medTopList.size()) {
+                        for (int i = 0; i < medTopList.size(); i++) {
+                            if (medTopList.get(i).getCmc().equals(searchList.get(position).getCmc())) {
+                                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen),
+                                        Toast.LENGTH_LONG).show();
+                                isSame = true;
+                            }
+                        }
+                    }
+                    if (!isSame) {
+                        String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
+                        final MedicalCountDialog medicalCountDialog
+                                = new MedicalCountDialog(ChineseMedicalFragment.this, searchList.get(position), medCountNum);
+                        medicalCountDialog.init();
+                    } else {
+                        Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen)
+                                , Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         } else {
             chineseMedSearchAdapter.notifyDataSetChanged();
         }
     }
-//    private void initFixedSearchData() {
-//        String[] fixedMed = getActivity().getResources().getStringArray(R.array.chinese_fixed_list);
-//        for (int i = 0; i < fixedMed.length; i++) {
-//            ChineseDetailModel medical = new ChineseDetailModel();
-//            medical.setCmc(fixedMed[i]);
-//            // TODO: 2017/6/30 固定处方药其他元素
-//            searchList.add(medical);
-//        }
-//        chineseMedSearchAdapter = new ChineseMedSearchAdapter(getActivity(), searchList);
-//        gvSearch.setAdapter(chineseMedSearchAdapter);
-//        gvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
-//                final MedicalCountDialog medicalCountDialog
-//                        = new MedicalCountDialog(ChineseMedicalFragment.this, searchList.get(position), medCountNum);
-//                medicalCountDialog.init();
-//            }
-//        });
-//    }
 
     private Map<String, String> map = new HashMap<>();
 
@@ -235,9 +237,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                     map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
                 }
                 asd.add(map);
-//                    String []a = cursor.getColumnNames();
-//                    xmmc = cursor.getString(cursor.getColumnIndex("xmmc"));
-//                    asd.add(xmmc);
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -245,37 +244,15 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         searchList.clear();
         for (Map<String, String> map : asd) {
             ChineseDetailModel chinese = new ChineseDetailModel();
+            // 药品名称
             chinese.setCmc(map.get("xmmc"));
-
-            // TODO: 2017/6/30 测试！！！！！！！！！！！！！11
-            String[] fixedMed = getActivity().getResources().getStringArray(R.array.chinese_fixed_list);
-            for (int i = 0; i < fixedMed.length; i++) {
-                if (map.get("xmmc").equals(fixedMed[i])) {
-                    Test(map, "bzjg");
-                    Test(map, "sfxmbm");
-                    Test(map, "sfdlbm");
-                    Test(map, "xmrj");
-                    Test(map, "yaoid");
-                    Test(map, "xmmc");
-//                    Log.e("ChineseMedicalFragment", "bzjg:" + map.get("bzjg") + ";;sfxmbm:" + map.get("sfxmbm") + ";;sfdlbm:" + map.get("sfdlbm")
-//                            + ";;xmrj:" + map.get("xmrj") + ";;yaoid:" + map.get("yaoid") + ";;xmmc:" + map.get("xmmc"));
-                }
-            }
-            // TODO: 2017/6/30 重新改表结构，将数据set进去
-//                chinese.setCmc(map.get("bzjg"));
-//                chinese.setCmc(map.get("sfxmbm"));
-//                chinese.setCmc(map.get("sfdlbm"));
-//                chinese.setCmc(map.get("xmrj"));
-//                chinese.setCmc(map.get("yaoid"));
+            // 单价
+            chinese.setDj(map.get("bzjg"));
+            // 中药代码
+            chinese.setCdm(map.get("sfxmbm"));
             searchList.add(chinese);
         }
         chineseMedSearchAdapter.notifyDataSetChanged();
-    }
-
-    private void Test(Map<String, String> map, String key) {
-        if (!TextUtils.isEmpty(map.get(key))) {
-            Log.e("ChineseMedicalFragment", key + ":" + map.get(key));
-        }
     }
 
     private Keyboard k1;//字母键盘

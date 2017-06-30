@@ -125,10 +125,12 @@
         <item>天冬</item>
     </string-array>
     <string-array name="med_count_num">
-        <item>5g</item>
-        <item>10g</item>
-        <item>15g</item>
-        <item>20g</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
     </string-array>
+    <string name="med_has_been_chosen">该药品已经存在</string>
+    <string name="please_choose_count">请开具处方数量</string>
     <!--ChineseMedicalFragment begin-->
 </resources>

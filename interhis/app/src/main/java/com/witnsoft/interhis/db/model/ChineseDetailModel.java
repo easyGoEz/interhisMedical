@@ -73,9 +73,9 @@ public class ChineseDetailModel {
     @Column(name = "dj")
     private String bzjg;
 
-    private String XMMC;//药名
-    private String XMRJ;//药品拼音
-    private String SFDLBM;//药品类别
+//    private String XMMC;//药名
+//    private String XMRJ;//药品拼音
+//    private String SFDLBM;//药品类别
 
     //判断是否上传服务器
     @Column(name ="isUploadSever")
@@ -90,21 +90,21 @@ public class ChineseDetailModel {
         isUploadSever = uploadSever;
     }
 
-    public String getXMMC() {
-        return XMMC;
-    }
-
-    public void setXMMC(String XMMC) {
-        this.XMMC = XMMC;
-    }
-
-    public String getXMRJ() {
-        return XMRJ;
-    }
-
-    public void setXMRJ(String XMRJ) {
-        this.XMRJ = XMRJ;
-    }
+//    public String getXMMC() {
+//        return XMMC;
+//    }
+//
+//    public void setXMMC(String XMMC) {
+//        this.XMMC = XMMC;
+//    }
+//
+//    public String getXMRJ() {
+//        return XMRJ;
+//    }
+//
+//    public void setXMRJ(String XMRJ) {
+//        this.XMRJ = XMRJ;
+//    }
 
 
 

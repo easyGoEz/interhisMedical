@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
@@ -77,7 +78,9 @@ public class MedicalCountDialog {
             lvCount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    callBackMedCount.setMedCount(searchModel, medCountList.get(position));
+                    String medCount = medCountList.get(position);
+                    searchModel.setSl(medCount);
+                    callBackMedCount.setMedCount(searchModel);
                     dismiss();
                 }
             });
@@ -90,7 +93,23 @@ public class MedicalCountDialog {
                     @Override
                     public void call(Void aVoid) {
                         if (!TextUtils.isEmpty(tvNum.getText().toString())) {
-                            callBackMedCount.setMedCount(searchModel, tvNum.getText().toString());
+                            String medCount = tvNum.getText().toString();
+                            int num = 0;
+                            try {
+                                num = Integer.parseInt(medCount);
+                            } catch (Exception e) {
+                                num = 0;
+                            }
+                            if (0 < num) {
+                                if (medCount.contains("g")) {
+                                    medCount.replace("g", "");
+                                }
+                                searchModel.setSl(medCount);
+                                callBackMedCount.setMedCount(searchModel);
+                            } else {
+                                Toast.makeText(context.getActivity(), context.getResources().
+                                        getString(R.string.please_choose_count), Toast.LENGTH_LONG).show();
+                            }
                         }
                         dismiss();
                     }
@@ -141,6 +160,6 @@ public class MedicalCountDialog {
     }
 
     public interface CallBackMedCount {
-        void setMedCount(ChineseDetailModel searchModel, String medCount);
+        void setMedCount(ChineseDetailModel searchModel);
     }
 }

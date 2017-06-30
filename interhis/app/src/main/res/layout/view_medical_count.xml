@@ -50,12 +50,12 @@
                 android:layout_marginTop="20px">
 
                 <TextView
-                    android:id="@+id/tv_add"
+                    android:id="@+id/tv_minus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:padding="@dimen/margin_normal_25"
-                    android:text="+"
+                    android:text="-"
                     android:textColor="@color/text_medium_color"
                     android:textSize="50px"/>
 
@@ -70,12 +70,23 @@
                     android:textSize="@dimen/text_big"/>
 
                 <TextView
-                    android:id="@+id/tv_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@id/tv_num"
+                    android:paddingTop="@dimen/margin_normal_25"
+                    android:paddingBottom="@dimen/margin_normal_25"
+                    android:text="g"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_big"/>
+
+                <TextView
+                    android:id="@+id/tv_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:padding="@dimen/margin_normal_25"
-                    android:text="-"
+                    android:text="+"
                     android:textColor="@color/text_medium_color"
                     android:textSize="50px"/>
 
