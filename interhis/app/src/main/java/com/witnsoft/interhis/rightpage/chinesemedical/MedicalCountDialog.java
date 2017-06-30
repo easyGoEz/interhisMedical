@@ -1,10 +1,8 @@
 package com.witnsoft.interhis.rightpage.chinesemedical;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
+import com.witnsoft.interhis.db.model.ChineseDetailModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +36,15 @@ public class MedicalCountDialog {
     private TextView tvNum;
     private TextView tvMinus;
     private CallBackMedCount callBackMedCount;
+    private ChineseDetailModel searchModel = new ChineseDetailModel();
 
-    public MedicalCountDialog(Fragment context, String medName, String[] medCountNum) {
+    public MedicalCountDialog(Fragment context, ChineseDetailModel searchModel, String[] medCountNum) {
         this.context = context;
-        this.medName = medName;
+        this.searchModel = searchModel;
         this.medCountNum = medCountNum;
+        if (!TextUtils.isEmpty(searchModel.getCmc())) {
+            this.medName = searchModel.getCmc();
+        }
     }
 
     public void init() {
@@ -74,7 +77,7 @@ public class MedicalCountDialog {
             lvCount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    callBackMedCount.setMedCount(medCountList.get(position));
+                    callBackMedCount.setMedCount(searchModel, medCountList.get(position));
                     dismiss();
                 }
             });
@@ -87,7 +90,7 @@ public class MedicalCountDialog {
                     @Override
                     public void call(Void aVoid) {
                         if (!TextUtils.isEmpty(tvNum.getText().toString())) {
-                            callBackMedCount.setMedCount(tvNum.getText().toString());
+                            callBackMedCount.setMedCount(searchModel, tvNum.getText().toString());
                         }
                         dismiss();
                     }
@@ -138,6 +141,6 @@ public class MedicalCountDialog {
     }
 
     public interface CallBackMedCount {
-        void setMedCount(String medCount);
+        void setMedCount(ChineseDetailModel searchModel, String medCount);
     }
 }

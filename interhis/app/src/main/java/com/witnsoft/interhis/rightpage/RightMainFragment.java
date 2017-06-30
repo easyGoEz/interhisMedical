@@ -88,10 +88,22 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
     }
 
     private void init() {
+        this.aiid = getArguments().getString("aiid");
+        try {
+            this.helperId = getArguments().getString("userId").toLowerCase();
+        } catch (Exception e) {
+            this.helperId = getArguments().getString("userId");
+        }
+        this.userName = getArguments().getString("userName");
+        this.type1 = getArguments().getString("type");
+        this.single1 = getArguments().getInt("single");
+        this.imgDoc = getArguments().getString("img_doc");
+        this.imgPat = getArguments().getString("img_pat");
         Fragment chatFragment = new EaseChatFragment();
         initChat(chatFragment);
         Fragment diagnosisFragment = new DiagnosisFragment();
         Fragment chineseMedicalFragment = new ChineseMedicalFragment();
+        initChineseMed(chineseMedicalFragment);
         Fragment withChineseMedicalFragment = new WithChineseMedicalFragment();
         Fragment westernFragment = new WesternFragment();
         Fragment historyFragment = new HistoryFragment();
@@ -182,18 +194,6 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
 
     private void initChat(Fragment fragment) {
         Bundle bundle = new Bundle();
-        this.aiid = getArguments().getString("aiid");
-        try {
-            this.helperId = getArguments().getString("userId").toLowerCase();
-        } catch (Exception e) {
-            this.helperId = getArguments().getString("userId");
-        }
-        this.userName = getArguments().getString("userName");
-        this.type1 = getArguments().getString("type");
-        this.single1 = getArguments().getInt("single");
-        this.imgDoc = getArguments().getString("img_doc");
-        this.imgPat = getArguments().getString("img_pat");
-
         bundle.putString("aiid", this.aiid);
         bundle.putString("userName", this.userName);
         bundle.putString("userId", this.helperId);
@@ -201,6 +201,12 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         bundle.putInt("single", this.single1);
         bundle.putString("img_doc", this.imgDoc);
         bundle.putString("img_pat", this.imgPat);
+        fragment.setArguments(bundle);
+    }
+
+    private void initChineseMed(Fragment fragment) {
+        Bundle bundle = new Bundle();
+        bundle.putString("userId", this.helperId);
         fragment.setArguments(bundle);
     }
 

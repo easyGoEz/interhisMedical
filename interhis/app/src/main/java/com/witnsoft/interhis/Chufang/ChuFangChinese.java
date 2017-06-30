@@ -1,4 +1,5 @@
 package com.witnsoft.interhis.Chufang;
+
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
@@ -51,19 +52,19 @@ import okhttp3.Response;
 public class ChuFangChinese extends ChuFangBase {
 
     private static final String TAG = "ChuFangChinese";
-    private String acmxs,acsm,zdsm,aiid,acid;
+    private String acmxs, acsm, zdsm, aiid, acid;
     JSONArray jsonArray;
 
     public void setList(List<ChineseDetailModel> list) {
-        jsonArray=new JSONArray();
-        for (int i = 0;i<list.size();i++){
-            JSONObject jsonObject=new JSONObject();
+        jsonArray = new JSONArray();
+        for (int i = 0; i < list.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("cmc",list.get(i).getCmc())
-                          .put("sl", list.get(i).getSl())
-                          .put("cdm",list.get(i).getCdm())
-                          .put("dj",list.get(i).getDj());
-            }catch (JSONException e){
+                jsonObject.put("cmc", list.get(i).getCmc())
+                        .put("sl", list.get(i).getSl())
+                        .put("cdm", list.get(i).getCdm())
+                        .put("dj", list.get(i).getDj());
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             jsonArray.put(jsonObject);
@@ -72,7 +73,7 @@ public class ChuFangChinese extends ChuFangBase {
 
     @Override
     public void setHelperId(String helperId) {
-        this.acid=helperId;
+        this.acid = helperId;
     }
 
     @Override
@@ -95,7 +96,7 @@ public class ChuFangChinese extends ChuFangBase {
         this.aiid = aiid;
     }
 
-    public JSONObject fromJSON(List<ChineseDetailModel> list,String acmxs,String acsm,String zdsm,String aiid) {
+    public JSONObject fromJSON(List<ChineseDetailModel> list, String acmxs, String acsm, String zdsm, String aiid) {
         setList(list);
         setAcmxs(acmxs);
         setAcsm(acsm);
@@ -105,21 +106,21 @@ public class ChuFangChinese extends ChuFangBase {
         JSONObject dataJo = new JSONObject();
         try {
             dataJo.put("yftype", "chinese")
-                    .put("aiid",aiid)
-                    .put("zdsm",zdsm)
-                    .put("acmxs",acmxs)
-                    .put("acsm",acsm)
+                    .put("aiid", aiid)
+                    .put("zdsm", zdsm)
+                    .put("acmxs", acmxs)
+                    .put("acsm", acsm)
                     .put("je", "1293")
-                    .put("chufangmx",jsonArray);
+                    .put("chufangmx", jsonArray);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-            return dataJo;
+        return dataJo;
     }
 
 
-    }
+}
 
 
 

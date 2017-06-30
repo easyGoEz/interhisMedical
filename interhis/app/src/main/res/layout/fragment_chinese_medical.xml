@@ -7,10 +7,11 @@
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_helper_western_linearLayout_recycleView"
+    <GridView
+        android:id="@+id/gv_med_top"
         android:layout_width="match_parent"
-        android:layout_height="500px"/>
+        android:layout_height="500px"
+        android:numColumns="auto_fit"/>
 
     <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
         android:layout_width="match_parent"

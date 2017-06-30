@@ -10,7 +10,7 @@ import android.util.Log;
  */
 
 public class DataHelper {
-    private static int DB_VERSION = 23;
+    private static int DB_VERSION = 24;
     private SQLiteDatabase db;
     private YaoListDBHelper yaoListDBHelper;
 
@@ -31,7 +31,7 @@ public class DataHelper {
     }
 
     public DataHelper(Context context) {
-        yaoListDBHelper = new YaoListDBHelper(context, null, DB_VERSION );
+        yaoListDBHelper = new YaoListDBHelper(context, null, DB_VERSION);
 
         db = yaoListDBHelper.getWritableDatabase();
     }
@@ -42,10 +42,16 @@ public class DataHelper {
     }
 
     //根据拼音进行查询
-    public Cursor getXMRJ(String keyword){
-        Log.e("11111", "getXMRJ: "+keyword );
-        Cursor cursor=db.rawQuery("select * from "+YaoListDBHelper.YAO_TB_NAME +" where sfdlbm='003' and xmrj like ? ", new String[]{"%" + keyword + "%"});
-        Log.e("2222", "getXMRJ: "+cursor.getCount() );
+    public Cursor getXMRJ(String keyword) {
+        Log.e("11111", "getXMRJ: " + keyword);
+        Cursor cursor = db.rawQuery("select * from " + YaoListDBHelper.YAO_TB_NAME + " where sfdlbm='003' and xmrj like ? ", new String[]{"%" + keyword + "%"});
+        Log.e("2222", "getXMRJ: " + cursor.getCount());
+        return cursor;
+    }
+
+    //根据名称进行查询
+    public Cursor getFixedMed(String keyword) {
+        Cursor cursor = db.rawQuery("select * from " + YaoListDBHelper.YAO_TB_NAME + " where sfdlbm='003' and xmmc=?", new String[]{keyword});
         return cursor;
     }
 }
