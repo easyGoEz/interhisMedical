@@ -132,5 +132,6 @@
     </string-array>
     <string name="med_has_been_chosen">该药品已经存在</string>
     <string name="please_choose_count">请开具处方数量</string>
+    <string name="delete">删除</string>
     <!--ChineseMedicalFragment begin-->
 </resources>

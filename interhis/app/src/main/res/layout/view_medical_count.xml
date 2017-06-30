@@ -74,8 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@id/tv_num"
-                    android:paddingTop="@dimen/margin_normal_25"
                     android:paddingBottom="@dimen/margin_normal_25"
+                    android:paddingTop="@dimen/margin_normal_25"
                     android:text="g"
                     android:textColor="@color/text_medium_color"
                     android:textSize="@dimen/text_big"/>
@@ -92,16 +92,33 @@
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
 
-            <Button
-                android:id="@+id/btn_sure"
-                android:layout_width="500px"
-                android:layout_height="100px"
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20px"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:textColor="@color/text_medium_color"
-                android:textSize="@dimen/text_big"/>
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="500px"
+                    android:layout_height="100px"
+                    android:text="@string/cancel"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_big"/>
+
+                <Button
+                    android:id="@+id/btn_delete"
+                    android:layout_width="500px"
+                    android:layout_height="100px"
+                    android:layout_marginLeft="100px"
+                    android:text="@string/delete"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_big"
+                    android:visibility="gone"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 

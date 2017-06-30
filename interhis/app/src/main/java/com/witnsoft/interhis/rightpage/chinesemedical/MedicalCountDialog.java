@@ -29,8 +29,10 @@ public class MedicalCountDialog {
     private Fragment context;
     private String medName;
     private String[] medCountNum;
+    private boolean isEdit;
     private AlertDialog ad;
     private Button btnCancel;
+    private Button btnDelete;
     private TextView tvName;
     private ListView lvCount;
     private TextView tvAdd;
@@ -48,18 +50,26 @@ public class MedicalCountDialog {
         }
     }
 
-    public void init() {
+    public void init(boolean isEdit) {
+        // 是否为编辑弹出框
+        this.isEdit = isEdit;
         ad = new AlertDialog.Builder(context.getActivity()).create();
         ad.show();
         Window window = ad.getWindow();
         window.setContentView(R.layout.view_medical_count);
-        btnCancel = (Button) window.findViewById(R.id.btn_sure);
+        btnCancel = (Button) window.findViewById(R.id.btn_cancel);
+        btnDelete = (Button) window.findViewById(R.id.btn_delete);
         tvName = (TextView) window.findViewById(R.id.tv_name);
         lvCount = (ListView) window.findViewById(R.id.lv_count);
         tvAdd = (TextView) window.findViewById(R.id.tv_add);
         tvNum = (TextView) window.findViewById(R.id.tv_num);
         tvMinus = (TextView) window.findViewById(R.id.tv_minus);
         callBackMedCount = (CallBackMedCount) context;
+        if (isEdit) {
+            btnDelete.setVisibility(View.VISIBLE);
+        } else {
+            btnDelete.setVisibility(View.GONE);
+        }
         initData();
         iniClick();
     }
@@ -80,7 +90,11 @@ public class MedicalCountDialog {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String medCount = medCountList.get(position);
                     searchModel.setSl(medCount);
-                    callBackMedCount.setMedCount(searchModel);
+                    if (!isEdit) {
+                        callBackMedCount.onMedAdd(searchModel);
+                    } else {
+                        callBackMedCount.onMedChange(searchModel);
+                    }
                     dismiss();
                 }
             });
@@ -105,7 +119,11 @@ public class MedicalCountDialog {
                                     medCount.replace("g", "");
                                 }
                                 searchModel.setSl(medCount);
-                                callBackMedCount.setMedCount(searchModel);
+                                if (!isEdit) {
+                                    callBackMedCount.onMedAdd(searchModel);
+                                } else {
+                                    callBackMedCount.onMedChange(searchModel);
+                                }
                             } else {
                                 Toast.makeText(context.getActivity(), context.getResources().
                                         getString(R.string.please_choose_count), Toast.LENGTH_LONG).show();
@@ -146,6 +164,14 @@ public class MedicalCountDialog {
                         }
                     }
                 });
+        RxView.clicks(btnDelete)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        callBackMedCount.onMedDelete(searchModel);
+                        dismiss();
+                    }
+                });
         RxView.clicks(btnCancel)
                 .subscribe(new Action1<Void>() {
                     @Override
@@ -159,7 +185,15 @@ public class MedicalCountDialog {
         ad.dismiss();
     }
 
+    // 添加接口
     public interface CallBackMedCount {
-        void setMedCount(ChineseDetailModel searchModel);
+        void onMedAdd(ChineseDetailModel searchModel);
+
+        void onMedChange(ChineseDetailModel searchModel);
+
+        void onMedDelete(ChineseDetailModel searchModel);
     }
+
+    // 修改接口
+    // 删除接口
 }

@@ -130,6 +130,16 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         if (null == chineseMedTopAdapter) {
             chineseMedTopAdapter = new ChineseMedicalTopAdapter(getActivity(), medTopList);
             gvMedTop.setAdapter(chineseMedTopAdapter);
+            gvMedTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // TODO: 2017/6/30 编辑弹出框
+                    String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
+                    final MedicalCountDialog medicalCountDialog
+                            = new MedicalCountDialog(ChineseMedicalFragment.this, medTopList.get(position), medCountNum);
+                    medicalCountDialog.init(true);
+                }
+            });
         } else {
             chineseMedTopAdapter.notifyDataSetChanged();
         }
@@ -137,8 +147,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     // 选择处方药品存数据库并刷新上方列表视图
     @Override
-    public void setMedCount(ChineseDetailModel searchModel) {
-        // 选处方药回调
+    public void onMedAdd(ChineseDetailModel searchModel) {
+        // 处方增加
         if (null != searchModel) {
             medTopList.add(searchModel);
             chineseMedTopAdapter.notifyDataSetChanged();
@@ -150,6 +160,34 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 //            } catch (DbException e) {
 //
 //            }
+        }
+    }
+
+    @Override
+    public void onMedChange(ChineseDetailModel searchModel) {
+        // 处方修改
+        if (null != medTopList && 0 < medTopList.size()) {
+            for (int i = 0; i < medTopList.size(); i++) {
+                if (medTopList.get(i).getCmc().equals(searchModel.getCmc())) {
+                    medTopList.set(i, searchModel);
+                    break;
+                }
+            }
+            chineseMedTopAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onMedDelete(ChineseDetailModel searchModel) {
+        // 处方删除
+        if (null != medTopList && 0 < medTopList.size()) {
+            for (int i = 0; i < medTopList.size(); i++) {
+                if (medTopList.get(i).getCmc().equals(searchModel.getCmc())) {
+                    medTopList.remove(i);
+                    break;
+                }
+            }
+            chineseMedTopAdapter.notifyDataSetChanged();
         }
     }
 
@@ -207,7 +245,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                         String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
                         final MedicalCountDialog medicalCountDialog
                                 = new MedicalCountDialog(ChineseMedicalFragment.this, searchList.get(position), medCountNum);
-                        medicalCountDialog.init();
+                        medicalCountDialog.init(false);
                     } else {
                         Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen)
                                 , Toast.LENGTH_LONG).show();
