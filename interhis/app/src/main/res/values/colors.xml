@@ -14,4 +14,5 @@
     <color name="login_back">#99cdff</color>
     <color name="login_btn">#189ad5</color>
     <color name="app_logo">#31f92f</color>
+    <color name="light_gray_bg">#66000000</color>
 </resources>

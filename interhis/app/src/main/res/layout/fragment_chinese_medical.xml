@@ -80,69 +80,71 @@
 
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
-        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/ll_bottom"
             android:layout_marginTop="20px"
             android:orientation="horizontal">
 
-            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/ll_left"
                 android:layout_width="800px"
                 android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical">
-
-                <android.inputmethodservice.KeyboardView
-                    android:id="@+id/keyboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorWhite"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:keyTextSize="@dimen/text_big"/>
-
-                <com.witnsoft.libinterhis.utils.ClearEditText
-                    android:id="@+id/et_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="80px"
-                    android:layout_above="@id/keyboard"
-                    android:layout_marginBottom="20px"
-                    android:background="@drawable/edittext"
-                    android:hint="@string/enter_letter"
-                    android:paddingLeft="20px"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_big"/>
 
                 <com.witnsoft.libinterhis.utils.ClearEditText
                     android:id="@+id/et_usage"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:layout_above="@id/et_search"
-                    android:layout_marginBottom="20px"
                     android:background="@drawable/edittext"
                     android:hint="@string/enter_usage"
                     android:paddingLeft="20px"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_big"/>
 
+                <com.witnsoft.libinterhis.utils.ClearEditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="80px"
+                    android:layout_marginTop="20px"
+                    android:background="@drawable/edittext"
+                    android:hint="@string/enter_letter"
+                    android:paddingLeft="20px"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_big"/>
 
-            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+                <android.inputmethodservice.KeyboardView
+                    android:id="@+id/keyboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20px"
+                    android:background="@color/colorWhite"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:keyTextSize="@dimen/text_big"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
             <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/ll_left"
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <ListView
-                    android:id="@+id/lv_search"
+                <GridView
+                    android:id="@+id/gv_search"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:numColumns="3"/>
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
-        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
 
     </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
 

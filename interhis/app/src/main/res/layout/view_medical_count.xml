@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:id="@+id/ll_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_normal_25">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_dark_color"
+                android:textSize="@dimen/text_big"
+                tools:text="药品名"/>
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="20px"
+                android:background="@color/divider_color"/>
+
+            <ListView
+                android:id="@+id/lv_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px">
+
+            </ListView>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:id="@+id/tv_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:padding="@dimen/margin_normal_25"
+                    android:text="+"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="50px"/>
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/margin_normal_25"
+                    android:text="0"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="@dimen/text_big"/>
+
+                <TextView
+                    android:id="@+id/tv_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/margin_normal_25"
+                    android:text="-"
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="50px"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+            <Button
+                android:id="@+id/btn_sure"
+                android:layout_width="500px"
+                android:layout_height="100px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20px"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_big"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

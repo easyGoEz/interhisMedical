@@ -104,5 +104,31 @@
     <string name="count">金额：</string>
     <string name="enter_usage">请输入用法用量</string>
     <string name="enter_letter">请输入拼音字母</string>
+    <string-array name="chinese_fixed_list">
+        <item>车前子</item>
+        <item>人参</item>
+        <item>卜芥</item>
+        <item>儿茶</item>
+        <item>八角</item>
+        <item>丁香</item>
+        <item>刀豆</item>
+        <item>三七</item>
+        <item>三棱</item>
+        <item>当归</item>
+        <item>鹿茸</item>
+        <item>大黄</item>
+        <item>山药</item>
+        <item>川乌</item>
+        <item>天麻</item>
+        <item>马宝</item>
+        <item>马勃</item>
+        <item>天冬</item>
+    </string-array>
+    <string-array name="med_count_num">
+        <item>5g</item>
+        <item>10g</item>
+        <item>15g</item>
+        <item>20g</item>
+    </string-array>
     <!--ChineseMedicalFragment begin-->
 </resources>
