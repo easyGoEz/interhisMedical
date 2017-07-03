@@ -22,8 +22,8 @@ public class ChineseModel {
     autoGen = true)
     private String time;
 
-    @Column(name = "ACID")
-    private String acId;
+    @Column(name = "ACCID")
+    private String accId;
 
     public String getTime() {
         return time;
@@ -129,12 +129,12 @@ public class ChineseModel {
         isUploadSever = uploadSever;
     }
 
-    public void setAcId(String acId) {
-        this.acId = acId;
+    public void setAccId(String accId) {
+        this.accId = accId;
     }
 
-    public String getAcId() {
-        return acId;
+    public String getAccId() {
+        return accId;
     }
 
     public void setAiId(String aiId) {
@@ -306,7 +306,7 @@ public class ChineseModel {
     }
 
     public List<ChineseDetailModel> getChineseDetail(DbManager db) throws DbException {
-        return db.selector(ChineseDetailModel.class).where("ACID", "=", this.acId).findAll();
+        return db.selector(ChineseDetailModel.class).where("ACCID", "=", this.accId).findAll();
     }
 
 }

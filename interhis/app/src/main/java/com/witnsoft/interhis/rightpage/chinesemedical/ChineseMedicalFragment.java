@@ -6,6 +6,8 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,7 +26,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
+import com.witnsoft.interhis.Chufang.ChuFangChinese;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
@@ -32,7 +36,13 @@ import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.libinterhis.utils.ClearEditText;
+import com.witnsoft.libnet.model.DataModel;
+import com.witnsoft.libnet.model.OTRequest;
+import com.witnsoft.libnet.net.CallBack;
+import com.witnsoft.libnet.net.NetTool;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -43,12 +53,27 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import rx.functions.Action1;
+
+import static android.graphics.Color.BLACK;
 
 /**
  * Created by zhengchengpeng on 2017/6/29.
@@ -82,6 +107,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private List<ChineseDetailModel> medTopList = new ArrayList<>();
     private ChineseMedSearchAdapter chineseMedSearchAdapter = null;
     private ChineseMedicalTopAdapter chineseMedTopAdapter = null;
+    private Gson gson;
 
     private List<ChineseModel> chineseTopList = new ArrayList<>();
 
@@ -109,7 +135,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         } catch (Exception e) {
             this.helperId = getArguments().getString("userId");
         }
+        aiid = getArguments().getString("aiid");
         tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
+        gson = new Gson();
         initTopMed();
         initFixedSearchData();
         initKeyBoard();
@@ -147,6 +175,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                             Toast.makeText(getActivity(), getResources().getString(R.string.pleas_enter_usage),
                                     Toast.LENGTH_LONG).show();
                         } else {
+                            acsm = etUsage.getText().toString();
                             WritePadDialog writePadDialog = new WritePadDialog(null, null, null, null, null, null,
                                     ChineseMedicalFragment.this, R.style.SignBoardDialog, null);
                             writePadDialog.show();
@@ -241,10 +270,147 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     @Override
     public void onHandImgOk(Bitmap bitmap) {
         // 手写签名返回
-        String signPath = createFile(bitmap);
-//        Bitmap zoombm = getCompressBitmap(signPath);
+//        String signPath = createFile(bitmap);
+        String signPath = saveBitmap(bitmap);
         ivSignature.setImageBitmap(bitmap);
         Log.e(TAG, "path for hand = " + signPath);
+        // 上传图片和药方
+        callUpdate(signPath);
+    }
+
+    /**
+     * 数据上传
+     *
+     * @return
+     */
+    private static final String TN_DOC_KAIYAO = "F27.APP.01.06";
+    private OTRequest otRequest;
+    // aiid
+    private String aiid;
+    // 诊断说明（肝热气滞症、脾胃不和症）
+    private String zdsm;
+    // 付数（2）
+    private String acmxs;
+    // 用法用量
+    private String acsm;
+    // 金额
+    private String je;
+
+    private void callUpdate(final String path) {
+        try {
+            ChineseModel chineseModel = HisDbManager.getManager().findChineseModel(helperId);
+            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
+                //诊断说明
+                zdsm = chineseModel.getZdsm();
+            }
+        } catch (DbException e) {
+
+        }
+        //生成json串 并上传服务器
+        final ChuFangChinese chufang = new ChuFangChinese();
+        otRequest = new OTRequest(getActivity().getBaseContext());
+        otRequest.setTN(TN_DOC_KAIYAO);
+        final DataModel data = new DataModel();
+        data.setDataJSONStr(String.valueOf(chufang.fromJSON(medTopList, aiid, zdsm, acmxs, acsm, je)));
+        otRequest.setDATA(data);
+        NetTool.getInstance().startRequest(false, true, getActivity(), null, otRequest, new CallBack<Map, String>() {
+            @Override
+            public void onSuccess(Map map, String s) {
+                JSONObject json = new JSONObject(map);
+                try {
+                    String acid = json.getJSONObject("DATA").getString("acid");
+                    callUpdateImg(acid, path);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e(TAG, "onError!!!!!!!!!!!!!: " + "请求失败");
+            }
+        });
+    }
+
+    /**
+     * 手签图片上传
+     *
+     * @return
+     */
+    private OkHttpClient okHttpClient;
+    private Handler handler = new Handler(Looper.getMainLooper());
+
+    private void callUpdateImg(String acid, String path) {
+        final String url = "https://zy.renyibao.com/FileUploadServlet";
+        File file = new File(path);
+        okHttpClient = (new OkHttpClient.Builder()).retryOnConnectionFailure(true).connectTimeout(5L, TimeUnit.SECONDS)
+                .cache(new Cache(Environment.getExternalStorageDirectory(), 10485760L)).build();
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addPart(Headers.of("Content-Disposition", "form-data; name= \"file\"; filename=\"img.png\""), fileBody)
+                .addFormDataPart("fjlb", "ask_chinese")
+                .addFormDataPart("keyid", acid)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        this.okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ChineseMedicalFragment.this.handler.post(new Runnable() {
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getActivity(), "网络连接超时", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        final String resp = response.body().string();
+                        if (!TextUtils.isEmpty(resp)) {
+                            HashMap mapObj = new HashMap();
+                            final Map map = (Map) gson.fromJson(resp, mapObj.getClass());
+                            String errCode = "";
+                            if (null != map.get("errcode")) {
+                                try {
+                                    errCode = String.valueOf(map.get("errcode"));
+                                    if (!TextUtils.isEmpty(errCode) && "200".equals(errCode)) {
+
+                                    } else if (!TextUtils.isEmpty(errCode)) {
+                                        if (!TextUtils.isEmpty(String.valueOf(map.get("errmsg")))) {
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(getActivity(), String.valueOf(map.get("errmsg")), Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        }
+                                    }
+                                } catch (ClassCastException var11) {
+                                    ;
+                                }
+                            }
+                            ChineseMedicalFragment.this.handler.post(new Runnable() {
+                                public void run() {
+
+                                }
+                            });
+                        }
+                    } catch (IOException var4) {
+                        ;
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -252,6 +418,42 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
      *
      * @return
      */
+    public String saveBitmap(Bitmap bitmap) {
+
+        // 首先保存图片
+        String dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH;
+        File appDir = new File(dir);
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss")
+                .format(new Date()) + ".png";
+        File file = new File(appDir, fileName);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        // 把文件插入到系统图库
+//        try {
+//            MediaStore.Images.Media.insertImage(this.getContentResolver(), file.getAbsolutePath(), fileName, null);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        // 通知图库更新
+//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + "/sdcard/namecard/")));
+        return dir + fileName;
+    }
+
+
     private static final String TMP_PATH = "/DCIM/Camera/";
 
     private String createFile(Bitmap mSignBitmap) {
@@ -259,14 +461,16 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         String _path = null;
         try {
             //创建目录
-            String sign_dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH
-                    + File.separator;
+            String sign_dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH;
             File localFile = new File(sign_dir);
             if (!localFile.exists()) {
                 localFile.mkdir();
             }
+            String fileName = new SimpleDateFormat("yyyyMMddHHmmss")
+                    .format(new Date()) + ".png";
+            localFile = new File(sign_dir, fileName);
             //拼接好文件路径和名称
-            File finalImageFile = new File(localFile, System.currentTimeMillis() + "img.png");
+            File finalImageFile = new File(localFile, fileName);
             if (finalImageFile.exists()) {
                 finalImageFile.delete();
             }
@@ -287,7 +491,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 Toast.makeText(getActivity(), "图片不存在", Toast.LENGTH_SHORT).show();
             }
 
-            _path = sign_dir + System.currentTimeMillis() + "img.png";
+            _path = sign_dir + fileName;
             baos = new ByteArrayOutputStream();
             mSignBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             try {
@@ -421,6 +625,10 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count),
                 String.valueOf(numMedCount)));
         tvMedMoney.setText(String.valueOf(moneyMedCount) + getResources().getString(R.string.yuan));
+        // 付数
+        acmxs = String.valueOf(numMedCount);
+        //金额
+        je = String.valueOf(moneyMedCount);
     }
 
     private Map<String, String> map = new HashMap<>();

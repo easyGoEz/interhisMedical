@@ -446,7 +446,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
 
             case R.id.fragment_helper_diagnosis_button:
                 diagnosis = diagnosis_edittext.getText().toString();
-                chineseModel.setAcId(helperId);
+                chineseModel.setAccId(helperId);
                 chineseModel.setZdsm(diagnosis);
                 try {
 
@@ -534,7 +534,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
             case R.id.fragment_helper_chinese_button:
                 //将中药界面的医嘱存入数据库当中
                 advice = chinese_advice.getText().toString();
-                chineseModel.setAcId(helperId);
+                chineseModel.setAccId(helperId);
                 chineseModel.setAcSm(advice);
                 chineseModel.setAcMxs(chinese_number);
                 chineseModel.setChineseDetailModel(data);
@@ -902,11 +902,11 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
     public void upLoadMessage() {
         //生成json串 并上传服务器
         final ChuFangChinese chufang = new ChuFangChinese();
-        chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid);
+        chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid, "");
         otRequest = new OTRequest(getActivity().getBaseContext());
         otRequest.setTN(TN_DOC_KAIYAO);
         final DataModel data = new DataModel();
-        data.setDataJSONStr(String.valueOf(chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid)));
+        data.setDataJSONStr(String.valueOf(chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid, "")));
         otRequest.setDATA(data);
         NetTool.getInstance().startRequest(false, true, act, null, otRequest, new CallBack<Map, String>() {
             @Override
@@ -921,7 +921,6 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
                     e.printStackTrace();
                 }
 
-                Log.e(TAG, "onSuccess: " + chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid));
             }
 
             @Override
@@ -1006,7 +1005,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
             SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             date = sDateFormat.format(new java.util.Date());
             chineseModel.setTime(date);
-            chineseModel.setAcId(helperId);
+            chineseModel.setAccId(helperId);
 
 
             //更改数据库状态

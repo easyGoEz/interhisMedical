@@ -83,7 +83,7 @@ public class ACMXSDialog extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         ChineseModel chineseModel=new ChineseModel();
-        chineseModel.setAcId(acid);
+        chineseModel.setAccId(acid);
         switch (v.getId()){
             case R.id.acmxs_ll_root:
                 finish();

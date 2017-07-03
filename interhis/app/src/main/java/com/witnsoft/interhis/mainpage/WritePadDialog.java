@@ -56,6 +56,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import rx.functions.Action1;
 
+import static android.graphics.Color.WHITE;
 import static java.lang.String.valueOf;
 import static rx.plugins.RxJavaHooks.onError;
 
@@ -85,7 +86,7 @@ public class WritePadDialog extends Dialog {
         Log.e(TAG, "WritePadDialog: " + acid);
     }
 
-    private static final int BACKGROUND_COLOR = Color.WHITE;
+    private static final int BACKGROUND_COLOR = WHITE;
     private PaintView mView;
 
     @Override
@@ -173,9 +174,10 @@ public class WritePadDialog extends Dialog {
             path = new Path();
             cachebBitmap = Bitmap.createBitmap(p.width, (int) (p.height * 0.8),
                     Config.ARGB_8888);
+
             cacheCanvas = new Canvas(cachebBitmap);
             //设置背景为白色，不然点击缩略图查看的时候是全黑色
-            //cacheCanvas.drawColor(R.color.transparent);
+            cacheCanvas.drawColor(WHITE);
         }
 
         public void clear() {
@@ -183,7 +185,7 @@ public class WritePadDialog extends Dialog {
                 paint.setColor(BACKGROUND_COLOR);
                 cacheCanvas.drawPaint(paint);
                 paint.setColor(Color.BLACK);
-                cacheCanvas.drawColor(Color.WHITE);
+                cacheCanvas.drawColor(WHITE);
                 invalidate();
             }
         }

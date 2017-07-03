@@ -88,10 +88,12 @@ public class HisDbManager {
             }
         }
     }
+
     //将数据存入主表
     public void saveAskChinese(ChineseModel model) throws DbException {
         this.manager.saveOrUpdate(model);
     }
+
     //将数据存入子表
     public void saveAskChinese(ChineseDetailModel model) throws DbException {
         this.manager.saveOrUpdate(model);
@@ -100,57 +102,73 @@ public class HisDbManager {
     public void deleteAskChinese(ChineseModel model) throws DbException {
         this.manager.delete(model);
     }
+
     //根据药名删除数据库
     public void deleteAskChinese(String str) throws DbException {
-        this.manager.delete(ChineseDetailModel.class, WhereBuilder.b("CMC","=",str));
+        this.manager.delete(ChineseDetailModel.class, WhereBuilder.b("CMC", "=", str));
     }
 
-    public void deleteAskNumbwe(String accid) throws DbException{
-        this.manager.delete(ChineseDetailModel.class,WhereBuilder.b("accid","=",accid));
+    public void deleteAskNumbwe(String accid) throws DbException {
+        this.manager.delete(ChineseDetailModel.class, WhereBuilder.b("accid", "=", accid));
     }
 
     //更新数据的方法
-    public void upDate(ChineseDetailModel chineseDetailModel) throws DbException{
-       this.manager.update(chineseDetailModel,"SL");
+    public void upDate(ChineseDetailModel chineseDetailModel) throws DbException {
+        this.manager.update(chineseDetailModel, "SL");
     }
+
     //更新是否上传服务器状态
-    public void upDateIsUpLoad(ChineseModel chineseModel) throws DbException{
-        this.manager.update(chineseModel,"isUploadSever");
+    public void upDateIsUpLoad(ChineseModel chineseModel) throws DbException {
+        this.manager.update(chineseModel, "isUploadSever");
     }
 
     //查询字表中所有的数据
-    public List<ChineseDetailModel> findChineseDeatilModel(String accid) throws DbException{
-        Object message=this.manager.selector(ChineseDetailModel.class).where("ACCID","=",accid).findAll();
-        if(null==message){
-            message=new ArrayList();
+    public List<ChineseDetailModel> findChineseDeatilModel(String accid) throws DbException {
+        Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).findAll();
+        if (null == message) {
+            message = new ArrayList();
         }
         return (List<ChineseDetailModel>) message;
     }
+
     //查询字表中的药品数量
-    public ChineseDetailModel findChineseDeatilModelA(String accid,String cmc,String sl) throws DbException{
-        Object message=this.manager.selector(ChineseDetailModel.class).where("ACCID","=",accid).and("CMC","=",cmc).and("SL","=",sl).findFirst();
-        if(null==message){
-            message=new ChineseDetailModel();
+    public ChineseDetailModel findChineseDeatilModelA(String accid, String cmc, String sl) throws DbException {
+        Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).and("CMC", "=", cmc).and("SL", "=", sl).findFirst();
+        if (null == message) {
+            message = new ChineseDetailModel();
         }
         return (ChineseDetailModel) message;
     }
 
     //查询是否上传服务器
-    public ChineseModel findIsUpLoad(String acid,boolean isUplodaSever) throws DbException{
-        Object message=this.manager.selector(ChineseModel.class).where("ACID","=",acid).and("isUploadSever","=",isUplodaSever).findFirst();
-        if (message==null){
-            message=new ChineseModel();
+    public ChineseModel findIsUpLoad(String acid, boolean isUplodaSever) throws DbException {
+        Object message = this.manager.selector(ChineseModel.class).where("ACID", "=", acid).and("isUploadSever", "=", isUplodaSever).findFirst();
+        if (message == null) {
+            message = new ChineseModel();
         }
         return (ChineseModel) message;
     }
 
     //查询主表
-    public List<ChineseModel> findChineseMode(String acid) throws DbException{
-        Object message=this.manager.selector(ChineseModel.class).where("ACID","=",acid).findAll();
-        if (message==null){
-            message=new ArrayList<>();
+    public List<ChineseModel> findChineseMode(String acid) throws DbException {
+        Object message = this.manager.selector(ChineseModel.class).where("ACCID", "=", acid).findAll();
+        if (message == null) {
+            message = new ArrayList<>();
         }
         return (List<ChineseModel>) message;
+    }
+
+    public ChineseModel findChineseModel(String acid) throws DbException {
+        Object message = this.manager.selector(ChineseModel.class).where("ACCID", "=", acid).findFirst();
+        if (message == null) {
+            return null;
+        } else {
+            return (ChineseModel) message;
+        }
+    }
+
+    public void upDateChineseModel(ChineseModel chineseModel) throws DbException {
+        this.manager.update(chineseModel, "ZDSM");
     }
 
 }

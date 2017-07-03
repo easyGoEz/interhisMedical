@@ -136,5 +136,10 @@
     <string name="pleas_enter_usage">请输入用法用量</string>
     <string name="money_count_tip">(此价格仅供参考)</string>
     <string name="yuan">元</string>
-    <!--ChineseMedicalFragment begin-->
+    <!--ChineseMedicalFragment end-->
+
+    <!--DiagnosisFragment begin-->
+    <string name="please_enter_dialogsis">请输入诊断</string>
+    <string name="save_success">保存成功</string>
+    <!--DiagnosisFragment end-->
 </resources>

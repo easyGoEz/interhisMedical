@@ -66,6 +66,7 @@ import org.xutils.x;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -555,14 +556,17 @@ public class MainActivity extends BaseActivity {
 
 
                                         //将aiid存入数据库
-                                        ChineseModel chinesemodel = new ChineseModel();
-                                        chinesemodel.setAiId(dataChatList.get(position).get("AIID"));
-                                        chinesemodel.setAcId(dataChatList.get(position).get("ACCID"));
-                                        try {
-                                            HisDbManager.getManager().saveAskChinese(chinesemodel);
-                                        } catch (DbException e) {
-                                            e.printStackTrace();
-                                        }
+//                                        ChineseModel chinesemodel = new ChineseModel();
+//                                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+//                                        String date = sDateFormat.format(new java.util.Date());
+//                                        chinesemodel.setTime(date);
+//                                        chinesemodel.setAiId(dataChatList.get(position).get("AIID"));
+//                                        chinesemodel.setAccId(dataChatList.get(position).get("ACCID"));
+//                                        try {
+//                                            HisDbManager.getManager().saveAskChinese(chinesemodel);
+//                                        } catch (DbException e) {
+//                                            e.printStackTrace();
+//                                        }
                                         Log.e(TAG, "onClick: " + dataChatList.get(position).get("AIID"));
                                         //启动会话列表
                                         try {

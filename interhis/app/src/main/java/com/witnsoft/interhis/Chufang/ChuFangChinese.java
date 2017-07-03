@@ -52,7 +52,6 @@ import okhttp3.Response;
 public class ChuFangChinese extends ChuFangBase {
 
     private static final String TAG = "ChuFangChinese";
-    private String acmxs, acsm, zdsm, aiid, acid;
     JSONArray jsonArray;
 
     public void setList(List<ChineseDetailModel> list) {
@@ -71,37 +70,17 @@ public class ChuFangChinese extends ChuFangBase {
         }
     }
 
-    @Override
-    public void setHelperId(String helperId) {
-        this.acid = helperId;
-    }
+//    @Override
+//    public void setHelperId(String helperId) {
+//        this.acid = helperId;
+//    }
 
-    @Override
-    public void setAcmxs(String acmxs) {
-        this.acmxs = acmxs;
-    }
-
-    @Override
-    public void setAcsm(String acsm) {
-        this.acsm = acsm;
-    }
-
-    @Override
-    public void setZdsm(String zdsm) {
-        this.zdsm = zdsm;
-    }
-
-    @Override
-    public void setAiid(String aiid) {
-        this.aiid = aiid;
-    }
-
-    public JSONObject fromJSON(List<ChineseDetailModel> list, String acmxs, String acsm, String zdsm, String aiid) {
+    public JSONObject fromJSON(List<ChineseDetailModel> list, String aiid, String zdsm, String acmxs, String acsm, String je) {
         setList(list);
-        setAcmxs(acmxs);
-        setAcsm(acsm);
-        setZdsm(zdsm);
-        setAiid(aiid);
+//        this.acmxs = acmxs;
+//        this.acsm = acsm;
+//        this.zdsm = zdsm;
+//        this.aiid = aiid;
         // DATA
         JSONObject dataJo = new JSONObject();
         try {
@@ -110,7 +89,7 @@ public class ChuFangChinese extends ChuFangBase {
                     .put("zdsm", zdsm)
                     .put("acmxs", acmxs)
                     .put("acsm", acsm)
-                    .put("je", "1293")
+                    .put("je", je)
                     .put("chufangmx", jsonArray);
 
         } catch (JSONException e) {

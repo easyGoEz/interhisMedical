@@ -102,6 +102,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         Fragment chatFragment = new EaseChatFragment();
         initChat(chatFragment);
         Fragment diagnosisFragment = new DiagnosisFragment();
+        initDiagnosis(diagnosisFragment);
         Fragment chineseMedicalFragment = new ChineseMedicalFragment();
         initChineseMed(chineseMedicalFragment);
         Fragment withChineseMedicalFragment = new WithChineseMedicalFragment();
@@ -205,6 +206,13 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initChineseMed(Fragment fragment) {
+        Bundle bundle = new Bundle();
+        bundle.putString("aiid", this.aiid);
+        bundle.putString("userId", this.helperId);
+        fragment.setArguments(bundle);
+    }
+
+    private void initDiagnosis(Fragment fragment) {
         Bundle bundle = new Bundle();
         bundle.putString("userId", this.helperId);
         fragment.setArguments(bundle);
