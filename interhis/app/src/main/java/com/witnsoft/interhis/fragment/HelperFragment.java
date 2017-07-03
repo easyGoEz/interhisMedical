@@ -168,7 +168,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
     private EditText chinese_edittext;
 
     @ViewInject(R.id.fragment_helper_western_edittext)
-    private EditText  western_edittext;
+    private EditText western_edittext;
 
     //中药嘱咐edittext
     @ViewInject(R.id.fragment_helper_chinese_advice)
@@ -179,7 +179,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
     private ListView chinese_listView;
 
     @ViewInject(R.id.fragment_helper_western_listview)
-    private ListView  western_listView;
+    private ListView western_listView;
 
     private List<ChineseDetailModel> list = new ArrayList<>();
     private List<WesternDetailModel> western_list = new ArrayList<>();
@@ -208,7 +208,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
     private int single1;
 
     private String helperId, aiid;
-    private String pinyin, price, amount, medical_id,date;
+    private String pinyin, price, amount, medical_id, date;
     // TODO: 2017/6/22
     private EaseChatFragment chatFragment;
     private Bundle bundle;
@@ -221,7 +221,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
     private ReStartReceiver reStartReceiver;
     private MedicalDetails medicalDetails;
 
-    private String chinese_number, advice, diagnosis, count,acid;
+    private String chinese_number, advice, diagnosis, count, acid;
 
     @Nullable
     @Override
@@ -316,7 +316,6 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
         getActivity().registerReceiver(medicalDetails, intentFilterDetails);
 
 
-
     }
 
     private void setListener() {
@@ -355,6 +354,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
             }
         });
     }
+
     //固定位置显示药材名字
     private void initData() {
         ChineseDetailModel a = new ChineseDetailModel();
@@ -467,10 +467,32 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
                     e.printStackTrace();
                 }
 
-                    Log.e(TAG, "onClick: " + chineseDetailModel.isUploadSever());
-                    playChineseView();
-                    if (chineseDetailModel.isUploadSever() == false) {
-                        //查询数据库
+                Log.e(TAG, "onClick: " + chineseDetailModel.isUploadSever());
+                playChineseView();
+                if (chineseDetailModel.isUploadSever() == false) {
+                    //查询数据库
+                    try {
+                        data = HisDbManager.getManager().findChineseDeatilModel(helperId);
+                    } catch (DbException e1) {
+                        e1.printStackTrace();
+                    }
+                    chinese_adapter.setList(data);
+                    chinese_adapter.notifyDataSetChanged();
+                    //往json串传值
+                    chufang = new ChuFangChinese();
+                    try {
+                        chufang.setList(data);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    chinese_adapter.ReSrart();
+                    chinese_adapter.notifyDataSetChanged();
+
+                }
+
+                for (int i = 0; i < chineseModelList.size(); i++) {
+                    if (chineseModelList.get(i).isUploadSever() == false || chineseModelList == null) {
                         try {
                             data = HisDbManager.getManager().findChineseDeatilModel(helperId);
                         } catch (DbException e1) {
@@ -488,87 +510,66 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
                     } else {
                         chinese_adapter.ReSrart();
                         chinese_adapter.notifyDataSetChanged();
-
                     }
+                }
 
-                    for (int i = 0; i < chineseModelList.size(); i++) {
-                        if (chineseModelList.get(i).isUploadSever() == false || chineseModelList == null) {
-                            try {
-                                data = HisDbManager.getManager().findChineseDeatilModel(helperId);
-                            } catch (DbException e1) {
-                                e1.printStackTrace();
-                            }
-                            chinese_adapter.setList(data);
-                            chinese_adapter.notifyDataSetChanged();
-                            //往json串传值
-                            chufang = new ChuFangChinese();
-                            try {
-                                chufang.setList(data);
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                        } else {
-                            chinese_adapter.ReSrart();
-                            chinese_adapter.notifyDataSetChanged();
-                        }
-                    }
+                break;
+            //西药界面
 
-                    break;
-                    //西药界面
+            case R.id.fragment_helper_radioButton_western:
+                playWesternView();
+                break;
+            //中药医嘱
+            case R.id.fragment_helper_chinese_advice:
 
-                    case R.id.fragment_helper_radioButton_western:
-                        playWesternView();
-                        break;
-                    //中药医嘱
-                    case R.id.fragment_helper_chinese_advice:
+                break;
+            //中药edittext当中叉号
+            case R.id.fragment_helper_chinese_chahao:
+                chinese_edittext.setText(null);
+                chinese_listView.setVisibility(View.GONE);
+                chinese_fixed.setVisibility(View.VISIBLE);
+                break;
 
-                        break;
-                    //中药edittext当中叉号
-                    case R.id.fragment_helper_chinese_chahao:
-                        chinese_edittext.setText(null);
-                        chinese_listView.setVisibility(View.GONE);
-                        chinese_fixed.setVisibility(View.VISIBLE);
-                        break;
+            //中药保存按钮
+            case R.id.fragment_helper_chinese_button:
+                //将中药界面的医嘱存入数据库当中
+                advice = chinese_advice.getText().toString();
+                chineseModel.setAcId(helperId);
+                chineseModel.setAcSm(advice);
+                chineseModel.setAcMxs(chinese_number);
+                chineseModel.setChineseDetailModel(data);
+                try {
+                    HisDbManager.getManager().saveAskChinese(chineseModel);
+                } catch (DbException el) {
+                    el.printStackTrace();
+                }
 
-                    //中药保存按钮
-                    case R.id.fragment_helper_chinese_button:
-                        //将中药界面的医嘱存入数据库当中
-                        advice = chinese_advice.getText().toString();
-                        chineseModel.setAcId(helperId);
-                        chineseModel.setAcSm(advice);
-                        chineseModel.setAcMxs(chinese_number);
-                        chineseModel.setChineseDetailModel(data);
-                        try {
-                            HisDbManager.getManager().saveAskChinese(chineseModel);
-                        } catch (DbException el) {
-                            el.printStackTrace();
-                        }
+                chufang = new ChuFangChinese();
+                try {
+                    chufang.setAcsm(advice);
+                } catch (Exception el) {
+                    el.printStackTrace();
+                }
 
-                        chufang = new ChuFangChinese();
-                        try {
-                            chufang.setAcsm(advice);
-                        } catch (Exception el) {
-                            el.printStackTrace();
-                        }
+                if (advice.equals("")) {
+                    Toast.makeText(ctx, "请输入用法用量", Toast.LENGTH_SHORT).show();
+                } else {
+                    chinese_button.setOnClickListener(signListener);
+                }
 
-                        if (advice.equals("")) {
-                            Toast.makeText(ctx, "请输入用法用量", Toast.LENGTH_SHORT).show();
-                        } else {
-                            chinese_button.setOnClickListener(signListener);
-                        }
+                upLoadMessage();
 
-                        upLoadMessage();
-
-                        break;
-                    //点击几付药
-                    case R.id.fragment_helper_chinese_medical_allNumber:
-                        Intent intent = new Intent(getActivity(), ACMXSDialog.class);
-                        intent.putExtra("accid", helperId);
-                        startActivity(intent);
+                break;
+            //点击几付药
+            case R.id.fragment_helper_chinese_medical_allNumber:
+                Intent intent = new Intent(getActivity(), ACMXSDialog.class);
+                intent.putExtra("accid", helperId);
+                startActivity(intent);
 
 
         }
     }
+
     //西药弹出dialog
 //    private View.OnClickListener signListenerWestern = new View.OnClickListener() {
 //        @Override
@@ -595,8 +596,8 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
     private View.OnClickListener signListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            writePadDialog = new WritePadDialog(acid,data, chinese_number, advice, diagnosis, aiid,
-                    getActivity(),getActivity(), R.style.SignBoardDialog, new DialogListener() {
+            writePadDialog = new WritePadDialog(acid, data, chinese_number, advice, diagnosis, aiid
+                    , null, R.style.SignBoardDialog, new DialogListener() {
                 public void refreshActivity(Object object) {
                     mSignBitmap = (Bitmap) object;
                     signPath = createFile();
@@ -626,31 +627,31 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
         String _path = null;
         try {
             //创建目录
-            String sign_dir = Environment.getExternalStorageDirectory().toString()+TMP_PATH
+            String sign_dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH
                     + File.separator;
-            File localFile=new File(sign_dir);
-            if (!localFile.exists()){
+            File localFile = new File(sign_dir);
+            if (!localFile.exists()) {
                 localFile.mkdir();
             }
             //拼接好文件路径和名称
-            File finalImageFile=new File(localFile,System.currentTimeMillis()+"img.png");
-            if (finalImageFile.exists()){
+            File finalImageFile = new File(localFile, System.currentTimeMillis() + "img.png");
+            if (finalImageFile.exists()) {
                 finalImageFile.delete();
             }
             try {
                 finalImageFile.createNewFile();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             //文件的读取
-            FileOutputStream fileOutputStream=null;
+            FileOutputStream fileOutputStream = null;
             try {
-                fileOutputStream=new FileOutputStream(finalImageFile);
-            }catch (FileNotFoundException e){
+                fileOutputStream = new FileOutputStream(finalImageFile);
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            if (mSignBitmap==null){
+            if (mSignBitmap == null) {
                 Toast.makeText(ctx, "图片不存在", Toast.LENGTH_SHORT).show();
             }
 
@@ -660,8 +661,8 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
             try {
                 fileOutputStream.flush();
                 fileOutputStream.close();
-                Log.e(TAG, "createFile: "+finalImageFile.getAbsolutePath() );
-            }catch (IOException e){
+                Log.e(TAG, "createFile: " + finalImageFile.getAbsolutePath());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -720,6 +721,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
         chinese_linearLayout.setVisibility(View.GONE);
         western_linearLayout.setVisibility(View.GONE);
     }
+
     //显示
     public void playChatView() {
         chat_linearLayout.setVisibility(View.VISIBLE);
@@ -897,34 +899,34 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
         }
     }
 
-    public void upLoadMessage(){
+    public void upLoadMessage() {
         //生成json串 并上传服务器
-        final ChuFangChinese chufang=new ChuFangChinese();
-        chufang.fromJSON(list,chinese_number,advice,diagnosis,aiid);
-        otRequest=new OTRequest(getActivity().getBaseContext());
+        final ChuFangChinese chufang = new ChuFangChinese();
+        chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid);
+        otRequest = new OTRequest(getActivity().getBaseContext());
         otRequest.setTN(TN_DOC_KAIYAO);
         final DataModel data = new DataModel();
-        data.setDataJSONStr(String.valueOf(chufang.fromJSON(list,chinese_number,advice,diagnosis,aiid)));
+        data.setDataJSONStr(String.valueOf(chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid)));
         otRequest.setDATA(data);
-        NetTool.getInstance().startRequest(false, true , act , null, otRequest, new CallBack<Map, String>() {
+        NetTool.getInstance().startRequest(false, true, act, null, otRequest, new CallBack<Map, String>() {
             @Override
             public void onSuccess(Map map, String s) {
 
-                JSONObject json=new JSONObject(map);
+                JSONObject json = new JSONObject(map);
 
                 try {
-                    acid=json.getJSONObject("DATA").getString("acid");
+                    acid = json.getJSONObject("DATA").getString("acid");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                Log.e(TAG, "onSuccess: "+chufang.fromJSON(list,chinese_number,advice,diagnosis,aiid));
+                Log.e(TAG, "onSuccess: " + chufang.fromJSON(list, chinese_number, advice, diagnosis, aiid));
             }
 
             @Override
             public void onError(Throwable throwable) {
-                Log.e(TAG, "onError!!!!!!!!!!!!!: "+"请求失败" );
+                Log.e(TAG, "onError!!!!!!!!!!!!!: " + "请求失败");
             }
         });
     }
@@ -1040,16 +1042,16 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
         public void onReceive(Context context, Intent intent) {
 //            Toast.makeText(context, "查看详情", Toast.LENGTH_SHORT).show();
 //            Log.e(TAG, "onReceive: "+1111111111 );
-            Intent intentDetails=new Intent(getActivity(),MedicalDetailsActivity.class);
+            Intent intentDetails = new Intent(getActivity(), MedicalDetailsActivity.class);
             intentDetails.putExtra("acid", helperId);
             intentDetails.putExtra("aiid", aiid);
             intentDetails.putExtra("advice", advice);
             intentDetails.putExtra("number", chinese_number);
             intentDetails.putExtra("time", date);
-            Bundle bundle=new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putSerializable("list", (Serializable) data);
             intentDetails.putExtras(bundle);
-            Log.e(TAG, "onReceive: "+helperId+aiid+chinese_number+date+advice+data);
+            Log.e(TAG, "onReceive: " + helperId + aiid + chinese_number + date + advice + data);
             startActivity(intentDetails);
         }
     }

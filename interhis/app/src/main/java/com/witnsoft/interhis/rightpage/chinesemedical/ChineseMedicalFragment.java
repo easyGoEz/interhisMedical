@@ -1,15 +1,18 @@
 package com.witnsoft.interhis.rightpage.chinesemedical;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +30,7 @@ import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
+import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.libinterhis.utils.ClearEditText;
 
 import org.xutils.ex.DbException;
@@ -33,6 +38,11 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +55,7 @@ import rx.functions.Action1;
  */
 
 @ContentView(R.layout.fragment_chinese_medical)
-public class ChineseMedicalFragment extends Fragment implements MedicalCountDialog.CallBackMedCount {
+public class ChineseMedicalFragment extends Fragment implements MedicalCountDialog.CallBackMedCount, WritePadDialog.CallBack {
 
     @ViewInject(R.id.keyboard)
     private KeyboardView keyboardView;
@@ -63,9 +73,11 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private Button btnSave;
     @ViewInject(R.id.et_usage)
     private EditText etUsage;
+    @ViewInject(R.id.iv_signature)
+    private ImageView ivSignature;
 
     private View rootView;
-
+    private static final String TAG = "ChineseMedicalFragment";
     private List<ChineseDetailModel> searchList = new ArrayList<>();
     private List<ChineseDetailModel> medTopList = new ArrayList<>();
     private ChineseMedSearchAdapter chineseMedSearchAdapter = null;
@@ -135,7 +147,10 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                             Toast.makeText(getActivity(), getResources().getString(R.string.pleas_enter_usage),
                                     Toast.LENGTH_LONG).show();
                         } else {
-
+                            WritePadDialog writePadDialog = new WritePadDialog(null, null, null, null, null, null,
+                                    ChineseMedicalFragment.this, R.style.SignBoardDialog, null);
+                            writePadDialog.show();
+                            writePadDialog.setCanceledOnTouchOutside(true);
                         }
                     }
                 });
@@ -221,6 +236,87 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             chineseMedTopAdapter.notifyDataSetChanged();
             amountShow();
         }
+    }
+
+    @Override
+    public void onHandImgOk(Bitmap bitmap) {
+        // 手写签名返回
+        String signPath = createFile(bitmap);
+//        Bitmap zoombm = getCompressBitmap(signPath);
+        ivSignature.setImageBitmap(bitmap);
+        Log.e(TAG, "path for hand = " + signPath);
+    }
+
+    /**
+     * 创建手写签名文件
+     *
+     * @return
+     */
+    private static final String TMP_PATH = "/DCIM/Camera/";
+
+    private String createFile(Bitmap mSignBitmap) {
+        ByteArrayOutputStream baos = null;
+        String _path = null;
+        try {
+            //创建目录
+            String sign_dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH
+                    + File.separator;
+            File localFile = new File(sign_dir);
+            if (!localFile.exists()) {
+                localFile.mkdir();
+            }
+            //拼接好文件路径和名称
+            File finalImageFile = new File(localFile, System.currentTimeMillis() + "img.png");
+            if (finalImageFile.exists()) {
+                finalImageFile.delete();
+            }
+            try {
+                finalImageFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //文件的读取
+            FileOutputStream fileOutputStream = null;
+            try {
+                fileOutputStream = new FileOutputStream(finalImageFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (mSignBitmap == null) {
+                Toast.makeText(getActivity(), "图片不存在", Toast.LENGTH_SHORT).show();
+            }
+
+            _path = sign_dir + System.currentTimeMillis() + "img.png";
+            baos = new ByteArrayOutputStream();
+            mSignBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            try {
+                fileOutputStream.flush();
+                fileOutputStream.close();
+                Log.e(TAG, "createFile: " + finalImageFile.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            byte[] photoBytes = baos.toByteArray();
+            if (photoBytes != null) {
+                new FileOutputStream(new File(_path)).write(photoBytes);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null)
+                    baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return _path;
     }
 
     //固定位置显示药材名字

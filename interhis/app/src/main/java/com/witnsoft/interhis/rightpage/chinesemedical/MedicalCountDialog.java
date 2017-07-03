@@ -185,15 +185,14 @@ public class MedicalCountDialog {
         ad.dismiss();
     }
 
-    // 添加接口
     public interface CallBackMedCount {
+        // 添加接口
         void onMedAdd(ChineseDetailModel searchModel);
 
+        // 修改接口
         void onMedChange(ChineseDetailModel searchModel);
 
+        // 删除接口
         void onMedDelete(ChineseDetailModel searchModel);
     }
-
-    // 修改接口
-    // 删除接口
 }
