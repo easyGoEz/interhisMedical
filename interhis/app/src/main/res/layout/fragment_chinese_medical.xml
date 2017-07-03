@@ -10,8 +10,19 @@
     <GridView
         android:id="@+id/gv_med_top"
         android:layout_width="match_parent"
-        android:layout_height="500px"
+        android:layout_height="400px"
         android:numColumns="4"/>
+
+    <EditText
+        android:id="@+id/et_usage"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@drawable/edittext"
+        android:gravity="top"
+        android:hint="@string/enter_usage"
+        android:padding="20px"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_big"/>
 
     <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +54,7 @@
                 android:id="@+id/tv_signature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="150px"
+                android:layout_marginLeft="100px"
                 android:text="@string/doc_signature"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/text_big"/>
@@ -72,12 +83,20 @@
                 android:textSize="@dimen/text_big"/>
 
             <TextView
+                android:id="@+id/tv_med_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50px"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/text_big"
                 tools:text="700元"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="@string/money_count_tip"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/text_big"/>
 
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
@@ -94,16 +113,6 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical">
-
-                <com.witnsoft.libinterhis.utils.ClearEditText
-                    android:id="@+id/et_usage"
-                    android:layout_width="match_parent"
-                    android:layout_height="80px"
-                    android:background="@drawable/edittext"
-                    android:hint="@string/enter_usage"
-                    android:paddingLeft="20px"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_big"/>
 
                 <com.witnsoft.libinterhis.utils.ClearEditText
                     android:id="@+id/et_search"

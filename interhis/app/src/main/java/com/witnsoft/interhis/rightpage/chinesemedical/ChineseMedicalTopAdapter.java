@@ -22,10 +22,12 @@ import java.util.List;
 public class ChineseMedicalTopAdapter extends BaseAdapter {
     private List<ChineseDetailModel> list = new ArrayList<ChineseDetailModel>();
     private Context context;
+    private double moneyAmount;
 
     public ChineseMedicalTopAdapter(Context context, List<ChineseDetailModel> list) {
         this.context = context;
         this.list = list;
+        this.moneyAmount = 0.0;
     }
 
     @Override

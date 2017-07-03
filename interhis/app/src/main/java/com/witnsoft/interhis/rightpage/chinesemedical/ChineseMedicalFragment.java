@@ -8,15 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
@@ -34,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import rx.functions.Action1;
+
 /**
  * Created by zhengchengpeng on 2017/6/29.
  */
@@ -49,8 +55,14 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private GridView gvSearch;
     @ViewInject(R.id.tv_med_count)
     private TextView tvMedCount;
+    @ViewInject(R.id.tv_med_money)
+    private TextView tvMedMoney;
     @ViewInject(R.id.gv_med_top)
     private GridView gvMedTop;
+    @ViewInject(R.id.btn_save)
+    private Button btnSave;
+    @ViewInject(R.id.et_usage)
+    private EditText etUsage;
 
     private View rootView;
 
@@ -76,6 +88,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
+        initClick();
     }
 
     private void init() {
@@ -113,6 +126,21 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         });
     }
 
+    private void initClick() {
+        RxView.clicks(btnSave)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if (TextUtils.isEmpty(etUsage.getText().toString())) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.pleas_enter_usage),
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+
+                        }
+                    }
+                });
+    }
+
     // 读取数据库该患者处方药品并显示到上方列表视图
     // TODO: 2017/6/30 初始化上方所选药品
     private void initTopMed() {
@@ -143,6 +171,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         } else {
             chineseMedTopAdapter.notifyDataSetChanged();
         }
+        amountShow();
     }
 
     // 选择处方药品存数据库并刷新上方列表视图
@@ -152,6 +181,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         if (null != searchModel) {
             medTopList.add(searchModel);
             chineseMedTopAdapter.notifyDataSetChanged();
+            amountShow();
             // TODO: 2017/6/30 搜索选择返回存数据库并刷新视图
 //            try {
 //                ChineseModel chineseModel = new ChineseModel();
@@ -174,6 +204,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 }
             }
             chineseMedTopAdapter.notifyDataSetChanged();
+            amountShow();
         }
     }
 
@@ -188,6 +219,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 }
             }
             chineseMedTopAdapter.notifyDataSetChanged();
+            amountShow();
         }
     }
 
@@ -255,6 +287,44 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         } else {
             chineseMedSearchAdapter.notifyDataSetChanged();
         }
+    }
+
+    // 金额和数量显示
+    private void amountShow() {
+        int numMedCount = 0;
+        double moneyMedCount = 0.0;
+        if (null != medTopList && 0 < medTopList.size()) {
+            numMedCount = medTopList.size();
+            for (int i = 0; i < medTopList.size(); i++) {
+                int numCount = 0;
+                double moneyCount = 0.0;
+                if (!TextUtils.isEmpty(medTopList.get(i).getSl())) {
+                    try {
+                        numCount = Integer.parseInt(medTopList.get(i).getSl());
+                    } catch (Exception e) {
+                        numCount = 0;
+                    }
+                } else {
+                    numCount = 0;
+                }
+                if (!TextUtils.isEmpty(medTopList.get(i).getDj())) {
+                    try {
+                        moneyCount = Double.parseDouble(medTopList.get(i).getDj());
+                    } catch (Exception e) {
+                        moneyCount = 0.0;
+                    }
+                } else {
+                    moneyCount = 0.0;
+                }
+                moneyMedCount = moneyMedCount + (numCount * moneyCount);
+            }
+        } else {
+            numMedCount = 0;
+            moneyMedCount = 0.0;
+        }
+        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count),
+                String.valueOf(numMedCount)));
+        tvMedMoney.setText(String.valueOf(moneyMedCount) + getResources().getString(R.string.yuan));
     }
 
     private Map<String, String> map = new HashMap<>();
