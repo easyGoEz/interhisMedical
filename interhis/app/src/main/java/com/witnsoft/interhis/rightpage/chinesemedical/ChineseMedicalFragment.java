@@ -1,9 +1,12 @@
 package com.witnsoft.interhis.rightpage.chinesemedical;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -35,6 +38,7 @@ import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
+import com.witnsoft.interhis.setting.myinfo.MyInfoFragment;
 import com.witnsoft.libinterhis.utils.ClearEditText;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
@@ -101,13 +105,17 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     @ViewInject(R.id.iv_signature)
     private ImageView ivSignature;
 
-    private View rootView;
     private static final String TAG = "ChineseMedicalFragment";
+    private static final String PKG = "com.witnsoft.interhis";
+    public static final int REQUEST_PERMISSION = 100;
+
+    private View rootView;
     private List<ChineseDetailModel> searchList = new ArrayList<>();
     private List<ChineseDetailModel> medTopList = new ArrayList<>();
     private ChineseMedSearchAdapter chineseMedSearchAdapter = null;
     private ChineseMedicalTopAdapter chineseMedTopAdapter = null;
     private Gson gson;
+    private PackageManager pm;
 
     private List<ChineseModel> chineseTopList = new ArrayList<>();
 
@@ -270,12 +278,52 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     @Override
     public void onHandImgOk(Bitmap bitmap) {
         // 手写签名返回
-//        String signPath = createFile(bitmap);
+        this.bitmap = bitmap;
+        updateImg();
+    }
+
+    private Bitmap bitmap = null;
+
+    private void updateImg() {
+        pm = getActivity().getPackageManager();
+        // 读写权限
+        boolean readPermission = (PackageManager.PERMISSION_GRANTED ==
+                pm.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, PKG));
+        boolean writePermission = (PackageManager.PERMISSION_GRANTED ==
+                pm.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, PKG));
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (readPermission && writePermission) {
+                startUpdate();
+            } else {
+                String[] PERMISSIONS_CAMERA = {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                };
+                requestPermissions(PERMISSIONS_CAMERA, REQUEST_PERMISSION);
+            }
+        } else {
+            startUpdate();
+        }
+    }
+
+    private void startUpdate() {
         String signPath = saveBitmap(bitmap);
         ivSignature.setImageBitmap(bitmap);
-        Log.e(TAG, "path for hand = " + signPath);
         // 上传图片和药方
         callUpdate(signPath);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            try {
+                startUpdate();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.none_permission), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /**
@@ -418,7 +466,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
      *
      * @return
      */
-    public String saveBitmap(Bitmap bitmap) {
+    private static final String TMP_PATH = "/DCIM/Camera/";
+
+    private String saveBitmap(Bitmap bitmap) {
 
         // 首先保存图片
         String dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH;
@@ -441,86 +491,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getActivity(), getResources().getString(R.string.card_fali_msg), Toast.LENGTH_LONG).show();
         }
-//        // 把文件插入到系统图库
-//        try {
-//            MediaStore.Images.Media.insertImage(this.getContentResolver(), file.getAbsolutePath(), fileName, null);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        // 通知图库更新
-//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + "/sdcard/namecard/")));
         return dir + fileName;
-    }
-
-
-    private static final String TMP_PATH = "/DCIM/Camera/";
-
-    private String createFile(Bitmap mSignBitmap) {
-        ByteArrayOutputStream baos = null;
-        String _path = null;
-        try {
-            //创建目录
-            String sign_dir = Environment.getExternalStorageDirectory().toString() + TMP_PATH;
-            File localFile = new File(sign_dir);
-            if (!localFile.exists()) {
-                localFile.mkdir();
-            }
-            String fileName = new SimpleDateFormat("yyyyMMddHHmmss")
-                    .format(new Date()) + ".png";
-            localFile = new File(sign_dir, fileName);
-            //拼接好文件路径和名称
-            File finalImageFile = new File(localFile, fileName);
-            if (finalImageFile.exists()) {
-                finalImageFile.delete();
-            }
-            try {
-                finalImageFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //文件的读取
-            FileOutputStream fileOutputStream = null;
-            try {
-                fileOutputStream = new FileOutputStream(finalImageFile);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            if (mSignBitmap == null) {
-                Toast.makeText(getActivity(), "图片不存在", Toast.LENGTH_SHORT).show();
-            }
-
-            _path = sign_dir + fileName;
-            baos = new ByteArrayOutputStream();
-            mSignBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            try {
-                fileOutputStream.flush();
-                fileOutputStream.close();
-                Log.e(TAG, "createFile: " + finalImageFile.getAbsolutePath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            byte[] photoBytes = baos.toByteArray();
-            if (photoBytes != null) {
-                new FileOutputStream(new File(_path)).write(photoBytes);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (baos != null)
-                    baos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return _path;
     }
 
     //固定位置显示药材名字
