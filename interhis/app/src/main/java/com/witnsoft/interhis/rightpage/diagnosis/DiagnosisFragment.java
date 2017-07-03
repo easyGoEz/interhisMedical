@@ -23,7 +23,11 @@ import org.xutils.x;
 
 import java.text.SimpleDateFormat;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by zhengchengpeng on 2017/6/29.
@@ -63,15 +67,16 @@ public class DiagnosisFragment extends Fragment {
         } catch (Exception e) {
             this.accId = getArguments().getString("userId");
         }
-        try {
-            chineseModel = HisDbManager.getManager().findChineseModel(accId);
-            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
-                //诊断说明
-                etDiagnosis.setText(chineseModel.getZdsm());
-            }
-        } catch (DbException e) {
-
-        }
+        callDb();
+//        try {
+//            chineseModel = HisDbManager.getManager().findChineseModel(accId);
+//            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
+//                //诊断说明
+//                etDiagnosis.setText(chineseModel.getZdsm());
+//            }
+//        } catch (DbException e) {
+//
+//        }
     }
 
     private void initClick() {
@@ -105,6 +110,53 @@ public class DiagnosisFragment extends Fragment {
                             Toast.makeText(getActivity(), getResources().getString(R.string.save_success), Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_dialogsis), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 读取数据库
+     */
+    private void callDb() {
+        Observable.create(new Observable.OnSubscribe<ChineseModel>() {
+            @Override
+            public void call(Subscriber<? super ChineseModel> subscriber) {
+                try {
+                    ChineseModel model = HisDbManager.getManager().findChineseModel(accId);
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(model);
+                        subscriber.onCompleted();
+                        return;
+                    }
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (DbException e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
+                    }
+                }
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ChineseModel>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), "数据库读取异常", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(ChineseModel chineseModel) {
+                        if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
+                            //诊断说明
+                            etDiagnosis.setText(chineseModel.getZdsm());
                         }
                     }
                 });

@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.rightpage.chinesemedical.ChineseMedicalFragment;
+import com.witnsoft.interhis.rightpage.chinesemedical.OnPageChanged;
 import com.witnsoft.interhis.rightpage.diagnosis.DiagnosisFragment;
 import com.witnsoft.interhis.rightpage.history.HistoryFragment;
 import com.witnsoft.interhis.rightpage.westernmedical.WesternFragment;
@@ -35,6 +36,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
 
     private View rootView;
     private ArrayList<Fragment> viewContainter = new ArrayList<Fragment>();
+    private OnPageChanged onPageChanged;
 
     private static final int TAG_CAHT = 0;
     private static final int TAG_DIAGNOSIS = 1;
@@ -99,15 +101,21 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         this.single1 = getArguments().getInt("single");
         this.imgDoc = getArguments().getString("img_doc");
         this.imgPat = getArguments().getString("img_pat");
-        Fragment chatFragment = new EaseChatFragment();
+        EaseChatFragment chatFragment = new EaseChatFragment();
         initChat(chatFragment);
-        Fragment diagnosisFragment = new DiagnosisFragment();
+        DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
         initDiagnosis(diagnosisFragment);
-        Fragment chineseMedicalFragment = new ChineseMedicalFragment();
+        ChineseMedicalFragment chineseMedicalFragment = new ChineseMedicalFragment();
+        chineseMedicalFragment.setOnPageChanged(new OnPageChanged() {
+            @Override
+            public void callBack() {
+                viewPager.setCurrentItem(TAG_CAHT);
+            }
+        });
         initChineseMed(chineseMedicalFragment);
-        Fragment withChineseMedicalFragment = new WithChineseMedicalFragment();
-        Fragment westernFragment = new WesternFragment();
-        Fragment historyFragment = new HistoryFragment();
+        WithChineseMedicalFragment withChineseMedicalFragment = new WithChineseMedicalFragment();
+        WesternFragment westernFragment = new WesternFragment();
+        HistoryFragment historyFragment = new HistoryFragment();
         // viewpager开始添加view
         viewContainter.add(chatFragment);
         viewContainter.add(diagnosisFragment);

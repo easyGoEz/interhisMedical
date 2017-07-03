@@ -29,7 +29,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.Chufang.ChuFangChinese;
 import com.witnsoft.interhis.R;
@@ -52,9 +55,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -75,7 +76,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 import static android.graphics.Color.BLACK;
 
@@ -108,6 +113,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private static final String TAG = "ChineseMedicalFragment";
     private static final String PKG = "com.witnsoft.interhis";
     public static final int REQUEST_PERMISSION = 100;
+    private OnPageChanged onPageChanged;
 
     private View rootView;
     private List<ChineseDetailModel> searchList = new ArrayList<>();
@@ -146,7 +152,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         aiid = getArguments().getString("aiid");
         tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
         gson = new Gson();
-        initTopMed();
+//        initTopMed();
+        initSearch();
+        initData();
         initFixedSearchData();
         initKeyBoard();
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -193,27 +201,92 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 });
     }
 
-    // 读取数据库该患者处方药品并显示到上方列表视图
-    // TODO: 2017/6/30 初始化上方所选药品
-    private void initTopMed() {
-        try {
-            chineseTopList = HisDbManager.getManager().findChineseMode(helperId);
-        } catch (DbException e) {
-            e.printStackTrace();
+    private void initSearch() {
+        if (null == chineseMedSearchAdapter) {
+            chineseMedSearchAdapter = new ChineseMedSearchAdapter(getActivity(), searchList);
+            gvSearch.setAdapter(chineseMedSearchAdapter);
+            gvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    boolean isSame = false;
+                    if (null != medTopList && 0 < medTopList.size()) {
+                        for (int i = 0; i < medTopList.size(); i++) {
+                            if (medTopList.get(i).getCmc().equals(searchList.get(position).getCmc())) {
+                                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen),
+                                        Toast.LENGTH_LONG).show();
+                                isSame = true;
+                            }
+                        }
+                    }
+                    if (!isSame) {
+                        String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
+                        final MedicalCountDialog medicalCountDialog
+                                = new MedicalCountDialog(ChineseMedicalFragment.this, searchList.get(position), medCountNum);
+                        medicalCountDialog.init(false);
+                    } else {
+                        Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen)
+                                , Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
         }
-        if (null != chineseTopList && 0 < chineseTopList.size()) {
-            for (int i = 0; i < chineseTopList.size(); i++) {
+    }
 
+    /**
+     * 读取数据库
+     */
+    private void initData() {
+        Observable.create(new Observable.OnSubscribe<List<ChineseModel>>() {
+            @Override
+            public void call(Subscriber<? super List<ChineseModel>> subscriber) {
+                try {
+                    List<ChineseModel> chineseTopList = HisDbManager.getManager().findChineseMode(helperId);
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(chineseTopList);
+                        subscriber.onCompleted();
+                        return;
+                    }
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (DbException e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
+                    }
+                }
             }
-        }
-        // TODO: 2017/6/30 medToList未初始化
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<ChineseModel>>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), "数据库读取异常（读取chineseTopList）", Toast.LENGTH_LONG).show();
+                        initTopMed();
+                    }
+
+                    @Override
+                    public void onNext(List<ChineseModel> list) {
+                        chineseTopList = list;
+                        initTopMed();
+                    }
+                });
+    }
+
+    // 读取数据库该患者处方药品并显示到上方列表视图
+    private void initTopMed() {
         if (null == chineseMedTopAdapter) {
             chineseMedTopAdapter = new ChineseMedicalTopAdapter(getActivity(), medTopList);
             gvMedTop.setAdapter(chineseMedTopAdapter);
             gvMedTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // TODO: 2017/6/30 编辑弹出框
                     String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
                     final MedicalCountDialog medicalCountDialog
                             = new MedicalCountDialog(ChineseMedicalFragment.this, medTopList.get(position), medCountNum);
@@ -311,7 +384,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         String signPath = saveBitmap(bitmap);
         ivSignature.setImageBitmap(bitmap);
         // 上传图片和药方
-        callUpdate(signPath);
+//        callUpdate(signPath);
+        callZdsmData(signPath);
     }
 
     @Override
@@ -327,9 +401,55 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     }
 
     /**
+     * 读取数据库(诊断说明)
+     */
+    private void callZdsmData(final String signPath) {
+        Observable.create(new Observable.OnSubscribe<ChineseModel>() {
+            @Override
+            public void call(Subscriber<? super ChineseModel> subscriber) {
+                try {
+                    ChineseModel model = HisDbManager.getManager().findChineseModel(helperId);
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(model);
+                        subscriber.onCompleted();
+                        return;
+                    }
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (DbException e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
+                    }
+                }
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ChineseModel>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), "数据库读取异常（读取诊断说明）", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(ChineseModel chineseModel) {
+                        if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
+                            // 诊断说明
+                            zdsm = chineseModel.getZdsm();
+                        }
+                        callUpdate(signPath);
+                    }
+                });
+    }
+
+    /**
      * 数据上传
-     *
-     * @return
      */
     private static final String TN_DOC_KAIYAO = "F27.APP.01.06";
     private OTRequest otRequest;
@@ -345,15 +465,15 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private String je;
 
     private void callUpdate(final String path) {
-        try {
-            ChineseModel chineseModel = HisDbManager.getManager().findChineseModel(helperId);
-            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
-                //诊断说明
-                zdsm = chineseModel.getZdsm();
-            }
-        } catch (DbException e) {
-
-        }
+//        try {
+//            ChineseModel chineseModel = HisDbManager.getManager().findChineseModel(helperId);
+//            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
+//                //诊断说明
+//                zdsm = chineseModel.getZdsm();
+//            }
+//        } catch (DbException e) {
+//
+//        }
         //生成json串 并上传服务器
         final ChuFangChinese chufang = new ChuFangChinese();
         otRequest = new OTRequest(getActivity().getBaseContext());
@@ -383,8 +503,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     /**
      * 手签图片上传
-     *
-     * @return
      */
     private OkHttpClient okHttpClient;
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -432,7 +550,16 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                                 try {
                                     errCode = String.valueOf(map.get("errcode"));
                                     if (!TextUtils.isEmpty(errCode) && "200".equals(errCode)) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
 
+                                                createMedical(helperId, "中药", aiid, acmxs, je);
+                                                // TODO: 2017/7/3 存数据库
+//                                                saveData();
+                                            }
+                                        });
                                     } else if (!TextUtils.isEmpty(errCode)) {
                                         if (!TextUtils.isEmpty(String.valueOf(map.get("errmsg")))) {
                                             getActivity().runOnUiThread(new Runnable() {
@@ -462,9 +589,41 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     }
 
     /**
+     * 上传服务器成功后转聊天
+     */
+    private void createMedical(String userName, String yaofangType, String yaofangNum, String yaoNum, String yaofangPrice) {
+        EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
+        message.setAttribute("type", "yaofang");
+        message.setAttribute("userName", userName);
+        message.setAttribute("yaofangType", yaofangType);
+        message.setAttribute("yaofangNum", yaofangNum);
+        message.setAttribute("yaoNum", yaoNum);
+        message.setAttribute("yaofangPrice", yaofangPrice);
+        EMClient.getInstance().chatManager().sendMessage(message);
+        onPageChanged.callBack();
+    }
+
+    /**
+     * 上传服务器成功后存数据库
+     */
+    private ChineseModel chineseModel = null;
+
+    private void saveData() {
+        try {
+            chineseModel = HisDbManager.getManager().findChineseModel(helperId);
+            if (null != chineseModel) {
+                // 更新
+//                chineseModel.set
+            } else {
+                // 创建
+            }
+        } catch (DbException e) {
+
+        }
+    }
+
+    /**
      * 创建手写签名文件
-     *
-     * @return
      */
     private static final String TMP_PATH = "/DCIM/Camera/";
 
@@ -496,70 +655,101 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         return dir + fileName;
     }
 
-    //固定位置显示药材名字
+    /**
+     * 固定位置显示药材名字
+     */
     private void initFixedSearchData() {
-        String[] fixedMed = getActivity().getResources().getStringArray(R.array.chinese_fixed_list);
-        List<Map<String, String>> asd = new ArrayList<>();
-        for (int j = 0; j < fixedMed.length; j++) {
-            List<String> columnName = new ArrayList<>();
-            Cursor cursor = DataHelper.getInstance(getContext()).getFixedMed(fixedMed[j]);
-            for (int i = 0; i < cursor.getColumnCount(); i++) {
-                columnName.add(cursor.getColumnName(i));
-            }
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    map = new HashMap<>();
-                    for (int i = 0; i < columnName.size(); i++) {
-                        map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
-                    }
-                    asd.add(map);
-                    break;
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-        //显示搜索列表药名
-        searchList.clear();
-        for (Map<String, String> map : asd) {
-            ChineseDetailModel chinese = new ChineseDetailModel();
-            // 药品名称
-            chinese.setCmc(map.get("xmmc"));
-            // 单价
-            chinese.setDj(map.get("bzjg"));
-            // 中药代码
-            chinese.setCdm(map.get("sfxmbm"));
-            searchList.add(chinese);
-        }
-        if (null == chineseMedSearchAdapter) {
-            chineseMedSearchAdapter = new ChineseMedSearchAdapter(getActivity(), searchList);
-            gvSearch.setAdapter(chineseMedSearchAdapter);
-            gvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    boolean isSame = false;
-                    if (null != medTopList && 0 < medTopList.size()) {
-                        for (int i = 0; i < medTopList.size(); i++) {
-                            if (medTopList.get(i).getCmc().equals(searchList.get(position).getCmc())) {
-                                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen),
-                                        Toast.LENGTH_LONG).show();
-                                isSame = true;
-                            }
+        final String[] fixedMed = getActivity().getResources().getStringArray(R.array.chinese_fixed_list);
+//        List<Map<String, String>> asd = new ArrayList<>();
+//        for (int j = 0; j < fixedMed.length; j++) {
+//            List<String> columnName = new ArrayList<>();
+//            Cursor cursor = DataHelper.getInstance(getContext()).getFixedMed(fixedMed[j]);
+//            for (int i = 0; i < cursor.getColumnCount(); i++) {
+//                columnName.add(cursor.getColumnName(i));
+//            }
+//            if (cursor != null && cursor.moveToFirst()) {
+//                do {
+//                    map = new HashMap<>();
+//                    for (int i = 0; i < columnName.size(); i++) {
+//                        map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
+//                    }
+//                    asd.add(map);
+//                    break;
+//                } while (cursor.moveToNext());
+//            }
+//            cursor.close();
+//        }
+        Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
+            @Override
+            public void call(Subscriber<? super List<Map<String, String>>> subscriber) {
+                try {
+                    List<Map<String, String>> asd = new ArrayList<>();
+                    for (String item : fixedMed) {
+                        List<String> columnName = new ArrayList<>();
+                        Cursor cursor = DataHelper.getInstance(getContext()).getFixedMed(item);
+                        for (int i = 0; i < cursor.getColumnCount(); i++) {
+                            columnName.add(cursor.getColumnName(i));
                         }
+                        if (cursor != null && cursor.moveToFirst()) {
+                            do {
+                                map = new HashMap<>();
+                                for (int i = 0; i < columnName.size(); i++) {
+                                    map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
+                                }
+                                asd.add(map);
+                                break;
+                            } while (cursor.moveToNext());
+                        }
+                        cursor.close();
                     }
-                    if (!isSame) {
-                        String[] medCountNum = getActivity().getResources().getStringArray(R.array.med_count_num);
-                        final MedicalCountDialog medicalCountDialog
-                                = new MedicalCountDialog(ChineseMedicalFragment.this, searchList.get(position), medCountNum);
-                        medicalCountDialog.init(false);
-                    } else {
-                        Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.med_has_been_chosen)
-                                , Toast.LENGTH_LONG).show();
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(asd);
+                        subscriber.onCompleted();
+                        return;
+                    }
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (Exception e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
                     }
                 }
-            });
-        } else {
-            chineseMedSearchAdapter.notifyDataSetChanged();
-        }
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Map<String, String>>>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), "数据库读取异常", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(List<Map<String, String>> asd) {
+                        //显示搜索列表药名
+                        searchList.clear();
+                        for (Map<String, String> map : asd) {
+                            ChineseDetailModel chinese = new ChineseDetailModel();
+                            // 药品名称
+                            chinese.setCmc(map.get("xmmc"));
+                            // 单价
+                            chinese.setDj(map.get("bzjg"));
+                            // 中药代码
+                            chinese.setCdm(map.get("sfxmbm"));
+                            searchList.add(chinese);
+                        }
+                        chineseMedSearchAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
     }
 
     // 金额和数量显示
@@ -606,38 +796,75 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     private Map<String, String> map = new HashMap<>();
 
-    private void searchData(String pinyin) {
+    private void searchData(final String pinyin) {
         //根据拼音查询数据
-        String xmmc = null;
-        List<Map<String, String>> asd = new ArrayList<>();
-        List<String> columnName = new ArrayList<>();
-        Cursor cursor = DataHelper.getInstance(getContext()).getXMRJ(pinyin);
-        for (int i = 0; i < cursor.getColumnCount(); i++) {
-            columnName.add(cursor.getColumnName(i));
-        }
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                map = new HashMap<>();
-                for (int i = 0; i < columnName.size(); i++) {
-                    map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
+        Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
+            @Override
+            public void call(Subscriber<? super List<Map<String, String>>> subscriber) {
+                try {
+                    List<Map<String, String>> asd = new ArrayList<>();
+                    List<String> columnName = new ArrayList<>();
+                    Cursor cursor = DataHelper.getInstance(getContext()).getXMRJ(pinyin);
+                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                        columnName.add(cursor.getColumnName(i));
+                    }
+                    if (cursor != null && cursor.moveToFirst()) {
+                        do {
+                            map = new HashMap<>();
+                            for (int i = 0; i < columnName.size(); i++) {
+                                map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
+                            }
+                            asd.add(map);
+                        } while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(asd);
+                        subscriber.onCompleted();
+                        return;
+                    }
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (Exception e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
+                    }
                 }
-                asd.add(map);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        //显示搜索列表药名
-        searchList.clear();
-        for (Map<String, String> map : asd) {
-            ChineseDetailModel chinese = new ChineseDetailModel();
-            // 药品名称
-            chinese.setCmc(map.get("xmmc"));
-            // 单价
-            chinese.setDj(map.get("bzjg"));
-            // 中药代码
-            chinese.setCdm(map.get("sfxmbm"));
-            searchList.add(chinese);
-        }
-        chineseMedSearchAdapter.notifyDataSetChanged();
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Map<String, String>>>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), "数据库读取异常", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(List<Map<String, String>> asd) {
+                        //显示搜索列表药名
+                        searchList.clear();
+                        for (Map<String, String> map : asd) {
+                            ChineseDetailModel chinese = new ChineseDetailModel();
+                            // 药品名称
+                            chinese.setCmc(map.get("xmmc"));
+                            // 单价
+                            chinese.setDj(map.get("bzjg"));
+                            // 中药代码
+                            chinese.setCdm(map.get("sfxmbm"));
+                            searchList.add(chinese);
+                        }
+                        chineseMedSearchAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
     }
 
     private Keyboard k1;//字母键盘
@@ -751,4 +978,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
         }
     };
+
+    public void setOnPageChanged(OnPageChanged onPageChanged) {
+        this.onPageChanged = onPageChanged;
+    }
 }
