@@ -174,5 +174,8 @@
         <item>7</item>
     </string-array>
     <string name="day">天</string>
+    <string name="data_error">数据库读取异常</string>
+    <string name="net_error">网络连接超时</string>
+    <string name="pic_error">签名图片返回异常</string>
     <!--WesternFragment end-->
 </resources>

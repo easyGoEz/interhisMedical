@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -37,8 +38,8 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
-import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
+import com.witnsoft.interhis.db.model.WesternModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.libinterhis.utils.ClearEditText;
@@ -137,6 +138,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
+        initSign();
         initClick();
     }
 
@@ -188,8 +190,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                                     Toast.LENGTH_LONG).show();
                         } else {
                             acsm = etUsage.getText().toString();
-                            WritePadDialog writePadDialog = new WritePadDialog(null, null, null, null, null, null,
-                                    WesternFragment.this, R.style.SignBoardDialog, null);
+                            WritePadDialog writePadDialog = new WritePadDialog(WesternFragment.this, R.style.SignBoardDialog);
                             writePadDialog.show();
                             writePadDialog.setCanceledOnTouchOutside(true);
                         }
@@ -197,6 +198,68 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                 });
     }
 
+    /**
+     * 初始化签名
+     */
+    private WesternModel westernModel = null;
+
+    private void initSign() {
+        Observable.create(new Observable.OnSubscribe<WesternModel>() {
+            @Override
+            public void call(Subscriber<? super WesternModel> subscriber) {
+                try {
+                    WesternModel model = HisDbManager.getManager().findWesternModel(helperId);
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(model);
+                        subscriber.onCompleted();
+                        return;
+                    }
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (DbException e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
+                    }
+                }
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<WesternModel>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(WesternModel model) {
+                        westernModel = model;
+                        if (null != model && !TextUtils.isEmpty(model.getZdsm())) {
+                            // 诊断说明
+                            zdsm = model.getZdsm();
+                        }
+                        if (null != model && !TextUtils.isEmpty(model.getDocQm())) {
+                            try {
+                                Glide.with(getActivity())
+                                        .load(model.getDocQm())
+                                        .into(ivSignature);
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 初始化搜索列表
+     */
     private void initSearch() {
         if (null == chineseMedSearchAdapter) {
             chineseMedSearchAdapter = new WesternMedSearchAdapter(getActivity(), searchList);
@@ -263,7 +326,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "数据库读取异常（读取medTopList）", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                         initTopMed();
                     }
 
@@ -379,9 +442,9 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
     private void startUpdate() {
         String signPath = saveBitmap(bitmap);
-        ivSignature.setImageBitmap(bitmap);
+//        ivSignature.setImageBitmap(bitmap);
         // 上传图片和药方
-        callZdsmData(signPath);
+        callUpdate(signPath);
     }
 
     @Override
@@ -394,54 +457,6 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                 Toast.makeText(getActivity(), getResources().getString(R.string.none_permission), Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    /**
-     * 读取数据库(诊断说明)
-     */
-    private void callZdsmData(final String signPath) {
-        Observable.create(new Observable.OnSubscribe<ChineseModel>() {
-            @Override
-            public void call(Subscriber<? super ChineseModel> subscriber) {
-                try {
-                    ChineseModel model = HisDbManager.getManager().findChineseModel(helperId);
-                    if (!subscriber.isUnsubscribed()) {
-                        subscriber.onNext(model);
-                        subscriber.onCompleted();
-                        return;
-                    }
-                    if (!subscriber.isUnsubscribed()) {
-                        subscriber.onCompleted();
-                    }
-                } catch (DbException e) {
-
-                    if (!subscriber.isUnsubscribed()) {
-                        subscriber.onError(e);
-                    }
-                }
-            }
-        }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ChineseModel>() {
-
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "数据库读取异常（读取诊断说明）", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(ChineseModel chineseModel) {
-                        if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
-                            // 诊断说明
-                            zdsm = chineseModel.getZdsm();
-                        }
-                        callUpdate(signPath);
-                    }
-                });
     }
 
     /**
@@ -517,7 +532,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                     public void run() {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getActivity(), "网络连接超时", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), getResources().getString(R.string.net_error), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -530,40 +545,49 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                     try {
                         final String resp = response.body().string();
                         if (!TextUtils.isEmpty(resp)) {
-                            HashMap mapObj = new HashMap();
-                            final Map map = (Map) gson.fromJson(resp, mapObj.getClass());
-                            String errCode = "";
-                            if (null != map.get("errcode")) {
-                                try {
-                                    errCode = String.valueOf(map.get("errcode"));
-                                    if (!TextUtils.isEmpty(errCode) && "200".equals(errCode)) {
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
-
-                                                createMedical(helperId, "西药", aiid, acmxs, je);
-                                                // 存储数据库
-                                                saveData();
-                                            }
-                                        });
-                                    } else if (!TextUtils.isEmpty(errCode)) {
-                                        if (!TextUtils.isEmpty(String.valueOf(map.get("errmsg")))) {
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Toast.makeText(getActivity(), String.valueOf(map.get("errmsg")), Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                        }
-                                    }
-                                } catch (ClassCastException var11) {
-                                    ;
-                                }
-                            }
                             WesternFragment.this.handler.post(new Runnable() {
                                 public void run() {
-
+                                    HashMap mapObj = new HashMap();
+                                    final Map map = (Map) gson.fromJson(resp, mapObj.getClass());
+                                    String errCode = "";
+                                    if (null != map.get("errcode")) {
+                                        try {
+                                            errCode = String.valueOf(map.get("errcode"));
+                                            if (!TextUtils.isEmpty(errCode) && "200".equals(errCode)) {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
+                                                        createMedical(helperId, "西药", aiid, acmxs, je);
+                                                        String picUrl = "";
+                                                        if (null != map.get("fjlj")) {
+                                                            try {
+                                                                picUrl = String.valueOf(map.get("fjlj"));
+                                                                Glide.with(getActivity())
+                                                                        .load(picUrl)
+                                                                        .into(ivSignature);
+                                                            } catch (Exception e) {
+                                                                Toast.makeText(getActivity(), getResources().getString(R.string.pic_error), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                        // 存储数据库
+                                                        saveData(picUrl);
+                                                    }
+                                                });
+                                            } else if (!TextUtils.isEmpty(errCode)) {
+                                                if (!TextUtils.isEmpty(String.valueOf(map.get("errmsg")))) {
+                                                    getActivity().runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(getActivity(), String.valueOf(map.get("errmsg")), Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        } catch (ClassCastException var11) {
+                                            ;
+                                        }
+                                    }
                                 }
                             });
                         }
@@ -593,7 +617,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     /**
      * 上传服务器成功后存数据库
      */
-    private void saveData() {
+    private void saveData(String picUrl) {
         try {
             if (null != medTopList && 0 < medTopList.size()) {
                 for (int i = 0; i < medTopList.size(); i++) {
@@ -613,8 +637,37 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                 }
             }
             HisDbManager.getManager().saveWesternDetailList(medTopList);
+            saveSignUrl(picUrl);
         } catch (DbException e) {
 
+        }
+    }
+
+    /**
+     * 签名存储数据库
+     */
+    private void saveSignUrl(String picUrl) {
+        if (null != westernModel) {
+            // 数据库有数据，更新表
+            try {
+                westernModel.setDocQm(picUrl);
+                HisDbManager.getManager().upDateWestern(westernModel, "DOCQM");
+            } catch (DbException e) {
+
+            }
+        } else {
+            // 数据库没有数据，创建表
+            try {
+                WesternModel westernModel = new WesternModel();
+                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+                String date = sDateFormat.format(new java.util.Date());
+                westernModel.setTime(date);
+                westernModel.setAwId(helperId);
+                westernModel.setDocQm(picUrl);
+                HisDbManager.getManager().saveAskWestern(westernModel);
+            } catch (DbException e) {
+
+            }
         }
     }
 
@@ -705,7 +758,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "数据库读取异常", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -725,8 +778,6 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                         chineseMedSearchAdapter.notifyDataSetChanged();
                     }
                 });
-
-
     }
 
     /**
@@ -822,7 +873,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "数据库读取异常", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
                     @Override

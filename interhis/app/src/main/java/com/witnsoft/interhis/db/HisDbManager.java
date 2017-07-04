@@ -6,6 +6,7 @@ import android.content.Context;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
+import com.witnsoft.interhis.db.model.WesternModel;
 import com.witnsoft.libinterhis.utils.FileUtils;
 import com.witnsoft.libinterhis.utils.LogUtils;
 
@@ -93,6 +94,10 @@ public class HisDbManager {
         this.manager.saveOrUpdate(model);
     }
 
+    public void saveAskWestern(WesternModel model) throws DbException {
+        this.manager.saveOrUpdate(model);
+    }
+
     //将数据存入子表
     public void saveAskChinese(ChineseDetailModel model) throws DbException {
         this.manager.saveOrUpdate(model);
@@ -148,8 +153,13 @@ public class HisDbManager {
         }
     }
 
-    public void upDateChineseModel(ChineseModel chineseModel) throws DbException {
-        this.manager.update(chineseModel, "ZDSM");
+    public WesternModel findWesternModel(String acid) throws DbException {
+        Object message = this.manager.selector(WesternModel.class).where("AWID", "=", acid).findFirst();
+        if (message == null) {
+            return null;
+        } else {
+            return (WesternModel) message;
+        }
     }
 
     public void saveChineseDetailList(List<ChineseDetailModel> list) throws DbException {
@@ -182,6 +192,14 @@ public class HisDbManager {
             message = new ArrayList();
         }
         return (List<WesternDetailModel>) message;
+    }
+
+    public void upDateWestern(WesternModel westernModel, String Column) throws DbException {
+        this.manager.update(westernModel, Column);
+    }
+
+    public void upDateChinese(ChineseModel westernModel, String Column) throws DbException {
+        this.manager.update(westernModel, Column);
     }
 
 }

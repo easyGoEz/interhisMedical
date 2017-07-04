@@ -15,6 +15,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseModel;
+import com.witnsoft.interhis.db.model.WesternModel;
 
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
@@ -44,6 +45,7 @@ public class DiagnosisFragment extends Fragment {
     private View rootView;
     private String accId;
     private ChineseModel chineseModel = null;
+    private WesternModel westernModel = null;
 
     @Nullable
     @Override
@@ -67,7 +69,8 @@ public class DiagnosisFragment extends Fragment {
         } catch (Exception e) {
             this.accId = getArguments().getString("userId");
         }
-        callDb();
+        callChineseDb();
+        callWesternDb();
     }
 
     private void initClick() {
@@ -76,28 +79,9 @@ public class DiagnosisFragment extends Fragment {
                     @Override
                     public void call(Void aVoid) {
                         if (!TextUtils.isEmpty(etDiagnosis.getText().toString())) {
-                            if (null != chineseModel) {
-                                // 数据库有数据，更新表
-                                try {
-                                    chineseModel.setZdsm(etDiagnosis.getText().toString());
-                                    HisDbManager.getManager().upDateChineseModel(chineseModel);
-                                } catch (DbException e) {
-
-                                }
-                            } else {
-                                // 数据库没有数据，创建表
-                                try {
-                                    ChineseModel chineseModel = new ChineseModel();
-                                    SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-                                    String date = sDateFormat.format(new java.util.Date());
-                                    chineseModel.setTime(date);
-                                    chineseModel.setAccId(accId);
-                                    chineseModel.setZdsm(etDiagnosis.getText().toString());
-                                    HisDbManager.getManager().saveAskChinese(chineseModel);
-                                } catch (DbException e) {
-
-                                }
-                            }
+                            // TODO: 2017/7/4 诊断两主表都存 
+                            updateChinese();
+                            updateWestern();
                             Toast.makeText(getActivity(), getResources().getString(R.string.save_success), Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_dialogsis), Toast.LENGTH_LONG).show();
@@ -106,10 +90,60 @@ public class DiagnosisFragment extends Fragment {
                 });
     }
 
+    private void updateChinese() {
+        if (null != chineseModel) {
+            // 数据库有数据，更新表
+            try {
+                chineseModel.setZdsm(etDiagnosis.getText().toString());
+                HisDbManager.getManager().upDateChinese(chineseModel, "ZDSM");
+            } catch (DbException e) {
+
+            }
+        } else {
+            // 数据库没有数据，创建表
+            try {
+                ChineseModel chineseModel = new ChineseModel();
+                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+                String date = sDateFormat.format(new java.util.Date());
+                chineseModel.setTime(date);
+                chineseModel.setAccId(accId);
+                chineseModel.setZdsm(etDiagnosis.getText().toString());
+                HisDbManager.getManager().saveAskChinese(chineseModel);
+            } catch (DbException e) {
+
+            }
+        }
+    }
+
+    private void updateWestern() {
+        if (null != westernModel) {
+            // 数据库有数据，更新表
+            try {
+                westernModel.setZdsm(etDiagnosis.getText().toString());
+                HisDbManager.getManager().upDateWestern(westernModel, "ZDSM");
+            } catch (DbException e) {
+
+            }
+        } else {
+            // 数据库没有数据，创建表
+            try {
+                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+                String date = sDateFormat.format(new java.util.Date());
+                WesternModel westernModel = new WesternModel();
+                westernModel.setTime(date);
+                westernModel.setAwId(accId);
+                westernModel.setZdsm(etDiagnosis.getText().toString());
+                HisDbManager.getManager().saveAskWestern(westernModel);
+            } catch (DbException e) {
+
+            }
+        }
+    }
+
     /**
-     * 读取数据库
+     * 读取数据库(中药)
      */
-    private void callDb() {
+    private void callChineseDb() {
         Observable.create(new Observable.OnSubscribe<ChineseModel>() {
             @Override
             public void call(Subscriber<? super ChineseModel> subscriber) {
@@ -140,15 +174,60 @@ public class DiagnosisFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "数据库读取异常", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onNext(ChineseModel chineseModel) {
-                        if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
+                    public void onNext(ChineseModel model) {
+                        chineseModel = model;
+                        if (null != model && !TextUtils.isEmpty(model.getZdsm())) {
                             //诊断说明
-                            etDiagnosis.setText(chineseModel.getZdsm());
+                            etDiagnosis.setText(model.getZdsm());
                         }
+                    }
+                });
+    }
+
+    /**
+     * 读取数据库(西药)
+     */
+    private void callWesternDb() {
+        Observable.create(new Observable.OnSubscribe<WesternModel>() {
+            @Override
+            public void call(Subscriber<? super WesternModel> subscriber) {
+                try {
+                    WesternModel model = HisDbManager.getManager().findWesternModel(accId);
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(model);
+                        subscriber.onCompleted();
+                        return;
+                    }
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onCompleted();
+                    }
+                } catch (DbException e) {
+
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onError(e);
+                    }
+                }
+            }
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<WesternModel>() {
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(WesternModel model) {
+                        westernModel = model;
                     }
                 });
     }

@@ -13,9 +13,13 @@ import org.xutils.db.annotation.Table;
 public class WesternModel {
     // primary key
     @Column(
-            name = "AWID",
+            name = "TIME",
             isId = true,
             autoGen = false)
+    private String time;
+
+    // 问诊ID
+    @Column(name = "AWID")
     private String awId;
 
     // 问诊ID
@@ -267,6 +271,14 @@ public class WesternModel {
 
     public String getYdDh() {
         return ydDh;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public void setWesternDetailModel(WesternDetailModel westernDetailModel) {

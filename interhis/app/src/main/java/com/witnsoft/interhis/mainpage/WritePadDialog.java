@@ -66,24 +66,12 @@ public class WritePadDialog extends Dialog {
     private Context context;
     private static LayoutParams p;
     private CallBack callBack;
-    private List<ChineseDetailModel> list = new ArrayList<>();
-    private String str, acsm, zdsm, aiid, acid, signPath;
 
-    public void setPath(String path) {
-        this.signPath = path;
-    }
 
-    public WritePadDialog(String acid, List<ChineseDetailModel> list, String str, String acsm, String zdsm, String aiid, Fragment fragment, int themeResId, DialogListener dialogListener) {
+    public WritePadDialog(Fragment fragment, int themeResId) {
         super(fragment.getActivity(), themeResId);
-        this.acid = acid;
-        this.aiid = aiid;
-        this.zdsm = zdsm;
-        this.acsm = acsm;
-        this.str = str;
-        this.list = list;
         this.context = fragment.getActivity();
         callBack = (CallBack) fragment;
-        Log.e(TAG, "WritePadDialog: " + acid);
     }
 
     private static final int BACKGROUND_COLOR = WHITE;

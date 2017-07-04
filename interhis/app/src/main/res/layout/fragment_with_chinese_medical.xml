@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="WithChineseMedicalFragment"
+        android:text="敬请期待"
         android:textSize="@dimen/text_big"/>
 
 </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

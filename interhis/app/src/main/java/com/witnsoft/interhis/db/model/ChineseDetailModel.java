@@ -41,14 +41,6 @@ public class ChineseDetailModel {
     @Column(name = "CDM")
     private String cdm;
 
-    public String getSfxmbm() {
-        return sfxmbm;
-    }
-
-    public void setSfxmbm(String sfxmbm) {
-        this.sfxmbm = sfxmbm;
-    }
-
     // 中药名称
     @Column(name = "CMC")
     private String cmc;
@@ -73,12 +65,8 @@ public class ChineseDetailModel {
     @Column(name = "dj")
     private String bzjg;
 
-//    private String XMMC;//药名
-//    private String XMRJ;//药品拼音
-//    private String SFDLBM;//药品类别
-
     //判断是否上传服务器
-    @Column(name ="isUploadSever")
+    @Column(name = "isUploadSever")
     private boolean isUploadSever;
 
 
@@ -90,29 +78,11 @@ public class ChineseDetailModel {
         isUploadSever = uploadSever;
     }
 
-//    public String getXMMC() {
-//        return XMMC;
-//    }
-//
-//    public void setXMMC(String XMMC) {
-//        this.XMMC = XMMC;
-//    }
-//
-//    public String getXMRJ() {
-//        return XMRJ;
-//    }
-//
-//    public void setXMRJ(String XMRJ) {
-//        this.XMRJ = XMRJ;
-//    }
-
-
-
     public ChineseModel getChinese(DbManager db) throws DbException {
         return db.findById(ChineseModel.class, accid);
     }
 
-    public void setAccid(String acmId){
+    public void setAccid(String acmId) {
         this.accid = acmId;
     }
 
@@ -183,5 +153,4 @@ public class ChineseDetailModel {
     public String getDj() {
         return bzjg;
     }
-
 }
