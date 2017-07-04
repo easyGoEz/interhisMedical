@@ -40,7 +40,6 @@ import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
-import com.witnsoft.interhis.rightpage.chinesemedical.OnPageChanged;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.libinterhis.utils.ClearEditText;
 import com.witnsoft.libnet.model.DataModel;
@@ -112,7 +111,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private static final String TAG = "WesternFragment";
     private static final String PKG = "com.witnsoft.interhis";
     private static final int REQUEST_PERMISSION = 100;
-    private OnPageChanged onPageChanged;
+    private OnWesternPageChanged onWesternPageChanged;
 
     private View rootView;
     private List<WesternDetailModel> searchList = new ArrayList<>();
@@ -474,8 +473,8 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
             public void onSuccess(Map map, String s) {
                 JSONObject json = new JSONObject(map);
                 try {
-                    String acid = json.getJSONObject("DATA").getString("acid");
-                    callUpdateImg(acid, path);
+                    String awid = json.getJSONObject("DATA").getString("awid");
+                    callUpdateImg(awid, path);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -495,7 +494,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private OkHttpClient okHttpClient;
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    private void callUpdateImg(String acid, String path) {
+    private void callUpdateImg(String awid, String path) {
         final String url = "https://zy.renyibao.com/FileUploadServlet";
         File file = new File(path);
         okHttpClient = (new OkHttpClient.Builder()).retryOnConnectionFailure(true).connectTimeout(5L, TimeUnit.SECONDS)
@@ -504,8 +503,8 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         MultipartBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addPart(Headers.of("Content-Disposition", "form-data; name= \"file\"; filename=\"img.png\""), fileBody)
-                .addFormDataPart("fjlb", "ask_chinese")
-                .addFormDataPart("keyid", acid)
+                .addFormDataPart("fjlb", "ask_western")
+                .addFormDataPart("keyid", awid)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
@@ -588,7 +587,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         message.setAttribute("yaoNum", yaoNum);
         message.setAttribute("yaofangPrice", yaofangPrice);
         EMClient.getInstance().chatManager().sendMessage(message);
-        onPageChanged.callBack();
+        onWesternPageChanged.callBack();
     }
 
     /**
@@ -957,7 +956,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         }
     };
 
-    public void setOnPageChanged(OnPageChanged onPageChanged) {
-        this.onPageChanged = onPageChanged;
+    public void setOnWesternPageChanged(OnWesternPageChanged onWesternPageChanged) {
+        this.onWesternPageChanged = onWesternPageChanged;
     }
 }

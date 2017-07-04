@@ -17,9 +17,9 @@ import com.witnsoft.interhis.rightpage.chinesemedical.ChineseMedicalFragment;
 import com.witnsoft.interhis.rightpage.chinesemedical.OnPageChanged;
 import com.witnsoft.interhis.rightpage.diagnosis.DiagnosisFragment;
 import com.witnsoft.interhis.rightpage.history.HistoryFragment;
+import com.witnsoft.interhis.rightpage.westernmedical.OnWesternPageChanged;
 import com.witnsoft.interhis.rightpage.westernmedical.WesternFragment;
 import com.witnsoft.interhis.rightpage.withchinesemedical.WithChineseMedicalFragment;
-import com.witnsoft.interhis.setting.ChildBaseFragment;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -115,6 +115,12 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         initMed(chineseMedicalFragment);
         WithChineseMedicalFragment withChineseMedicalFragment = new WithChineseMedicalFragment();
         WesternFragment westernFragment = new WesternFragment();
+        westernFragment.setOnWesternPageChanged(new OnWesternPageChanged() {
+            @Override
+            public void callBack() {
+                viewPager.setCurrentItem(TAG_CAHT);
+            }
+        });
         initMed(westernFragment);
         HistoryFragment historyFragment = new HistoryFragment();
         // viewpager开始添加view

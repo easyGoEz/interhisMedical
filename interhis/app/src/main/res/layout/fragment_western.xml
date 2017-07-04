@@ -16,6 +16,7 @@
             android:id="@+id/lv_med_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@color/colorWhite"
             android:dividerHeight="0px"/>
 
     </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

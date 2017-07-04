@@ -90,6 +90,15 @@ public class MedicalCountDialog {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String medCount = medCountList.get(position);
                     searchModel.setSl(medCount);
+                    if (!TextUtils.isEmpty(searchModel.getDj())) {
+                        try {
+                            double dj = Double.parseDouble(searchModel.getDj());
+                            double je = dj * Integer.parseInt(medCount);
+                            searchModel.setJe(String.valueOf(je));
+                        } catch (Exception e) {
+
+                        }
+                    }
                     if (!isEdit) {
                         callBackMedCount.onMedAdd(searchModel);
                     } else {
@@ -119,6 +128,15 @@ public class MedicalCountDialog {
                                     medCount.replace("g", "");
                                 }
                                 searchModel.setSl(medCount);
+                                if (!TextUtils.isEmpty(searchModel.getDj())) {
+                                    try {
+                                        double dj = Double.parseDouble(searchModel.getDj());
+                                        double je = dj * num;
+                                        searchModel.setJe(String.valueOf(je));
+                                    } catch (Exception e) {
+
+                                    }
+                                }
                                 if (!isEdit) {
                                     callBackMedCount.onMedAdd(searchModel);
                                 } else {

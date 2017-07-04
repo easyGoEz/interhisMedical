@@ -26,7 +26,8 @@ public class ChuFangChinese extends ChuFangBase {
                 jsonObject.put("cmc", list.get(i).getCmc())
                         .put("sl", list.get(i).getSl())
                         .put("cdm", list.get(i).getCdm())
-                        .put("dj", list.get(i).getDj());
+                        .put("dj", list.get(i).getDj())
+                        .put("je", list.get(i).getJe());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -39,10 +40,11 @@ public class ChuFangChinese extends ChuFangBase {
         for (int i = 0; i < list.size(); i++) {
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("cmc", list.get(i).getCmc())
-                        .put("sl", list.get(i).getSl())
-                        .put("cdm", list.get(i).getAwDm())
-                        .put("dj", list.get(i).getDj());
+                jsonObject.put("awmc", list.get(i).getCmc())
+                        .put("awsl", list.get(i).getSl())
+                        .put("awdm", list.get(i).getAwDm())
+                        .put("dj", list.get(i).getDj())
+                        .put("je", list.get(i).getJe());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
