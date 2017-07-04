@@ -121,7 +121,7 @@ public class SecondDialogActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.second_dialog_five:
                 try {
-                    chineseDetailModel=HisDbManager.getManager().findChineseDeatilModelA(accid,medical,chineseCount);
+                    chineseDetailModel=HisDbManager.getManager().findChineseDetailModelA(accid,medical,chineseCount);
                     chineseDetailModel.setSl("5");
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -137,7 +137,7 @@ public class SecondDialogActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.second_dialog_ten:
                 try {
-                    chineseDetailModel=HisDbManager.getManager().findChineseDeatilModelA(accid,medical,chineseCount);
+                    chineseDetailModel=HisDbManager.getManager().findChineseDetailModelA(accid,medical,chineseCount);
                     chineseDetailModel.setSl("10");
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -153,7 +153,7 @@ public class SecondDialogActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.second_dialog_fifteen:
                 try {
-                    chineseDetailModel=HisDbManager.getManager().findChineseDeatilModelA(accid,medical,chineseCount);
+                    chineseDetailModel=HisDbManager.getManager().findChineseDetailModelA(accid,medical,chineseCount);
                     chineseDetailModel.setSl("15");
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -169,7 +169,7 @@ public class SecondDialogActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.second_dialog_twenty:
                 try {
-                    chineseDetailModel=HisDbManager.getManager().findChineseDeatilModelA(accid,medical,chineseCount);
+                    chineseDetailModel=HisDbManager.getManager().findChineseDetailModelA(accid,medical,chineseCount);
                     chineseDetailModel.setSl("20");
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -185,7 +185,7 @@ public class SecondDialogActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.second_dialog_number:
                 try {
-                    chineseDetailModel=HisDbManager.getManager().findChineseDeatilModelA(accid,medical,chineseCount);
+                    chineseDetailModel=HisDbManager.getManager().findChineseDetailModelA(accid,medical,chineseCount);
                     chineseDetailModel.setSl(String.valueOf(num));
                 } catch (DbException e) {
                     e.printStackTrace();

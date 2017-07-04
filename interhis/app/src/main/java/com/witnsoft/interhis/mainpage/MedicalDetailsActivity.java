@@ -84,7 +84,7 @@ public class MedicalDetailsActivity extends BaseActivity {
 
     private void initData() {
         try {
-            list = HisDbManager.getManager().findChineseDeatilModel(acid);
+            list = HisDbManager.getManager().findChineseDetailModel(acid);
         } catch (DbException e) {
             e.printStackTrace();
         }

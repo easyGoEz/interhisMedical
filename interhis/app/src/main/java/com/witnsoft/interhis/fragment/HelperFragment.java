@@ -472,7 +472,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
                 if (chineseDetailModel.isUploadSever() == false) {
                     //查询数据库
                     try {
-                        data = HisDbManager.getManager().findChineseDeatilModel(helperId);
+                        data = HisDbManager.getManager().findChineseDetailModel(helperId);
                     } catch (DbException e1) {
                         e1.printStackTrace();
                     }
@@ -494,7 +494,7 @@ public class HelperFragment extends ChildBaseFragment implements View.OnClickLis
                 for (int i = 0; i < chineseModelList.size(); i++) {
                     if (chineseModelList.get(i).isUploadSever() == false || chineseModelList == null) {
                         try {
-                            data = HisDbManager.getManager().findChineseDeatilModel(helperId);
+                            data = HisDbManager.getManager().findChineseDetailModel(helperId);
                         } catch (DbException e1) {
                             e1.printStackTrace();
                         }

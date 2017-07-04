@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -41,7 +40,6 @@ import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
-import com.witnsoft.interhis.setting.myinfo.MyInfoFragment;
 import com.witnsoft.libinterhis.utils.ClearEditText;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
@@ -81,8 +79,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-
-import static android.graphics.Color.BLACK;
 
 /**
  * Created by zhengchengpeng on 2017/6/29.
@@ -152,7 +148,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         aiid = getArguments().getString("aiid");
         tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
         gson = new Gson();
-//        initTopMed();
         initSearch();
         initData();
         initFixedSearchData();
@@ -233,14 +228,14 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     }
 
     /**
-     * 读取数据库
+     * 读取数据库(开具处方药)
      */
     private void initData() {
-        Observable.create(new Observable.OnSubscribe<List<ChineseModel>>() {
+        Observable.create(new Observable.OnSubscribe<List<ChineseDetailModel>>() {
             @Override
-            public void call(Subscriber<? super List<ChineseModel>> subscriber) {
+            public void call(Subscriber<? super List<ChineseDetailModel>> subscriber) {
                 try {
-                    List<ChineseModel> chineseTopList = HisDbManager.getManager().findChineseMode(helperId);
+                    List<ChineseDetailModel> chineseTopList = HisDbManager.getManager().findChineseDetailModel(helperId);
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onNext(chineseTopList);
                         subscriber.onCompleted();
@@ -259,7 +254,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             }
         }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<ChineseModel>>() {
+                .subscribe(new Subscriber<List<ChineseDetailModel>>() {
 
                     @Override
                     public void onCompleted() {
@@ -267,13 +262,13 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getActivity(), "数据库读取异常（读取chineseTopList）", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "数据库读取异常（读取medTopList）", Toast.LENGTH_LONG).show();
                         initTopMed();
                     }
 
                     @Override
-                    public void onNext(List<ChineseModel> list) {
-                        chineseTopList = list;
+                    public void onNext(List<ChineseDetailModel> list) {
+                        medTopList = list;
                         initTopMed();
                     }
                 });
@@ -304,17 +299,10 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     public void onMedAdd(ChineseDetailModel searchModel) {
         // 处方增加
         if (null != searchModel) {
+            searchModel.setAccid(helperId);
             medTopList.add(searchModel);
             chineseMedTopAdapter.notifyDataSetChanged();
             amountShow();
-            // TODO: 2017/6/30 搜索选择返回存数据库并刷新视图
-//            try {
-//                ChineseModel chineseModel = new ChineseModel();
-//                chineseModel.setChineseDetailModel(medTopList);
-//                HisDbManager.getManager().saveAskChinese(chineseModel);
-//            } catch (DbException e) {
-//
-//            }
         }
     }
 
@@ -324,6 +312,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         if (null != medTopList && 0 < medTopList.size()) {
             for (int i = 0; i < medTopList.size(); i++) {
                 if (medTopList.get(i).getCmc().equals(searchModel.getCmc())) {
+                    searchModel.setAccid(helperId);
                     medTopList.set(i, searchModel);
                     break;
                 }
@@ -384,7 +373,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         String signPath = saveBitmap(bitmap);
         ivSignature.setImageBitmap(bitmap);
         // 上传图片和药方
-//        callUpdate(signPath);
         callZdsmData(signPath);
     }
 
@@ -465,15 +453,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private String je;
 
     private void callUpdate(final String path) {
-//        try {
-//            ChineseModel chineseModel = HisDbManager.getManager().findChineseModel(helperId);
-//            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
-//                //诊断说明
-//                zdsm = chineseModel.getZdsm();
-//            }
-//        } catch (DbException e) {
-//
-//        }
         //生成json串 并上传服务器
         final ChuFangChinese chufang = new ChuFangChinese();
         otRequest = new OTRequest(getActivity().getBaseContext());
@@ -557,7 +536,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
                                                 createMedical(helperId, "中药", aiid, acmxs, je);
                                                 // TODO: 2017/7/3 存数据库
-//                                                saveData();
+                                                saveData();
                                             }
                                         });
                                     } else if (!TextUtils.isEmpty(errCode)) {
@@ -606,17 +585,18 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     /**
      * 上传服务器成功后存数据库
      */
-    private ChineseModel chineseModel = null;
-
     private void saveData() {
         try {
-            chineseModel = HisDbManager.getManager().findChineseModel(helperId);
-            if (null != chineseModel) {
-                // 更新
-//                chineseModel.set
-            } else {
-                // 创建
+            if (null != medTopList && 0 < medTopList.size()) {
+                for (int i = 0; i < medTopList.size(); i++) {
+                    if (TextUtils.isEmpty(medTopList.get(i).getTime())) {
+                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+                        String date = sDateFormat.format(new java.util.Date());
+                        medTopList.get(i).setTime(date);
+                    }
+                }
             }
+            HisDbManager.getManager().saveChineseDetailList(medTopList);
         } catch (DbException e) {
 
         }
@@ -660,25 +640,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
      */
     private void initFixedSearchData() {
         final String[] fixedMed = getActivity().getResources().getStringArray(R.array.chinese_fixed_list);
-//        List<Map<String, String>> asd = new ArrayList<>();
-//        for (int j = 0; j < fixedMed.length; j++) {
-//            List<String> columnName = new ArrayList<>();
-//            Cursor cursor = DataHelper.getInstance(getContext()).getFixedMed(fixedMed[j]);
-//            for (int i = 0; i < cursor.getColumnCount(); i++) {
-//                columnName.add(cursor.getColumnName(i));
-//            }
-//            if (cursor != null && cursor.moveToFirst()) {
-//                do {
-//                    map = new HashMap<>();
-//                    for (int i = 0; i < columnName.size(); i++) {
-//                        map.put(columnName.get(i), cursor.getString(cursor.getColumnIndex(columnName.get(i))));
-//                    }
-//                    asd.add(map);
-//                    break;
-//                } while (cursor.moveToNext());
-//            }
-//            cursor.close();
-//        }
         Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
             @Override
             public void call(Subscriber<? super List<Map<String, String>>> subscriber) {

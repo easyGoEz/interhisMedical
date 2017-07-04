@@ -123,7 +123,7 @@ public class HisDbManager {
     }
 
     //查询字表中所有的数据
-    public List<ChineseDetailModel> findChineseDeatilModel(String accid) throws DbException {
+    public List<ChineseDetailModel> findChineseDetailModel(String accid) throws DbException {
         Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).findAll();
         if (null == message) {
             message = new ArrayList();
@@ -132,7 +132,7 @@ public class HisDbManager {
     }
 
     //查询字表中的药品数量
-    public ChineseDetailModel findChineseDeatilModelA(String accid, String cmc, String sl) throws DbException {
+    public ChineseDetailModel findChineseDetailModelA(String accid, String cmc, String sl) throws DbException {
         Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).and("CMC", "=", cmc).and("SL", "=", sl).findFirst();
         if (null == message) {
             message = new ChineseDetailModel();
@@ -169,6 +169,10 @@ public class HisDbManager {
 
     public void upDateChineseModel(ChineseModel chineseModel) throws DbException {
         this.manager.update(chineseModel, "ZDSM");
+    }
+
+    public void saveChineseDetailList(List<ChineseDetailModel> list) throws DbException {
+        this.manager.saveOrUpdate(list);
     }
 
 }
