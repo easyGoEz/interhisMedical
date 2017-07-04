@@ -7,11 +7,18 @@
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <GridView
-        android:id="@+id/gv_med_top"
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
         android:layout_width="match_parent"
         android:layout_height="400px"
-        android:numColumns="4"/>
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_med_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="0px"/>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
     <EditText
         android:id="@+id/et_usage"
@@ -150,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
-                    android:numColumns="3"/>
+                    android:numColumns="auto_fit"/>
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 

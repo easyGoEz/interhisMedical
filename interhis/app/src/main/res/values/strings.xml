@@ -142,4 +142,37 @@
     <string name="please_enter_dialogsis">请输入诊断</string>
     <string name="save_success">保存成功</string>
     <!--DiagnosisFragment end-->
+
+    <!--WesternFragment begin-->
+    <string-array name="western_fixed_list">
+        <item>普伐他汀钠片</item>
+        <item>曲匹布通片</item>
+        <item>曲匹布通片</item>
+        <item>复方甘草酸苷注射液</item>
+        <item>盐酸罂粟碱氯化钠注射液</item>
+        <item>艾司唑仑片</item>
+        <item>注射用头孢哌酮钠</item>
+        <item>磷酸奥司他韦胶囊</item>
+        <item>红霉素肠溶胶囊</item>
+        <item>葡萄糖注射液</item>
+        <item>复方甘草酸苷片</item>
+        <item>卡托普利片</item>
+        <item>盐酸特比萘芬片</item>
+        <item>罗红霉素缓释胶囊</item>
+        <item>利巴韦林颗粒</item>
+        <item>注射用脂溶性维生素</item>
+        <item>维生素K1片</item>
+        <item>氯雷他定片</item>
+    </string-array>
+    <string-array name="med_count_day">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string name="day">天</string>
+    <!--WesternFragment end-->
 </resources>

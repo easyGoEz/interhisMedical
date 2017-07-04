@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.rightpage.chinesemedical;
+package com.witnsoft.interhis.rightpage.westernmedical;
 
 import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.db.model.ChineseDetailModel;
+import com.witnsoft.interhis.db.model.WesternDetailModel;
+import com.witnsoft.interhis.rightpage.chinesemedical.MedicalCountAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,10 @@ import java.util.List;
 import rx.functions.Action1;
 
 /**
- * Created by zhengchengpeng on 2017/6/30.
+ * Created by zhengchengpeng on 2017/7/4.
  */
 
-public class MedicalCountDialog {
-
+public class WesternMedCountDialog {
     private Fragment context;
     private String medName;
     private String[] medCountNum;
@@ -38,10 +38,11 @@ public class MedicalCountDialog {
     private TextView tvAdd;
     private TextView tvNum;
     private TextView tvMinus;
+    private TextView tvUnit;
     private CallBackMedCount callBackMedCount;
-    private ChineseDetailModel searchModel = new ChineseDetailModel();
+    private WesternDetailModel searchModel = new WesternDetailModel();
 
-    public MedicalCountDialog(Fragment context, ChineseDetailModel searchModel, String[] medCountNum) {
+    public WesternMedCountDialog(Fragment context, WesternDetailModel searchModel, String[] medCountNum) {
         this.context = context;
         this.searchModel = searchModel;
         this.medCountNum = medCountNum;
@@ -64,6 +65,8 @@ public class MedicalCountDialog {
         tvAdd = (TextView) window.findViewById(R.id.tv_add);
         tvNum = (TextView) window.findViewById(R.id.tv_num);
         tvMinus = (TextView) window.findViewById(R.id.tv_minus);
+        tvUnit = (TextView) window.findViewById(R.id.tv_unit);
+        tvUnit.setText("天");
         callBackMedCount = (CallBackMedCount) context;
         if (isEdit) {
             btnDelete.setVisibility(View.VISIBLE);
@@ -83,7 +86,8 @@ public class MedicalCountDialog {
             for (int i = 0; i < medCountNum.length; i++) {
                 medCountList.add(medCountNum[i]);
             }
-            MedicalCountAdapter medicalAdapter = new MedicalCountAdapter(context.getActivity(), medCountList, "g");
+            MedicalCountAdapter medicalAdapter = new MedicalCountAdapter(context.getActivity(), medCountList,
+                    context.getResources().getString(R.string.day));
             lvCount.setAdapter(medicalAdapter);
             lvCount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -115,8 +119,8 @@ public class MedicalCountDialog {
                                 num = 0;
                             }
                             if (0 < num) {
-                                if (medCount.contains("g")) {
-                                    medCount.replace("g", "");
+                                if (medCount.contains(context.getResources().getString(R.string.day))) {
+                                    medCount.replace(context.getResources().getString(R.string.day), "");
                                 }
                                 searchModel.setSl(medCount);
                                 if (!isEdit) {
@@ -187,12 +191,12 @@ public class MedicalCountDialog {
 
     public interface CallBackMedCount {
         // 添加接口
-        void onMedAdd(ChineseDetailModel searchModel);
+        void onMedAdd(WesternDetailModel searchModel);
 
         // 修改接口
-        void onMedChange(ChineseDetailModel searchModel);
+        void onMedChange(WesternDetailModel searchModel);
 
         // 删除接口
-        void onMedDelete(ChineseDetailModel searchModel);
+        void onMedDelete(WesternDetailModel searchModel);
     }
 }

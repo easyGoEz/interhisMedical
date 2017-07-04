@@ -267,7 +267,12 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
                     @Override
                     public void onNext(List<ChineseDetailModel> list) {
-                        medTopList = list;
+                        medTopList.clear();
+                        if (null != list && 0 < list.size()) {
+                            for (int i = 0; i < list.size(); i++) {
+                                medTopList.add(list.get(i));
+                            }
+                        }
                         initTopMed();
                     }
                 });
@@ -458,7 +463,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         otRequest = new OTRequest(getActivity().getBaseContext());
         otRequest.setTN(TN_DOC_KAIYAO);
         final DataModel data = new DataModel();
-        data.setDataJSONStr(String.valueOf(chufang.fromJSON(medTopList, aiid, zdsm, acmxs, acsm, je)));
+        data.setDataJSONStr(String.valueOf(chufang.fromJSONChinese(medTopList, aiid, zdsm, acmxs, acsm, je)));
         otRequest.setDATA(data);
         NetTool.getInstance().startRequest(false, true, getActivity(), null, otRequest, new CallBack<Map, String>() {
             @Override

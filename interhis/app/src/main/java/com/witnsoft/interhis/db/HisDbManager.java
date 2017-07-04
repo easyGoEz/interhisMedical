@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
+import com.witnsoft.interhis.db.model.WesternDetailModel;
 import com.witnsoft.libinterhis.utils.FileUtils;
 import com.witnsoft.libinterhis.utils.LogUtils;
 
@@ -111,15 +112,6 @@ public class HisDbManager {
         this.manager.update(chineseModel, "isUploadSever");
     }
 
-    //查询字表中所有的数据
-    public List<ChineseDetailModel> findChineseDetailModel(String accid) throws DbException {
-        Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).findAll();
-        if (null == message) {
-            message = new ArrayList();
-        }
-        return (List<ChineseDetailModel>) message;
-    }
-
     //查询字表中的药品数量
     public ChineseDetailModel findChineseDetailModelA(String accid, String cmc, String sl) throws DbException {
         Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).and("CMC", "=", cmc).and("SL", "=", sl).findFirst();
@@ -166,6 +158,30 @@ public class HisDbManager {
 
     public void deleteChineseDetailList(List<ChineseDetailModel> list) throws DbException {
         this.manager.delete(list);
+    }
+
+    public void saveWesternDetailList(List<WesternDetailModel> list) throws DbException {
+        this.manager.saveOrUpdate(list);
+    }
+
+    public void deleteWesternDetailList(List<WesternDetailModel> list) throws DbException {
+        this.manager.delete(list);
+    }
+
+    public List<ChineseDetailModel> findChineseDetailModel(String accid) throws DbException {
+        Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).findAll();
+        if (null == message) {
+            message = new ArrayList();
+        }
+        return (List<ChineseDetailModel>) message;
+    }
+
+    public List<WesternDetailModel> findWesternDetailList(String accid) throws DbException {
+        Object message = this.manager.selector(WesternDetailModel.class).where("ACCID", "=", accid).findAll();
+        if (null == message) {
+            message = new ArrayList();
+        }
+        return (List<WesternDetailModel>) message;
     }
 
 }

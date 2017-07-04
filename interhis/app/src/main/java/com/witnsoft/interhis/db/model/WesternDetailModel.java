@@ -11,9 +11,12 @@ import org.xutils.db.annotation.Table;
 @Table(name = "ASK_WESTERN_MX")
 public class WesternDetailModel {
     // primary key
-    @Column(name = "ACCID",
+    @Column(name = "TIME",
             isId = true,
             autoGen = false)
+    private String time;
+
+    @Column(name = "ACCID")
     private String accid;
 
     // 西药代码
@@ -51,6 +54,14 @@ public class WesternDetailModel {
     private String XMMC;//药名
     private String XMRJ;//药品拼音
     private int SFDLBM;//药品类别
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getXMMC() {
         return XMMC;

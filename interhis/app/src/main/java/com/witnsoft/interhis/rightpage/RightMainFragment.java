@@ -112,9 +112,10 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
                 viewPager.setCurrentItem(TAG_CAHT);
             }
         });
-        initChineseMed(chineseMedicalFragment);
+        initMed(chineseMedicalFragment);
         WithChineseMedicalFragment withChineseMedicalFragment = new WithChineseMedicalFragment();
         WesternFragment westernFragment = new WesternFragment();
+        initMed(westernFragment);
         HistoryFragment historyFragment = new HistoryFragment();
         // viewpager开始添加view
         viewContainter.add(chatFragment);
@@ -214,7 +215,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         fragment.setArguments(bundle);
     }
 
-    private void initChineseMed(Fragment fragment) {
+    private void initMed(Fragment fragment) {
         Bundle bundle = new Bundle();
         bundle.putString("aiid", this.aiid);
         bundle.putString("userId", this.helperId);

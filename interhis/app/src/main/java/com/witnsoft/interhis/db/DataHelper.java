@@ -41,7 +41,7 @@ public class DataHelper {
         yaoListDBHelper.close();
     }
 
-    //根据拼音进行查询
+    //根据拼音进行查询(中药)
     public Cursor getXMRJ(String keyword) {
         Log.e("11111", "getXMRJ: " + keyword);
         Cursor cursor = db.rawQuery("select * from " + YaoListDBHelper.YAO_TB_NAME + " where sfdlbm='003' and xmrj like ? ", new String[]{"%" + keyword + "%"});
@@ -49,9 +49,23 @@ public class DataHelper {
         return cursor;
     }
 
-    //根据名称进行查询
+    //根据名称进行查询(中药)
     public Cursor getFixedMed(String keyword) {
         Cursor cursor = db.rawQuery("select * from " + YaoListDBHelper.YAO_TB_NAME + " where sfdlbm='003' and xmmc=?", new String[]{keyword});
+        return cursor;
+    }
+
+    //根据拼音进行查询(西药)
+    public Cursor getWesternXMRJ(String keyword) {
+        Log.e("11111", "getXMRJ: " + keyword);
+        Cursor cursor = db.rawQuery("select * from " + YaoListDBHelper.YAO_TB_NAME + " where sfdlbm='001' and xmrj like ? ", new String[]{"%" + keyword + "%"});
+        Log.e("2222", "getXMRJ: " + cursor.getCount());
+        return cursor;
+    }
+
+    //根据名称进行查询(西药)
+    public Cursor getWesternFixedMed(String keyword) {
+        Cursor cursor = db.rawQuery("select * from " + YaoListDBHelper.YAO_TB_NAME + " where sfdlbm='001' and xmmc=?", new String[]{keyword});
         return cursor;
     }
 }
