@@ -101,15 +101,6 @@ public class HisDbManager {
         this.manager.delete(model);
     }
 
-    //根据药名删除数据库
-    public void deleteAskChinese(String str) throws DbException {
-        this.manager.delete(ChineseDetailModel.class, WhereBuilder.b("CMC", "=", str));
-    }
-
-    public void deleteAskNumbwe(String accid) throws DbException {
-        this.manager.delete(ChineseDetailModel.class, WhereBuilder.b("accid", "=", accid));
-    }
-
     //更新数据的方法
     public void upDate(ChineseDetailModel chineseDetailModel) throws DbException {
         this.manager.update(chineseDetailModel, "SL");
@@ -171,6 +162,10 @@ public class HisDbManager {
 
     public void saveChineseDetailList(List<ChineseDetailModel> list) throws DbException {
         this.manager.saveOrUpdate(list);
+    }
+
+    public void deleteChineseDetailList(List<ChineseDetailModel> list) throws DbException {
+        this.manager.delete(list);
     }
 
 }

@@ -108,18 +108,17 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     private static final String TAG = "ChineseMedicalFragment";
     private static final String PKG = "com.witnsoft.interhis";
-    public static final int REQUEST_PERMISSION = 100;
+    private static final int REQUEST_PERMISSION = 100;
     private OnPageChanged onPageChanged;
 
     private View rootView;
     private List<ChineseDetailModel> searchList = new ArrayList<>();
     private List<ChineseDetailModel> medTopList = new ArrayList<>();
+    private List<ChineseDetailModel> deleteList = new ArrayList<>();
     private ChineseMedSearchAdapter chineseMedSearchAdapter = null;
     private ChineseMedicalTopAdapter chineseMedTopAdapter = null;
     private Gson gson;
     private PackageManager pm;
-
-    private List<ChineseModel> chineseTopList = new ArrayList<>();
 
     private String helperId;
 
@@ -166,7 +165,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             @Override
             public void afterTextChanged(Editable s) {
                 String pinyin = etSearch.getText().toString();
-                if (pinyin.length() >= 1) {
+                if (1 <= pinyin.length()) {
                     // 从数据库拼音搜索
                     searchData(pinyin);
                 } else {
@@ -332,6 +331,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                     break;
                 }
             }
+            deleteList.add(searchModel);
             chineseMedTopAdapter.notifyDataSetChanged();
             amountShow();
         }
@@ -596,6 +596,14 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                     }
                 }
             }
+            // 删除的药方
+            if (null != deleteList && 0 < deleteList.size()) {
+                try {
+                    HisDbManager.getManager().deleteChineseDetailList(deleteList);
+                } catch (DbException e) {
+
+                }
+            }
             HisDbManager.getManager().saveChineseDetailList(medTopList);
         } catch (DbException e) {
 
@@ -713,7 +721,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     }
 
-    // 金额和数量显示
+    /**
+     * 金额和数量显示
+     */
     private void amountShow() {
         int numMedCount = 0;
         double moneyMedCount = 0.0;
@@ -824,8 +834,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                         chineseMedSearchAdapter.notifyDataSetChanged();
                     }
                 });
-
-
     }
 
     private Keyboard k1;//字母键盘
@@ -908,7 +916,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 changeKey();
                 keyboardView.setKeyboard(k1);
             } else if (primaryCode == Keyboard.KEYCODE_CANCEL) {
-//                initData();
+
             } else {
                 editable.insert(start, Character.toString((char) primaryCode));
             }

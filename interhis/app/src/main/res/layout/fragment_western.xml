@@ -1,14 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <TextView
+    <GridView
+        android:id="@+id/gv_med_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="WesternFragment"/>
+        android:layout_height="400px"
+        android:numColumns="4"/>
+
+    <EditText
+        android:id="@+id/et_usage"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="@drawable/edittext"
+        android:gravity="top"
+        android:hint="@string/enter_usage"
+        android:padding="20px"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/text_big"/>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20px">
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_login"
+                android:paddingBottom="20px"
+                android:paddingLeft="70px"
+                android:paddingRight="70px"
+                android:paddingTop="20px"
+                android:text="@string/save"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_big"/>
+
+            <TextView
+                android:id="@+id/tv_signature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100px"
+                android:text="@string/doc_signature"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_big"/>
+
+            <ImageView
+                android:id="@+id/iv_signature"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginLeft="10px"/>
+
+            <TextView
+                android:id="@+id/tv_med_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150px"
+                android:text="@string/medical_count"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_big"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100px"
+                android:text="@string/count"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_big"/>
+
+            <TextView
+                android:id="@+id/tv_med_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_big"
+                tools:text="700元"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="@string/money_count_tip"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/text_big"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/ll_bottom"
+            android:layout_marginTop="20px"
+            android:orientation="horizontal">
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/ll_left"
+                android:layout_width="800px"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <com.witnsoft.libinterhis.utils.ClearEditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="80px"
+                    android:layout_marginTop="20px"
+                    android:background="@drawable/edittext"
+                    android:hint="@string/enter_letter"
+                    android:paddingLeft="20px"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_big"/>
+
+                <android.inputmethodservice.KeyboardView
+                    android:id="@+id/keyboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20px"
+                    android:background="@color/colorWhite"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:keyTextSize="@dimen/text_big"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/ll_left"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <GridView
+                    android:id="@+id/gv_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:numColumns="3"/>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
 
 </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

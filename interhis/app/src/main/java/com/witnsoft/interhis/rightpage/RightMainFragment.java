@@ -132,7 +132,6 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         rbHistory.setOnClickListener(this);
 
         viewPager.setAdapter(new MyFragmentPagerAdapter(getChildFragmentManager(), viewContainter));
-        viewPager.setCurrentItem(TAG_CAHT);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -199,6 +198,8 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
                 }
             }
         });
+        viewPager.setCurrentItem(TAG_CAHT);
+        rbChat.setChecked(true);
     }
 
     private void initChat(Fragment fragment) {
