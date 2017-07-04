@@ -1,49 +1,12 @@
-package com.witnsoft.interhis.Chufang;
+package com.witnsoft.interhis.updatemodel;
 
-import android.content.Context;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
-import com.witnsoft.interhis.setting.myinfo.MyInfoFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Cache;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by ${liyan} on 2017/6/14.

@@ -7,12 +7,10 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.Keyboard.Key;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.adapter.Chinese_RecycleView_Adapter;
 
 import java.util.List;
 
@@ -149,14 +147,4 @@ public class KeyboardUtil {
         }
         return false;
     }
-
-//    private void initData() {
-//        chinese_adapter = new Chinese_RecycleView_Adapter(ctx);
-//        String content = ed.getText().toString();
-//        if (!TextUtils.isEmpty(content)) {
-//            chinese_adapter.addTextView(content);
-//            chinese_adapter.notifyDataSetChanged();
-//            ed.setText("");
-//        }
-//    }
 }

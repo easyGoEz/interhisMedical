@@ -68,15 +68,6 @@ public class DiagnosisFragment extends Fragment {
             this.accId = getArguments().getString("userId");
         }
         callDb();
-//        try {
-//            chineseModel = HisDbManager.getManager().findChineseModel(accId);
-//            if (null != chineseModel && !TextUtils.isEmpty(chineseModel.getZdsm())) {
-//                //诊断说明
-//                etDiagnosis.setText(chineseModel.getZdsm());
-//            }
-//        } catch (DbException e) {
-//
-//        }
     }
 
     private void initClick() {

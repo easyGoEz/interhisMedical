@@ -8,9 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.adapter.Chinese_ListView_Adapter;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
-import com.witnsoft.interhis.inter.FilterListener;
 
 import java.util.ArrayList;
 import java.util.List;

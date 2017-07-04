@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.Chufang;
+package com.witnsoft.interhis.updatemodel;
 
 
 import com.witnsoft.interhis.db.model.ChineseDetailModel;

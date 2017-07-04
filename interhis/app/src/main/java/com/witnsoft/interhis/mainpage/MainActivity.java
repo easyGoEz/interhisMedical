@@ -35,12 +35,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.util.NetUtils;
-import com.witnsoft.interhis.Chufang.ChuFangChinese;
+import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.adapter.PatAdapter;
-import com.witnsoft.interhis.db.HisDbManager;
-import com.witnsoft.interhis.db.model.ChineseModel;
-import com.witnsoft.interhis.fragment.HelperFragment;
 import com.witnsoft.interhis.rightpage.RightMainFragment;
 import com.witnsoft.interhis.setting.SettingActivity;
 import com.witnsoft.interhis.tool.Application;
@@ -59,14 +56,12 @@ import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
 import com.witnsoft.libnet.net.NetTool;
 
-import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

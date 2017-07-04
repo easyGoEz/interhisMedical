@@ -1,10 +1,8 @@
 package com.witnsoft.interhis.db;
 
 import android.content.Context;
-import android.view.View;
 
 
-import com.witnsoft.interhis.Chufang.ChuFangChinese;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.libinterhis.utils.FileUtils;

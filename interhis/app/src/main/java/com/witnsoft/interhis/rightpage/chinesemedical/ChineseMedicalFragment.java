@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.jakewharton.rxbinding.view.RxView;
-import com.witnsoft.interhis.Chufang.ChuFangChinese;
+import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
@@ -535,7 +535,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                                                 Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
 
                                                 createMedical(helperId, "中药", aiid, acmxs, je);
-                                                // TODO: 2017/7/3 存数据库
+                                                // 存储数据库
                                                 saveData();
                                             }
                                         });
