@@ -817,11 +817,18 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         }
         tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count),
                 String.valueOf(numMedCount)));
-        tvMedMoney.setText(String.valueOf(moneyMedCount) + getResources().getString(R.string.yuan));
+        double value = convert(moneyMedCount);
+        tvMedMoney.setText(String.valueOf(value) + getResources().getString(R.string.yuan));
         // 付数
         acmxs = String.valueOf(numMedCount);
         //金额
         je = String.valueOf(moneyMedCount);
+    }
+
+    static double convert(double value) {
+        long l1 = Math.round(value * 100);
+        double ret = l1 / 100.00;
+        return ret;
     }
 
     private Map<String, String> map = new HashMap<>();
