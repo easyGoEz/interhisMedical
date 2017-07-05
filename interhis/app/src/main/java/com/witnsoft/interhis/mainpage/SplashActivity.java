@@ -6,12 +6,13 @@ import android.text.TextUtils;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle.components.RxActivity;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.libinterhis.utils.ImageUtility;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
+import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -28,8 +29,11 @@ public class SplashActivity extends RxActivity implements Animation.AnimationLis
 
     @ViewInject(R.id.iv_start)
     private ImageView ivStart;
+    @ViewInject(R.id.ll_init)
+    private AutoScaleLinearLayout llInit;
+    @ViewInject(R.id.pg_init)
+    private ProgressBar pgInit;
 
-    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,7 @@ public class SplashActivity extends RxActivity implements Animation.AnimationLis
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+//                        DataHelper.getInstance(SplashActivity.this);
                         //  token登录
                         if (!TextUtils.isEmpty(ThriftPreUtils.getToken(SplashActivity.this))) {
                             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -59,7 +64,6 @@ public class SplashActivity extends RxActivity implements Animation.AnimationLis
                             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
-//                        DataHelper.getInstance(SplashActivity.this);
                         finish();
                     }
                 });

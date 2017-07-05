@@ -111,7 +111,7 @@ public class EaseVoiceRecorderView extends RelativeLayout {
                             Toast.makeText(context, "您的权限未打开，请在[设置]中打开录音权限", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(context, "您的权限未打开，请在[设置]中打开录音权限", Toast.LENGTH_LONG).show();
+                        startRecording();
                     }
                 } catch (Exception e) {
                     v.setPressed(false);

@@ -12,25 +12,25 @@
         android:layout_height="match_parent">
 
         <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_init"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/init"
                 android:textColor="@color/text_gray_color"
-                android:textSize="@dimen/text_medium"
-                android:text="@string/init"/>
+                android:textSize="@dimen/text_medium"/>
 
             <ProgressBar
+                android:id="@+id/pg_init"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="50"/>
+                android:layout_height="wrap_content"/>
 
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
