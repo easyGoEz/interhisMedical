@@ -69,6 +69,12 @@ public class MyEaseChatRowProject extends EaseChatRow {
         adapter.notifyDataSetChanged();
     }
 
+    static double convert(double value) {
+        long l1 = Math.round(value * 100);
+        double ret = l1 / 100.00;
+        return ret;
+    }
+
     /**
      * 显示消息和位置等属性
      */
@@ -81,12 +87,25 @@ public class MyEaseChatRowProject extends EaseChatRow {
             String yaofangNum = message.getStringAttribute("yaofangNum", null);
             String yaoNum = message.getStringAttribute("yaoNum", null);
             String yaofangPrice = message.getStringAttribute("yaofangPrice", null);
+            String name = message.getStringAttribute("name", "患者");
 
-            this.userName.setText("您给" + userName + "开了一个");
+            this.userName.setText("您给" + name + "开了一个");
             this.yaofangType.setText(yaofangType + "处方");
             this.yaofangNum.setText("药方号：" + yaofangNum);
-            this.yaoNum.setText("共" + yaoNum + "付");
-            this.yaofangPrice.setText(yaofangPrice + "元");
+            if ("中药".equals(yaofangType)) {
+                this.yaoNum.setVisibility(VISIBLE);
+                this.yaoNum.setText("共" + yaoNum + "付");
+            } else {
+                this.yaoNum.setVisibility(GONE);
+            }
+            double price = 0.0;
+            try {
+                price = Double.parseDouble(yaofangPrice);
+            } catch (Exception e) {
+                price = 0.0;
+            }
+            price = convert(price);
+            this.yaofangPrice.setText(String.valueOf(price) + "元");
 
         }
 
@@ -97,7 +116,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
      */
     @Override
     protected void onBubbleClick() {
-        Intent intent=new Intent("MingXi");
+        Intent intent = new Intent("MingXi");
         getContext().sendBroadcast(intent);
 
     }

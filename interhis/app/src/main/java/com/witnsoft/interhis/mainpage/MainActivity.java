@@ -574,6 +574,7 @@ public class MainActivity extends BaseActivity {
                                             bundle.putInt("single", EaseConstant.CHATTYPE_SINGLE);
                                             bundle.putString("img_doc", headImg);
                                             bundle.putString("img_pat", dataChatList.get(position).get("PHOTOURL"));
+                                            bundle.putString("pat_name", dataChatList.get(position).get("PATNAME"));
                                             rightMainFragment.setArguments(bundle);
                                             fragmentManager = getSupportFragmentManager().beginTransaction();
 //                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -856,7 +857,7 @@ public class MainActivity extends BaseActivity {
 //                        fragmentManager = getFragmentManager().beginTransaction();
 //                        // 出栈所有fragment
 //                        fragmentManager.popBackStack(null, 1);
-                        getSupportFragmentManager().popBackStack(null,1);
+                        getSupportFragmentManager().popBackStack(null, 1);
                     }
                 });
             }

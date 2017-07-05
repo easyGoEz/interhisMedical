@@ -71,7 +71,7 @@ public class ChuFangChinese extends ChuFangBase {
         return dataJo;
     }
 
-    public JSONObject fromJSONWestern(List<WesternDetailModel> list, String aiid, String zdsm, String acmxs, String acsm, String je) {
+    public JSONObject fromJSONWestern(List<WesternDetailModel> list, String aiid, String zdsm, String acsm, String je) {
         setWesternList(list);
         // DATA
         JSONObject dataJo = new JSONObject();
@@ -79,7 +79,6 @@ public class ChuFangChinese extends ChuFangBase {
             dataJo.put("yftype", "western")
                     .put("aiid", aiid)
                     .put("zdsm", zdsm)
-                    .put("acmxs", acmxs)
                     .put("acsm", acsm)
                     .put("je", je)
                     .put("chufangmx", jsonArray);

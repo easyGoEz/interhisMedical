@@ -86,7 +86,7 @@ import rx.schedulers.Schedulers;
  */
 
 @ContentView(R.layout.fragment_chinese_medical)
-public class ChineseMedicalFragment extends Fragment implements MedicalCountDialog.CallBackMedCount, WritePadDialog.CallBack {
+public class ChineseMedicalFragment extends Fragment implements MedicalCountDialog.CallBackMedCount, WritePadDialog.CallBack, MedCountDialog.CallBackMedCount {
 
     @ViewInject(R.id.keyboard)
     private KeyboardView keyboardView;
@@ -122,6 +122,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private PackageManager pm;
 
     private String helperId;
+    private String patName;
 
     @Nullable
     @Override
@@ -146,8 +147,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         } catch (Exception e) {
             this.helperId = getArguments().getString("userId");
         }
-        aiid = getArguments().getString("aiid");
-        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
+        this.patName = getArguments().getString("pat_name");
+        this.aiid = getArguments().getString("aiid");
         gson = new Gson();
         initSearch();
         initData();
@@ -187,13 +188,24 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                             Toast.makeText(getActivity(), getResources().getString(R.string.pleas_enter_usage),
                                     Toast.LENGTH_LONG).show();
                         } else {
-                            acsm = etUsage.getText().toString();
-                            WritePadDialog writePadDialog = new WritePadDialog(ChineseMedicalFragment.this, R.style.SignBoardDialog);
-                            writePadDialog.show();
-                            writePadDialog.setCanceledOnTouchOutside(true);
+                            String[] medCount = getActivity().getResources().getStringArray(R.array.med_count);
+                            final MedCountDialog medCountDialog
+                                    = new MedCountDialog(ChineseMedicalFragment.this, medCount);
+                            medCountDialog.init();
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onCount(int count) {
+        acmxs = String.valueOf(count);
+        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), acmxs));
+        amountShow();
+        acsm = etUsage.getText().toString();
+        WritePadDialog writePadDialog = new WritePadDialog(ChineseMedicalFragment.this, R.style.SignBoardDialog);
+        writePadDialog.show();
+        writePadDialog.setCanceledOnTouchOutside(true);
     }
 
     /**
@@ -238,9 +250,21 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                     @Override
                     public void onNext(ChineseModel model) {
                         chineseModel = model;
-                        if (null != model && !TextUtils.isEmpty(model.getZdsm())) {
+                        if (null != model) {
                             // 诊断说明
-                            zdsm = model.getZdsm();
+                            if (!TextUtils.isEmpty(model.getZdsm())) {
+                                zdsm = model.getZdsm();
+                            }
+                            // 金额
+                            if (!TextUtils.isEmpty(model.getJe())) {
+                                je = model.getJe();
+                                tvMedMoney.setText(je + getResources().getString(R.string.yuan));
+                            }
+                            // 处方明细数量
+                            if (!TextUtils.isEmpty(model.getAcMxs())) {
+                                acmxs = model.getAcMxs();
+                                tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), acmxs));
+                            }
                         }
                         if (null != model && !TextUtils.isEmpty(model.getDocQm())) {
                             try {
@@ -608,6 +632,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         message.setAttribute("yaofangNum", yaofangNum);
         message.setAttribute("yaoNum", yaoNum);
         message.setAttribute("yaofangPrice", yaofangPrice);
+        message.setAttribute("name", patName);
         EMClient.getInstance().chatManager().sendMessage(message);
         onPageChanged.callBack();
     }
@@ -622,7 +647,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                     if (TextUtils.isEmpty(medTopList.get(i).getTime())) {
                         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
                         String date = sDateFormat.format(new java.util.Date());
-                        medTopList.get(i).setTime(date);
+                        medTopList.get(i).setTime(date + String.valueOf(i));
                     }
                 }
             }
@@ -649,7 +674,9 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             // 数据库有数据，更新表
             try {
                 chineseModel.setDocQm(picUrl);
-                HisDbManager.getManager().upDateChinese(chineseModel, "DOCQM");
+                chineseModel.setJe(je);
+                chineseModel.setAcMxs(acmxs);
+                HisDbManager.getManager().upDateChinese(chineseModel, "DOCQM", "JE", "ACMXS");
             } catch (DbException e) {
 
             }
@@ -662,6 +689,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 chineseModel.setTime(date);
                 chineseModel.setAccId(helperId);
                 chineseModel.setDocQm(picUrl);
+                chineseModel.setJe(je);
+                chineseModel.setAcMxs(acmxs);
                 HisDbManager.getManager().saveAskChinese(chineseModel);
             } catch (DbException e) {
 
@@ -784,10 +813,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
      * 金额和数量显示
      */
     private void amountShow() {
-        int numMedCount = 0;
         double moneyMedCount = 0.0;
         if (null != medTopList && 0 < medTopList.size()) {
-            numMedCount = medTopList.size();
             for (int i = 0; i < medTopList.size(); i++) {
                 int numCount = 0;
                 double moneyCount = 0.0;
@@ -812,15 +839,17 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 moneyMedCount = moneyMedCount + (numCount * moneyCount);
             }
         } else {
-            numMedCount = 0;
             moneyMedCount = 0.0;
         }
-        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count),
-                String.valueOf(numMedCount)));
+        int acmxsInt = 0;
+        if (!TextUtils.isEmpty(acmxs)) {
+            acmxsInt = Integer.parseInt(acmxs);
+        } else {
+            acmxsInt = 0;
+        }
+        moneyMedCount = moneyMedCount * acmxsInt;
         double value = convert(moneyMedCount);
         tvMedMoney.setText(String.valueOf(value) + getResources().getString(R.string.yuan));
-        // 付数
-        acmxs = String.valueOf(numMedCount);
         //金额
         je = String.valueOf(moneyMedCount);
     }

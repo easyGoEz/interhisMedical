@@ -32,6 +32,7 @@ public class YaoListDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //executeAssetsSQL(db, "schema.sql");
+        Log.e("YaoListDBHelper","onCreate");
         db.execSQL( "CREATE TABLE IF NOT EXISTS "+
                 YAO_TB_NAME+ "("+
                 "yaoid integer primary key, " +

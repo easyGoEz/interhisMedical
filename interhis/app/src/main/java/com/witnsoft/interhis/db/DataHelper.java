@@ -3,6 +3,7 @@ package com.witnsoft.interhis.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 /**
@@ -10,7 +11,7 @@ import android.util.Log;
  */
 
 public class DataHelper {
-    private static int DB_VERSION = 26;
+    private static int DB_VERSION = 29;
     private SQLiteDatabase db;
     private YaoListDBHelper yaoListDBHelper;
 
@@ -33,7 +34,12 @@ public class DataHelper {
     public DataHelper(Context context) {
         yaoListDBHelper = new YaoListDBHelper(context, null, DB_VERSION);
 
-        db = yaoListDBHelper.getWritableDatabase();
+        try {
+            db = yaoListDBHelper.getWritableDatabase();
+        }catch (SQLiteException exception){
+            db = yaoListDBHelper.getReadableDatabase();
+        }
+//        close();
     }
 
     public void close() {

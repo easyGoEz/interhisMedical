@@ -11,6 +11,7 @@
     <string name="no_user_password_tip">密码不能为空</string>
     <string name="login_failed">登录失败</string>
     <string name="logout_failed">登出失败</string>
+    <string name="init">正在初始化数据……</string>
     <!--LoginActivity end-->
     <string name="no_contact_list">请选择一个联系人会话</string>
     <string name="not_ever_visit">还未出诊或暂无患者会话</string>
@@ -130,12 +131,21 @@
         <item>15</item>
         <item>20</item>
     </string-array>
+    <string-array name="med_count">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
     <string name="med_has_been_chosen">该药品已经存在</string>
     <string name="please_choose_count">请开具处方数量</string>
     <string name="delete">删除</string>
     <string name="pleas_enter_usage">请输入用法用量</string>
     <string name="money_count_tip">(此价格仅供参考)</string>
     <string name="yuan">元</string>
+    <string name="please_choose_med_count">请选择开具付数</string>
+    <string name="count_unit">付</string>
     <!--ChineseMedicalFragment end-->
 
     <!--DiagnosisFragment begin-->

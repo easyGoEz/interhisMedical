@@ -73,14 +73,14 @@
                 android:layout_height="100px"
                 android:layout_marginLeft="10px"/>
 
-            <TextView
-                android:id="@+id/tv_med_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="150px"
-                android:text="@string/medical_count"
-                android:textColor="@color/text_medium_color"
-                android:textSize="@dimen/text_big"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_med_count"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="150px"-->
+                <!--android:text="@string/medical_count"-->
+                <!--android:textColor="@color/text_medium_color"-->
+                <!--android:textSize="@dimen/text_big"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20px"
-                    android:numColumns="auto_fit"/>
+                    android:numColumns="1"/>
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 

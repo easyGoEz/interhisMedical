@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.trello.rxlifecycle.components.RxActivity;
 import com.witnsoft.interhis.R;
+import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.libinterhis.utils.ImageUtility;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 
@@ -58,6 +59,7 @@ public class SplashActivity extends RxActivity implements Animation.AnimationLis
                             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
+//                        DataHelper.getInstance(SplashActivity.this);
                         finish();
                     }
                 });

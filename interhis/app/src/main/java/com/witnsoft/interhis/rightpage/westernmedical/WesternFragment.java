@@ -96,8 +96,8 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private ClearEditText etSearch;
     @ViewInject(R.id.gv_search)
     private GridView gvSearch;
-    @ViewInject(R.id.tv_med_count)
-    private TextView tvMedCount;
+    //    @ViewInject(R.id.tv_med_count)
+//    private TextView tvMedCount;
     @ViewInject(R.id.tv_med_money)
     private TextView tvMedMoney;
     @ViewInject(R.id.lv_med_top)
@@ -149,7 +149,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
             this.helperId = getArguments().getString("userId");
         }
         aiid = getArguments().getString("aiid");
-        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
+//        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
         gson = new Gson();
         initSearch();
         initData();
@@ -469,7 +469,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     // 诊断说明（肝热气滞症、脾胃不和症）
     private String zdsm;
     // 付数（2）
-    private String acmxs;
+//    private String acmxs;
     // 用法用量
     private String acsm;
     // 金额
@@ -481,7 +481,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         otRequest = new OTRequest(getActivity().getBaseContext());
         otRequest.setTN(TN_DOC_KAIYAO);
         final DataModel data = new DataModel();
-        data.setDataJSONStr(String.valueOf(chufang.fromJSONWestern(medTopList, aiid, zdsm, acmxs, acsm, je)));
+        data.setDataJSONStr(String.valueOf(chufang.fromJSONWestern(medTopList, aiid, zdsm, acsm, je)));
         otRequest.setDATA(data);
         NetTool.getInstance().startRequest(false, true, getActivity(), null, otRequest, new CallBack<Map, String>() {
             @Override
@@ -558,7 +558,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
-                                                        createMedical(helperId, "西药", aiid, acmxs, je);
+                                                        createMedical(helperId, "西药", aiid, je);
                                                         String picUrl = "";
                                                         if (null != map.get("fjlj")) {
                                                             try {
@@ -602,13 +602,13 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     /**
      * 上传服务器成功后转聊天
      */
-    private void createMedical(String userName, String yaofangType, String yaofangNum, String yaoNum, String yaofangPrice) {
+    // TODO: 2017/7/5 西药没有付数
+    private void createMedical(String userName, String yaofangType, String yaofangNum, String yaofangPrice) {
         EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
         message.setAttribute("type", "yaofang");
         message.setAttribute("userName", userName);
         message.setAttribute("yaofangType", yaofangType);
         message.setAttribute("yaofangNum", yaofangNum);
-        message.setAttribute("yaoNum", yaoNum);
         message.setAttribute("yaofangPrice", yaofangPrice);
         EMClient.getInstance().chatManager().sendMessage(message);
         onWesternPageChanged.callBack();
@@ -624,7 +624,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                     if (TextUtils.isEmpty(medTopList.get(i).getTime())) {
                         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
                         String date = sDateFormat.format(new java.util.Date());
-                        medTopList.get(i).setTime(date);
+                        medTopList.get(i).setTime(date + String.valueOf(i));
                     }
                 }
             }
@@ -784,10 +784,8 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
      * 金额和数量显示
      */
     private void amountShow() {
-        int numMedCount = 0;
         double moneyMedCount = 0.0;
         if (null != medTopList && 0 < medTopList.size()) {
-            numMedCount = medTopList.size();
             for (int i = 0; i < medTopList.size(); i++) {
                 int numCount = 0;
                 double moneyCount = 0.0;
@@ -812,15 +810,10 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                 moneyMedCount = moneyMedCount + (numCount * moneyCount);
             }
         } else {
-            numMedCount = 0;
             moneyMedCount = 0.0;
         }
-        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count),
-                String.valueOf(numMedCount)));
         double value = convert(moneyMedCount);
         tvMedMoney.setText(String.valueOf(value) + getResources().getString(R.string.yuan));
-        // 付数
-        acmxs = String.valueOf(numMedCount);
         //金额
         je = String.valueOf(moneyMedCount);
     }

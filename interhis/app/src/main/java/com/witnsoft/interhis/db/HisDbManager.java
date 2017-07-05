@@ -202,4 +202,8 @@ public class HisDbManager {
         this.manager.update(westernModel, Column);
     }
 
+    public void upDateChinese(ChineseModel westernModel, String Column1, String Column2, String Clumn3) throws DbException {
+        this.manager.update(westernModel, Column1, Column2, Clumn3);
+    }
+
 }

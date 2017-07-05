@@ -77,9 +77,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="150px"
-                android:text="@string/medical_count"
                 android:textColor="@color/text_medium_color"
-                android:textSize="@dimen/text_big"/>
+                android:textSize="@dimen/text_big"
+                tools:text="@string/medical_count"/>
 
             <TextView
                 android:layout_width="wrap_content"
