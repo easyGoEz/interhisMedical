@@ -11,7 +11,7 @@
     <string name="no_user_password_tip">密码不能为空</string>
     <string name="login_failed">登录失败</string>
     <string name="logout_failed">登出失败</string>
-    <string name="init">正在初始化数据……</string>
+    <string name="init">正在初始化数据，请稍后……</string>
     <!--LoginActivity end-->
     <string name="no_contact_list">请选择一个联系人会话</string>
     <string name="not_ever_visit">还未出诊或暂无患者会话</string>

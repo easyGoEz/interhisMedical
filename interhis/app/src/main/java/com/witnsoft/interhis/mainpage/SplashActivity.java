@@ -1,8 +1,11 @@
 package com.witnsoft.interhis.mainpage;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -10,6 +13,9 @@ import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle.components.RxActivity;
 import com.witnsoft.interhis.R;
+import com.witnsoft.interhis.db.DataHelper;
+import com.witnsoft.interhis.db.OnDbOpened;
+import com.witnsoft.interhis.db.YaoListDBHelper;
 import com.witnsoft.libinterhis.utils.ImageUtility;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
@@ -17,6 +23,8 @@ import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import rx.Observable;
 
 /**
  * Created by zhengchengpeng on 2017/5/12.
@@ -52,11 +60,19 @@ public class SplashActivity extends RxActivity implements Animation.AnimationLis
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(new Runnable() {
+                YaoListDBHelper yaoListDBHelper = new YaoListDBHelper(SplashActivity.this, null, 1);
+                yaoListDBHelper.setOnDbOpened(new OnDbOpened() {
                     @Override
-                    public void run() {
-//                        DataHelper.getInstance(SplashActivity.this);
+                    public void onDbOpened() {
+                        // 数据库已经被打开
+                        Log.d(TAG, "running for onDbOpened back");
                         //  token登录
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                llInit.setVisibility(View.GONE);
+                            }
+                        });
                         if (!TextUtils.isEmpty(ThriftPreUtils.getToken(SplashActivity.this))) {
                             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -66,7 +82,25 @@ public class SplashActivity extends RxActivity implements Animation.AnimationLis
                         }
                         finish();
                     }
+
+                    @Override
+                    public void onDbCreate() {
+                        // 数据库建表开始
+                        Log.d(TAG, "running for onDbCreate back");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                llInit.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
                 });
+                try {
+                    yaoListDBHelper.getWritableDatabase();
+                } catch (SQLiteException exception) {
+                    yaoListDBHelper.getReadableDatabase();
+                }
+
             }
         }).start();
     }

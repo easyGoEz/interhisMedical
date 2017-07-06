@@ -35,6 +35,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.util.NetUtils;
+import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.adapter.PatAdapter;

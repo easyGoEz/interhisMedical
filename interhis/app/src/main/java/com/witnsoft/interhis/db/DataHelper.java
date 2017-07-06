@@ -11,7 +11,7 @@ import android.util.Log;
  */
 
 public class DataHelper {
-    private static int DB_VERSION = 29;
+    private static int DB_VERSION = 1;
     private SQLiteDatabase db;
     private YaoListDBHelper yaoListDBHelper;
 
@@ -36,7 +36,7 @@ public class DataHelper {
 
         try {
             db = yaoListDBHelper.getWritableDatabase();
-        }catch (SQLiteException exception){
+        } catch (SQLiteException exception) {
             db = yaoListDBHelper.getReadableDatabase();
         }
 //        close();
