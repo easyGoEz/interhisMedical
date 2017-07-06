@@ -1,15 +1,9 @@
 package com.witnsoft.interhis.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.bean.PatChatInfo;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
 import com.witnsoft.interhis.utils.ComRecyclerViewHolder;
 
