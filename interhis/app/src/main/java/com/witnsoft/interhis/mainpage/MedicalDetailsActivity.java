@@ -55,22 +55,22 @@ public class MedicalDetailsActivity extends BaseActivity {
     private ChineseMedicalDetailsAdapter adapter;
     private List<ChineseDetailModel> list;
 
-    private String acid,aiid,time,number,advice;
+    private String acid, aiid, time, number, advice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         initView();
     }
 
     private void initView() {
-        acid=getIntent().getStringExtra("acid");
-        aiid=getIntent().getStringExtra("aiid");
-        time=getIntent().getStringExtra("time");
-        number=getIntent().getStringExtra("number");
-        advice=getIntent().getStringExtra("advice");
+        acid = getIntent().getStringExtra("acid");
+        aiid = getIntent().getStringExtra("aiid");
+        time = getIntent().getStringExtra("time");
+        number = getIntent().getStringExtra("number");
+        advice = getIntent().getStringExtra("advice");
 
 
         tv_acid.setText(acid);
@@ -88,8 +88,8 @@ public class MedicalDetailsActivity extends BaseActivity {
         } catch (DbException e) {
             e.printStackTrace();
         }
-        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
-        adapter=new ChineseMedicalDetailsAdapter(this);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        adapter = new ChineseMedicalDetailsAdapter(this);
         adapter.setList(list);
         recyclerView.setAdapter(adapter);
 
