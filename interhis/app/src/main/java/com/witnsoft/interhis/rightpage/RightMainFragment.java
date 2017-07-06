@@ -256,7 +256,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
                 viewPager.setCurrentItem(TAG_WESTERN_MEDICAL);
                 break;
             case R.id.rb_history:
-                viewPager.setCurrentItem(TAG_WESTERN_MEDICAL);
+                viewPager.setCurrentItem(TAG_HISTORY);
                 break;
             default:
                 break;
