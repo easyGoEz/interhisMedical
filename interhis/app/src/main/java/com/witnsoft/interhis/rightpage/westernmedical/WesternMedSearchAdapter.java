@@ -47,7 +47,7 @@ public class WesternMedSearchAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         WesternMedSearchAdapter.ViewHolder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_search, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_western_search, null);
             holder = new WesternMedSearchAdapter.ViewHolder();
             holder.tv_ss = (TextView) convertView.findViewById(R.id.item_text);
             convertView.setTag(holder);

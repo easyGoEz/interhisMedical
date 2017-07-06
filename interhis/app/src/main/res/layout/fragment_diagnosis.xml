@@ -43,16 +43,23 @@
 
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_diagnosis"
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_above="@id/ll_bottom"
             android:layout_alignParentTop="true"
-            android:background="@color/colorWhite"
-            android:scrollbars="vertical">
+            android:orientation="vertical">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_diagnosis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
     </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
 

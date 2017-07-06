@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.ChineseModel;
+import com.witnsoft.interhis.db.model.DiagnosisModel;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
 import com.witnsoft.interhis.db.model.WesternModel;
 import com.witnsoft.libinterhis.utils.FileUtils;
@@ -204,6 +205,18 @@ public class HisDbManager {
 
     public void upDateChinese(ChineseModel westernModel, String Column1, String Column2, String Clumn3) throws DbException {
         this.manager.update(westernModel, Column1, Column2, Clumn3);
+    }
+
+    public void saveDiagnosis(DiagnosisModel model) throws DbException {
+        this.manager.saveOrUpdate(model);
+    }
+
+    public List<DiagnosisModel> findDiagnosisList(String accid) throws DbException {
+        Object message = this.manager.selector(DiagnosisModel.class).where("ACCID", "=", accid).findAll();
+        if (null == message) {
+            message = new ArrayList();
+        }
+        return (List<DiagnosisModel>) message;
     }
 
 }
