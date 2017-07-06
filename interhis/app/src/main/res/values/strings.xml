@@ -176,12 +176,11 @@
     </string-array>
     <string-array name="med_count_day">
         <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
         <item>7</item>
+        <item>14</item>
+        <item>21</item>
+        <item>28</item>
+        <item>35</item>
     </string-array>
     <string name="day">天</string>
     <string name="data_error">数据库读取异常</string>
