@@ -11,54 +11,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
-import android.os.Environment;
-
-import android.os.Handler;
-import android.os.Looper;
-import android.service.carrier.CarrierMessagingService;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.db.model.ChineseDetailModel;
-import com.witnsoft.interhis.inter.DialogListener;
-import com.witnsoft.libnet.model.OTRequest;
 
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Cache;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import rx.functions.Action1;
 
 import static android.graphics.Color.WHITE;
-import static java.lang.String.valueOf;
-import static rx.plugins.RxJavaHooks.onError;
 
 
 public class WritePadDialog extends Dialog {

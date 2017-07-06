@@ -604,7 +604,6 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     /**
      * 上传服务器成功后转聊天
      */
-    // TODO: 2017/7/5 西药没有付数
     private void createMedical(String userName, String yaofangType, String yaofangNum, String yaofangPrice) {
         EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
         message.setAttribute("type", "yaofang");

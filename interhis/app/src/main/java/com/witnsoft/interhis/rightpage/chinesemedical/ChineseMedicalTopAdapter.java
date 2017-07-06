@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
-import com.witnsoft.interhis.inter.FilterListener;
 
 import java.util.ArrayList;
 import java.util.List;

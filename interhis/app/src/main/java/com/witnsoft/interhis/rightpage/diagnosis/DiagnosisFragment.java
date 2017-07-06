@@ -3,6 +3,7 @@ package com.witnsoft.interhis.rightpage.diagnosis;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,8 @@ import rx.schedulers.Schedulers;
 @ContentView(R.layout.fragment_diagnosis)
 public class DiagnosisFragment extends Fragment {
 
+    @ViewInject(R.id.rv_diagnosis)
+    private RecyclerView rvDiagnosis;
     @ViewInject(R.id.ed_diagnosis)
     private EditText etDiagnosis;
     @ViewInject(R.id.btn_save)
