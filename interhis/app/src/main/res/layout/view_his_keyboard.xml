@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:id="@+id/ll_row1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:id="@+id/ll_row2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:id="@+id/ll_row3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="150px"
+            android:layout_height="85px"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@color/text_dark_color"
+            android:textSize="35px"/>
+
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_row4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/btn_delete"
+            android:orientation="horizontal">
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

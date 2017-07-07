@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,6 +40,7 @@ import com.witnsoft.interhis.db.model.WesternDetailModel;
 import com.witnsoft.interhis.db.model.WesternModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
+import com.witnsoft.interhis.utils.ui.HisKeyboardView;
 import com.witnsoft.libinterhis.utils.ClearEditText;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
@@ -91,8 +90,8 @@ import rx.schedulers.Schedulers;
 @ContentView(R.layout.fragment_western)
 public class WesternFragment extends Fragment implements WesternMedCountDialog.CallBackMedCount, WritePadDialog.CallBack {
 
-    @ViewInject(R.id.keyboard)
-    private KeyboardView keyboardView;
+    @ViewInject(R.id.kb)
+    private HisKeyboardView kb;
     @ViewInject(R.id.et_search)
     private ClearEditText etSearch;
     @ViewInject(R.id.gv_search)
@@ -936,117 +935,30 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                 });
     }
 
-    private Keyboard k1;//字母键盘
-    private Keyboard k2;// 数字键盘
-    public boolean isnun = false;// 是否数据键盘
-    public boolean isupper = false;//是否大写
-
     private void initKeyBoard() {
         etSearch.setInputType(InputType.TYPE_NULL);
-        k1 = new Keyboard(getActivity(), R.xml.qwerty);
-        k2 = new Keyboard(getActivity(), R.xml.symbols);
-        keyboardView.setKeyboard(k1);
-        keyboardView.setEnabled(true);
-        keyboardView.setPreviewEnabled(true);
-        keyboardView.setOnKeyboardActionListener(listener);
-    }
+        kb.init(getActivity());
+        kb.setOnKeyboardActionListener(new HisKeyboardView.OnKeyboardActionListener() {
+            @Override
+            public void onKey(String str) {
+                Editable editable = etSearch.getText();
+                int start = etSearch.getSelectionStart();
 
-    /**
-     * 键盘大小写切换
-     */
-    private void changeKey() {
-        List<Keyboard.Key> keylist = k1.getKeys();
-        if (isupper) {//大写切换小写
-            isupper = false;
-            for (Keyboard.Key key : keylist) {
-                if (key.label != null && isword(key.label.toString())) {
-                    key.label = key.label.toString().toLowerCase();
-                    key.codes[0] = key.codes[0] + 32;
-                }
+                editable.insert(start, str);
             }
-        } else {//小写切换大写
-            isupper = true;
-            for (Keyboard.Key key : keylist) {
-                if (key.label != null && isword(key.label.toString())) {
-                    key.label = key.label.toString().toUpperCase();
-                    key.codes[0] = key.codes[0] - 32;
-                }
-            }
-        }
-    }
 
-    private boolean isword(String str) {
-        String wordstr = "abcdefghijklmnopqrstuvwxyz";
-        if (wordstr.indexOf(str.toLowerCase()) > -1) {
-            return true;
-        }
-        return false;
-    }
-
-    private KeyboardView.OnKeyboardActionListener listener = new KeyboardView.OnKeyboardActionListener() {
-        @Override
-        public void onPress(int primaryCode) {
-
-        }
-
-        @Override
-        public void onRelease(int primaryCode) {
-
-        }
-
-        @Override
-        public void onKey(int primaryCode, int[] keyCodes) {
-            Editable editable = etSearch.getText();
-            int start = etSearch.getSelectionStart();
-            if (primaryCode == Keyboard.KEYCODE_DELETE) {//删除
+            @Override
+            public void onDelete() {
+                Editable editable = etSearch.getText();
+                int start = etSearch.getSelectionStart();
                 if (editable != null && editable.length() > 0) {
                     if (start > 0) {
                         editable.delete(start - 1, start);
                     }
                 }
-            } else if (primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {//切换数字键盘
-                if (isnun) {
-                    isnun = false;
-                    keyboardView.setKeyboard(k1);
-                } else {
-                    isnun = true;
-                    keyboardView.setKeyboard(k2);
-                }
-            } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
-                changeKey();
-                keyboardView.setKeyboard(k1);
-            } else if (primaryCode == Keyboard.KEYCODE_CANCEL) {
-
-            } else {
-                editable.insert(start, Character.toString((char) primaryCode));
             }
-        }
-
-        @Override
-        public void onText(CharSequence text) {
-
-        }
-
-        @Override
-        public void swipeLeft() {
-
-        }
-
-        @Override
-        public void swipeRight() {
-
-        }
-
-        @Override
-        public void swipeDown() {
-
-        }
-
-        @Override
-        public void swipeUp() {
-
-        }
-    };
+        });
+    }
 
     public void setOnWesternPageChanged(OnWesternPageChanged onWesternPageChanged) {
         this.onWesternPageChanged = onWesternPageChanged;

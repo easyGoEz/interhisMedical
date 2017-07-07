@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
@@ -14,6 +15,7 @@ import com.witnsoft.interhis.setting.about.AboutFragment;
 import com.witnsoft.interhis.setting.myhistory.MyHistoryFragment;
 import com.witnsoft.interhis.setting.myincome.MyIncomeFragment;
 import com.witnsoft.interhis.setting.myinfo.MyInfoFragment;
+import com.witnsoft.interhis.utils.ui.HisKeyboardView;
 import com.witnsoft.libinterhis.base.BaseActivity;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout;

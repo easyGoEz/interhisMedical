@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1px"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_key"
+        android:layout_width="match_parent"
+        android:layout_height="85px"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/text_dark_color"
+        android:textSize="35px"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

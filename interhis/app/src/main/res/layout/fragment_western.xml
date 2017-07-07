@@ -74,13 +74,13 @@
                 android:layout_marginLeft="10px"/>
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_med_count"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="150px"-->
-                <!--android:text="@string/medical_count"-->
-                <!--android:textColor="@color/text_medium_color"-->
-                <!--android:textSize="@dimen/text_big"/>-->
+            <!--android:id="@+id/tv_med_count"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="150px"-->
+            <!--android:text="@string/medical_count"-->
+            <!--android:textColor="@color/text_medium_color"-->
+            <!--android:textSize="@dimen/text_big"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -133,15 +133,13 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_big"/>
 
-                <android.inputmethodservice.KeyboardView
-                    android:id="@+id/keyboard"
-                    android:layout_width="match_parent"
+                <com.witnsoft.interhis.utils.ui.HisKeyboardView
+                    android:id="@+id/kb"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20px"
-                    android:background="@color/colorWhite"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:keyTextSize="@dimen/text_big"/>
+                    android:layout_marginTop="20px">
+
+                </com.witnsoft.interhis.utils.ui.HisKeyboardView>
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
