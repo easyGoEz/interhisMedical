@@ -92,8 +92,13 @@ public class ChatDetailDialog {
         setText(tvAiId, "");
         setText(tvTime, "");
         setText(tvUsage, acsm);
-        setText(tvPrice, convert(medPrice));
-        if(!TextUtils.isEmpty(medType)){
+//        setText(tvPrice, convert(medPrice));
+        if (!TextUtils.isEmpty(medPrice)) {
+            tvPrice.setText(convert(medPrice) + "元");
+        } else {
+            tvPrice.setText("");
+        }
+        if (!TextUtils.isEmpty(medType)) {
             if ("中药".equals(medType)) {
                 gvMed.setNumColumns(GridView.AUTO_FIT);
                 llCount.setVisibility(View.VISIBLE);
@@ -102,7 +107,7 @@ public class ChatDetailDialog {
                 llCount.setVisibility(View.GONE);
                 gvMed.setNumColumns(1);
             }
-        }else {
+        } else {
             llCount.setVisibility(View.GONE);
         }
         chatDetailAdapter = new ChatDetailAdapter(context, jsonArray, medType);
