@@ -3,7 +3,6 @@ package com.witnsoft.interhis.rightpage.chinesemedical;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -35,7 +34,6 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.jakewharton.rxbinding.view.RxView;
-import com.witnsoft.interhis.db.YaoListDBHelper;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
@@ -49,6 +47,7 @@ import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
 import com.witnsoft.libnet.net.NetTool;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.ex.DbException;
@@ -256,6 +255,11 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                             // 诊断说明
                             if (!TextUtils.isEmpty(model.getZdsm())) {
                                 zdsm = model.getZdsm();
+                            }
+                            // 用法用量
+                            if (!TextUtils.isEmpty(model.getAcSm())) {
+                                acsm = model.getAcSm();
+                                etUsage.setText(acsm);
                             }
                             // 金额
                             if (!TextUtils.isEmpty(model.getJe())) {
@@ -582,7 +586,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                                                     public void run() {
                                                         Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
 
-                                                        createMedical(helperId, "中药", aiid, acmxs, je);
+                                                        createMedical(helperId, "中药", aiid, acmxs, je, acsm, medTopList);
                                                         String picUrl = "";
                                                         if (null != map.get("fjlj")) {
                                                             try {
@@ -626,17 +630,46 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     /**
      * 上传服务器成功后转聊天
      */
-    private void createMedical(String userName, String yaofangType, String yaofangNum, String yaoNum, String yaofangPrice) {
+    private void createMedical(String userName, String yaofangType, String yaofangNum,
+                               String yaoNum, String yaofangPrice, String acsm, List<ChineseDetailModel> list) {
         EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
         message.setAttribute("type", "yaofang");
         message.setAttribute("userName", userName);
         message.setAttribute("yaofangType", yaofangType);
-        message.setAttribute("yaofangNum", yaofangNum);
+        message.setAttribute("aiid", yaofangNum);
+//         数量（中药付数，西药天数）
         message.setAttribute("yaoNum", yaoNum);
         message.setAttribute("yaofangPrice", yaofangPrice);
         message.setAttribute("name", patName);
+        message.setAttribute("acsm", acsm);
+        try {
+            JSONArray jsonArray = getJson(list);
+            message.setAttribute("med_json", jsonArray);
+        } catch (Exception e) {
+
+        }
         EMClient.getInstance().chatManager().sendMessage(message);
         onPageChanged.callBack();
+    }
+
+    public JSONArray getJson(List<ChineseDetailModel> list) {
+        JSONArray jsonArray = new JSONArray();
+        if (null != list && 0 < list.size()) {
+            for (ChineseDetailModel model : list) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject
+                            // 药品名
+                            .put("cmc", model.getCmc())
+                            // 药品数量（中药"g"，西药"天"）
+                            .put("sl", model.getSl());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                jsonArray.put(jsonObject);
+            }
+        }
+        return jsonArray;
     }
 
     /**
@@ -678,7 +711,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 chineseModel.setDocQm(picUrl);
                 chineseModel.setJe(je);
                 chineseModel.setAcMxs(acmxs);
-                HisDbManager.getManager().upDateChinese(chineseModel, "DOCQM", "JE", "ACMXS");
+                chineseModel.setAcSm(acsm);
+                HisDbManager.getManager().upDateChinese(chineseModel, "DOCQM", "JE", "ACMXS", "ACSM");
             } catch (DbException e) {
 
             }
@@ -693,6 +727,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                 chineseModel.setDocQm(picUrl);
                 chineseModel.setJe(je);
                 chineseModel.setAcMxs(acmxs);
+                chineseModel.setAiId(aiid);
+                chineseModel.setAcSm(acsm);
                 HisDbManager.getManager().saveAskChinese(chineseModel);
             } catch (DbException e) {
 

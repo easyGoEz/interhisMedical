@@ -51,40 +51,12 @@ public class WesternDetailModel {
     @Column(name = "DJ")
     private String dj;
 
-    private String XMMC;//药名
-    private String XMRJ;//药品拼音
-    private int SFDLBM;//药品类别
-
     public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getXMMC() {
-        return XMMC;
-    }
-
-    public void setXMMC(String XMMC) {
-        this.XMMC = XMMC;
-    }
-
-    public String getXMRJ() {
-        return XMRJ;
-    }
-
-    public void setXMRJ(String XMRJ) {
-        this.XMRJ = XMRJ;
-    }
-
-    public int getSFDLBM() {
-        return SFDLBM;
-    }
-
-    public void setSFDLBM(int SFDLBM) {
-        this.SFDLBM = SFDLBM;
     }
 
     public void setAccid(String awmId) {

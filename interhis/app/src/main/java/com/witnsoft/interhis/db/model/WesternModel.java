@@ -62,7 +62,7 @@ public class WesternModel {
     @Column(name = "AWMXS")
     private String awmxs;
 
-    // 处方使用说明
+    // 处方使用说明(用法用量)
     @Column(name = "AWSM")
     private String awsm;
 

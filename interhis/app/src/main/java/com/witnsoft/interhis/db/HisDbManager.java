@@ -12,6 +12,7 @@ import com.witnsoft.libinterhis.utils.FileUtils;
 import com.witnsoft.libinterhis.utils.LogUtils;
 
 import org.xutils.DbManager;
+import org.xutils.db.annotation.Column;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.x;
@@ -199,12 +200,16 @@ public class HisDbManager {
         this.manager.update(westernModel, Column);
     }
 
+    public void upDateWestern(WesternModel westernModel, String Column1, String Column2) throws DbException {
+        this.manager.update(westernModel, Column1, Column2);
+    }
+
     public void upDateChinese(ChineseModel westernModel, String Column) throws DbException {
         this.manager.update(westernModel, Column);
     }
 
-    public void upDateChinese(ChineseModel westernModel, String Column1, String Column2, String Clumn3) throws DbException {
-        this.manager.update(westernModel, Column1, Column2, Clumn3);
+    public void upDateChinese(ChineseModel westernModel, String Column1, String Column2, String Column3, String Column4) throws DbException {
+        this.manager.update(westernModel, Column1, Column2, Column3, Column4);
     }
 
     public void saveDiagnosis(DiagnosisModel model) throws DbException {

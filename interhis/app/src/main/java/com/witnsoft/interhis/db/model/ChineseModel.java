@@ -18,8 +18,8 @@ public class ChineseModel {
 
     // primary key
     @Column(name = "TIME",
-    isId = true,
-    autoGen = true)
+            isId = true,
+            autoGen = true)
     private String time;
 
     @Column(name = "ACCID")
@@ -73,7 +73,7 @@ public class ChineseModel {
     @Column(name = "ACMXS")
     private String acMxs;
 
-    // 处方使用说明
+    // 处方使用说明(用法用量)
     @Column(name = "ACSM")
     private String acSm;
 
@@ -116,18 +116,6 @@ public class ChineseModel {
     //从表
     @Column(name = "ASK_CHINESE_MX")
     private List<ChineseDetailModel> chineseDetailModel;
-
-    //判断是否上传服务器
-    @Column(name ="isUploadSever")
-    private boolean isUploadSever;
-
-    public boolean isUploadSever() {
-        return isUploadSever;
-    }
-
-    public void setUploadSever(boolean uploadSever) {
-        isUploadSever = uploadSever;
-    }
 
     public void setAccId(String accId) {
         this.accId = accId;

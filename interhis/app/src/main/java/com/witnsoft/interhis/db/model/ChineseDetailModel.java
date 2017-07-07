@@ -58,25 +58,12 @@ public class ChineseDetailModel {
     private String sl;
 
     // 总金额
-    @Column(name = "je")
+    @Column(name = "JE")
     private String je;
 
     // 单价
-    @Column(name = "dj")
+    @Column(name = "DJ")
     private String bzjg;
-
-    //判断是否上传服务器
-    @Column(name = "isUploadSever")
-    private boolean isUploadSever;
-
-
-    public boolean isUploadSever() {
-        return isUploadSever;
-    }
-
-    public void setUploadSever(boolean uploadSever) {
-        isUploadSever = uploadSever;
-    }
 
     public ChineseModel getChinese(DbManager db) throws DbException {
         return db.findById(ChineseModel.class, accid);

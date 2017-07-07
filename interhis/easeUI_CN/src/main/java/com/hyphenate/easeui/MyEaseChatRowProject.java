@@ -11,8 +11,12 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.widget.ChatDetailDialog;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.exceptions.HyphenateException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by liyan on 2017/5/9.
@@ -20,8 +24,8 @@ import com.hyphenate.exceptions.HyphenateException;
 
 public class MyEaseChatRowProject extends EaseChatRow {
 
-    private TextView userName, yaofangType, yaofangNum, yaoNum, yaofangPrice, searchContent;
-    private ImageView yaofangIv;
+    private TextView tvUserName, tvYaofangType, tvYaofangNum, tvYaoNum, tvYaofangPrice, tvSearchContent;
+    private ImageView ivYaofangIv;
 
     public MyEaseChatRowProject(Context context, EMMessage message, int position, BaseAdapter adapter, String imgDoc, String imgPat) {
         super(context, message, position, adapter, imgDoc, imgPat);
@@ -43,21 +47,20 @@ public class MyEaseChatRowProject extends EaseChatRow {
      */
     @Override
     protected void onFindViewById() {
-        userName = (TextView) findViewById(R.id.tv_yaofang_name);
-        yaofangType = (TextView) findViewById(R.id.tv_yaofang_type);
-        yaofangIv = (ImageView) findViewById(R.id.iv_yaofang);
-        yaofangNum = (TextView) findViewById(R.id.tv_yaofang_num);
-        yaoNum = (TextView) findViewById(R.id.tv_yao_num);
-        yaofangPrice = (TextView) findViewById(R.id.tv_yaofang_price);
-        yaofangIv = (ImageView) findViewById(R.id.iv_yaofang);
-        searchContent = (TextView) findViewById(R.id.tv_searchcontent);
-        searchContent.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
+        tvUserName = (TextView) findViewById(R.id.tv_yaofang_name);
+        tvYaofangType = (TextView) findViewById(R.id.tv_yaofang_type);
+        ivYaofangIv = (ImageView) findViewById(R.id.iv_yaofang);
+        tvYaofangNum = (TextView) findViewById(R.id.tv_yaofang_num);
+        tvYaoNum = (TextView) findViewById(R.id.tv_yao_num);
+        tvYaofangPrice = (TextView) findViewById(R.id.tv_yaofang_price);
+        tvSearchContent = (TextView) findViewById(R.id.tv_searchcontent);
+//        searchContent.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//            }
+//        });
     }
 
     /**
@@ -82,21 +85,27 @@ public class MyEaseChatRowProject extends EaseChatRow {
     protected void onSetUpView() {
 
         if (message.getBooleanAttribute("yaofang", true)) {
-            String userName = message.getStringAttribute("userName", null);
-            String yaofangType = message.getStringAttribute("yaofangType", null);
-            String yaofangNum = message.getStringAttribute("yaofangNum", null);
-            String yaoNum = message.getStringAttribute("yaoNum", null);
-            String yaofangPrice = message.getStringAttribute("yaofangPrice", null);
-            String name = message.getStringAttribute("name", "患者");
+            userId = message.getStringAttribute("userName", null);
+            yaofangType = message.getStringAttribute("yaofangType", null);
+            yaofangNum = message.getStringAttribute("aiid", null);
+            yaoNum = message.getStringAttribute("yaoNum", null);
+            yaofangPrice = message.getStringAttribute("yaofangPrice", null);
+            name = message.getStringAttribute("name", null);
+            acsm = message.getStringAttribute("acsm", null);
+            try {
+                medJson = message.getJSONArrayAttribute("med_json");
+            } catch (Exception e) {
 
-            this.userName.setText("您给" + name + "开了一个");
-            this.yaofangType.setText(yaofangType + "处方");
-            this.yaofangNum.setText("药方号：" + yaofangNum);
+            }
+
+            this.tvUserName.setText("您给" + message.getStringAttribute("name", "患者") + "开了一个");
+            this.tvYaofangType.setText(yaofangType + "处方");
+            this.tvYaofangNum.setText("药方号：" + yaofangNum);
             if ("中药".equals(yaofangType)) {
-                this.yaoNum.setVisibility(VISIBLE);
-                this.yaoNum.setText("共" + yaoNum + "付");
+                this.tvYaoNum.setVisibility(VISIBLE);
+                this.tvYaoNum.setText("共" + yaoNum + "付");
             } else {
-                this.yaoNum.setVisibility(GONE);
+                this.tvYaoNum.setVisibility(GONE);
             }
             double price = 0.0;
             try {
@@ -105,20 +114,32 @@ public class MyEaseChatRowProject extends EaseChatRow {
                 price = 0.0;
             }
             price = convert(price);
-            this.yaofangPrice.setText(String.valueOf(price) + "元");
+            this.tvYaofangPrice.setText(String.valueOf(price) + "元");
 
         }
 
     }
+
+    private String userId;
+    private String yaofangType;
+    private String yaofangNum;
+    private String yaoNum;
+    private String yaofangPrice;
+    private String name;
+    // 用法用量
+    private String acsm;
+    // 处方明细
+    private JSONArray medJson;
 
     /**
      * 点击气泡
      */
     @Override
     protected void onBubbleClick() {
-        Intent intent = new Intent("MingXi");
-        getContext().sendBroadcast(intent);
-
+        // 处方详细
+        final ChatDetailDialog chatDetailDialog
+                = new ChatDetailDialog(activity, userId, yaofangType, yaofangNum, yaoNum, yaofangPrice, name, acsm, medJson);
+        chatDetailDialog.init();
     }
 
 }

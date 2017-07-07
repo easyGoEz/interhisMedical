@@ -3,7 +3,6 @@ package com.witnsoft.interhis.rightpage.westernmedical;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -39,7 +38,6 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
-import com.witnsoft.interhis.db.YaoListDBHelper;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
 import com.witnsoft.interhis.db.model.WesternModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
@@ -50,6 +48,7 @@ import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
 import com.witnsoft.libnet.net.NetTool;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.ex.DbException;
@@ -126,6 +125,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private PackageManager pm;
 
     private String helperId;
+    private String patName;
 
     @Nullable
     @Override
@@ -150,6 +150,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         } catch (Exception e) {
             this.helperId = getArguments().getString("userId");
         }
+        this.patName = getArguments().getString("pat_name");
         aiid = getArguments().getString("aiid");
 //        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
         gson = new Gson();
@@ -242,17 +243,24 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                     @Override
                     public void onNext(WesternModel model) {
                         westernModel = model;
-                        if (null != model && !TextUtils.isEmpty(model.getZdsm())) {
+                        if (null != model) {
                             // 诊断说明
-                            zdsm = model.getZdsm();
-                        }
-                        if (null != model && !TextUtils.isEmpty(model.getDocQm())) {
-                            try {
-                                Glide.with(getActivity())
-                                        .load(model.getDocQm())
-                                        .into(ivSignature);
-                            } catch (Exception e) {
+                            if (!TextUtils.isEmpty(model.getZdsm())) {
+                                zdsm = model.getZdsm();
+                            }
+                            // 用法用量
+                            if (!TextUtils.isEmpty(model.getAwsm())) {
+                                acsm = model.getAwsm();
+                                etUsage.setText(acsm);
+                            }
+                            if (null != model && !TextUtils.isEmpty(model.getDocQm())) {
+                                try {
+                                    Glide.with(getActivity())
+                                            .load(model.getDocQm())
+                                            .into(ivSignature);
+                                } catch (Exception e) {
 
+                                }
                             }
                         }
                     }
@@ -560,7 +568,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
-                                                        createMedical(helperId, "西药", aiid, je);
+                                                        createMedical(helperId, "西药", aiid, je, acsm, medTopList);
                                                         String picUrl = "";
                                                         if (null != map.get("fjlj")) {
                                                             try {
@@ -604,15 +612,44 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     /**
      * 上传服务器成功后转聊天
      */
-    private void createMedical(String userName, String yaofangType, String yaofangNum, String yaofangPrice) {
+    private void createMedical(String userName, String yaofangType, String yaofangNum,
+                               String yaofangPrice, String acsm, List<WesternDetailModel> list) {
         EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
         message.setAttribute("type", "yaofang");
         message.setAttribute("userName", userName);
         message.setAttribute("yaofangType", yaofangType);
-        message.setAttribute("yaofangNum", yaofangNum);
+        message.setAttribute("aiid", yaofangNum);
         message.setAttribute("yaofangPrice", yaofangPrice);
+        message.setAttribute("name", patName);
+        message.setAttribute("acsm", acsm);
+        try {
+            JSONArray jsonArray = getJson(list);
+            message.setAttribute("med_json", jsonArray);
+        } catch (Exception e) {
+
+        }
         EMClient.getInstance().chatManager().sendMessage(message);
         onWesternPageChanged.callBack();
+    }
+
+    public JSONArray getJson(List<WesternDetailModel> list) {
+        JSONArray jsonArray = new JSONArray();
+        if (null != list && 0 < list.size()) {
+            for (WesternDetailModel model : list) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject
+                            // 药品名
+                            .put("cmc", model.getCmc())
+                            // 药品数量（中药"g"，西药"天"）
+                            .put("sl", model.getSl());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                jsonArray.put(jsonObject);
+            }
+        }
+        return jsonArray;
     }
 
     /**
@@ -652,7 +689,9 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
             // 数据库有数据，更新表
             try {
                 westernModel.setDocQm(picUrl);
-                HisDbManager.getManager().upDateWestern(westernModel, "DOCQM");
+                westernModel.setAiId(aiid);
+                westernModel.setAwsm(acsm);
+                HisDbManager.getManager().upDateWestern(westernModel, "DOCQM", "AWSM");
             } catch (DbException e) {
 
             }
@@ -664,6 +703,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                 String date = sDateFormat.format(new java.util.Date());
                 westernModel.setTime(date);
                 westernModel.setAwId(helperId);
+                westernModel.setAiId(aiid);
                 westernModel.setDocQm(picUrl);
                 HisDbManager.getManager().saveAskWestern(westernModel);
             } catch (DbException e) {
