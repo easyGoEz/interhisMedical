@@ -219,7 +219,7 @@ public class DiagnosisFragment extends BaseV4Fragment {
 
     private void refreshUi() {
         if (null == adapter) {
-            adapter = new DiagnosisAdapter(getActivity(), diagnosisModelList, R.layout.item_western_search);
+            adapter = new DiagnosisAdapter(getActivity(), diagnosisModelList, R.layout.item_diagnosis);
             rvDiagnosis.setLayoutManager(new LinearLayoutManager(getActivity()));
             rvDiagnosis.setHasFixedSize(true);
             rvDiagnosis.setAdapter(adapter);
