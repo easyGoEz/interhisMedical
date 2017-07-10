@@ -35,6 +35,7 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.jakewharton.rxbinding.view.RxView;
+import com.witnsoft.interhis.BaseV4Fragment;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
@@ -90,7 +91,7 @@ import rx.schedulers.Schedulers;
  */
 
 @ContentView(R.layout.fragment_chinese_medical)
-public class ChineseMedicalFragment extends Fragment implements MedicalCountDialog.CallBackMedCount, WritePadDialog.CallBack, MedCountDialog.CallBackMedCount {
+public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCountDialog.CallBackMedCount, WritePadDialog.CallBack, MedCountDialog.CallBackMedCount {
 
     @ViewInject(R.id.kb)
     private HisKeyboardView kb;
@@ -549,6 +550,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private Handler handler = new Handler(Looper.getMainLooper());
 
     private void callUpdateImg(final String acid, String path) {
+        showWaitingDialogCannotCancel();
         final String url = "https://zy.renyibao.com/FileUploadServlet";
         File file = new File(path);
         okHttpClient = (new OkHttpClient.Builder()).retryOnConnectionFailure(true).connectTimeout(5L, TimeUnit.SECONDS)
@@ -571,6 +573,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                     public void run() {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
+                                hideWaitingDialog();
                                 Toast.makeText(getActivity(), getResources().getString(R.string.net_error), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -580,6 +583,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                hideWaitingDialog();
                 if (response.isSuccessful()) {
                     try {
                         final String resp = response.body().string();
@@ -597,7 +601,6 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
-
                                                         createMedical(helperId, "中药", aiid, acmxs, je, acsm, acid, medTopList);
                                                         String picUrl = "";
                                                         if (null != map.get("fjlj")) {

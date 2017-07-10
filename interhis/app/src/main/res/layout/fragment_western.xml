@@ -112,7 +112,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/ll_bottom"
-            android:layout_marginTop="20px"
             android:orientation="horizontal">
 
             <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout

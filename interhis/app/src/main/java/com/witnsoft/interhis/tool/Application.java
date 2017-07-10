@@ -1,7 +1,9 @@
 package com.witnsoft.interhis.tool;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -14,8 +16,11 @@ import com.witnsoft.interhis.mainpage.MainActivity;
 
 import org.xutils.x;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.witnsoft.interhis.db.HisDbManager.TAG;
 
 /**
  * Created by zhengchengpeng on 2017/5/12.
@@ -48,6 +53,7 @@ public class Application extends MultiDexApplication {
         //环信聊天初始化
         EaseUI.getInstance().init(this, null, MainActivity.class);
         EMClient.getInstance().setDebugMode(true);
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacksImpl());
     }
 
 
@@ -110,4 +116,80 @@ public class Application extends MultiDexApplication {
         super.onTerminate();
         EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
     }
+
+    /*
+     * 在此对Activity的生命周期事件进行集中处理
+     */
+    public List<WeakReference<Activity>> getActivityList() {
+        return actList;
+    }
+
+    private List<WeakReference<Activity>> actList = new ArrayList<WeakReference<Activity>>();
+
+    private class ActivityLifecycleCallbacksImpl implements
+            Application.ActivityLifecycleCallbacks {
+
+        @Override
+        public void onActivityCreated(Activity activity,
+                                      Bundle savedInstanceState) {
+            Log.d(TAG,
+                    "in onActivityCreated(), activity=" + activity.getClass());
+            actList.add(new WeakReference<Activity>(activity));
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            Log.d(TAG,
+                    "in onActivityStarted(), activity=" + activity.getClass());
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            Log.d(TAG,
+                    "in onActivityResumed(), activity=" + activity.getClass());
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            Log.d(TAG,
+                    "in onActivityPaused(), activity=" + activity.getClass());
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            Log.d(TAG,
+                    "in onActivityStopped(), activity=" + activity.getClass());
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity,
+                                                Bundle outState) {
+            Log.d(TAG, "in onActivitySaveInstanceState(), activity="
+                    + activity.getClass());
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            Log.d(TAG,
+                    "in onActivityDestroyed(), activity=" + activity.getClass());
+            int length = actList.size();
+            int delPos = -1;
+            for (int i = 0; i < length; i++) {
+                WeakReference<Activity> wf = actList.get(i);
+                if (null != wf) {
+                    Activity act = wf.get();
+                    if ((null != act) && (act.equals(activity))) {
+                        delPos = i;
+                        Log.e(TAG, "in onActivityDestroyed(), delPos=" + delPos
+                                + ", activity=" + activity.getClass());
+                    }
+                }
+            }
+            if (-1 < delPos) {
+                actList.remove(delPos);
+            }
+        }
+    }
+
+    ;
 }

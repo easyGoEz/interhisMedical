@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.jakewharton.rxbinding.view.RxView;
+import com.witnsoft.interhis.BaseV4Fragment;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.HisDbManager;
@@ -92,7 +93,7 @@ import rx.schedulers.Schedulers;
  */
 
 @ContentView(R.layout.fragment_western)
-public class WesternFragment extends Fragment implements WesternMedCountDialog.CallBackMedCount, WritePadDialog.CallBack {
+public class WesternFragment extends BaseV4Fragment implements WesternMedCountDialog.CallBackMedCount, WritePadDialog.CallBack {
 
     @ViewInject(R.id.kb)
     private HisKeyboardView kb;
@@ -530,6 +531,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private Handler handler = new Handler(Looper.getMainLooper());
 
     private void callUpdateImg(final String awid, String path) {
+        showWaitingDialogCannotCancel();
         final String url = "https://zy.renyibao.com/FileUploadServlet";
         File file = new File(path);
         okHttpClient = (new OkHttpClient.Builder()).retryOnConnectionFailure(true).connectTimeout(5L, TimeUnit.SECONDS)
@@ -552,6 +554,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                     public void run() {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
+                                hideWaitingDialog();
                                 Toast.makeText(getActivity(), getResources().getString(R.string.net_error), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -561,6 +564,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                hideWaitingDialog();
                 if (response.isSuccessful()) {
                     try {
                         final String resp = response.body().string();
