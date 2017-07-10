@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.utils.ui.HisKeyboardView;
 import com.witnsoft.libinterhis.utils.ClearEditText;
+import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
@@ -96,8 +100,6 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private ClearEditText etSearch;
     @ViewInject(R.id.gv_search)
     private GridView gvSearch;
-    //    @ViewInject(R.id.tv_med_count)
-//    private TextView tvMedCount;
     @ViewInject(R.id.tv_med_money)
     private TextView tvMedMoney;
     @ViewInject(R.id.lv_med_top)
@@ -108,6 +110,10 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private EditText etUsage;
     @ViewInject(R.id.iv_signature)
     private ImageView ivSignature;
+    @ViewInject(R.id.tv_empty)
+    private TextView tvEmpty;
+    @ViewInject(R.id.ll_search)
+    private AutoScaleLinearLayout llSearch;
 
     private static final String TAG = "WesternFragment";
     private static final String PKG = "com.witnsoft.interhis";
@@ -273,6 +279,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         if (null == chineseMedSearchAdapter) {
             chineseMedSearchAdapter = new WesternMedSearchAdapter(getActivity(), searchList);
             gvSearch.setAdapter(chineseMedSearchAdapter);
+            gvSearch.setEmptyView(tvEmpty);
             gvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -748,6 +755,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
      * 固定位置显示药材名字
      */
     private void initFixedSearchData() {
+        showSearchWaiting();
         final String[] fixedMed = getActivity().getResources().getStringArray(R.array.western_fixed_list);
         Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
             @Override
@@ -794,10 +802,12 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
                     @Override
                     public void onCompleted() {
+                        hideSearchWaiting();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        hideSearchWaiting();
                         Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
@@ -868,6 +878,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
     private void searchData(final String pinyin) {
         //根据拼音查询数据
+        showSearchWaiting();
         Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
             @Override
             public void call(Subscriber<? super List<Map<String, String>>> subscriber) {
@@ -909,10 +920,12 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
                     @Override
                     public void onCompleted() {
+                        hideSearchWaiting();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        hideSearchWaiting();
                         Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
@@ -962,5 +975,24 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
     public void setOnWesternPageChanged(OnWesternPageChanged onWesternPageChanged) {
         this.onWesternPageChanged = onWesternPageChanged;
+    }
+
+    protected ProgressBar progressBar;
+
+    private void showSearchWaiting() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.gravity = Gravity.CENTER;
+                progressBar = new ProgressBar(getActivity());
+                progressBar.setLayoutParams(lp);
+                llSearch.addView(progressBar);
+            }
+        });
+    }
+
+    private void hideSearchWaiting() {
+        llSearch.removeView(progressBar);
     }
 }

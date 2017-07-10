@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,7 @@ import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.interhis.utils.ui.HisKeyboardView;
 import com.witnsoft.libinterhis.utils.ClearEditText;
+import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
@@ -106,6 +110,10 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private EditText etUsage;
     @ViewInject(R.id.iv_signature)
     private ImageView ivSignature;
+    @ViewInject(R.id.tv_empty)
+    private TextView tvEmpty;
+    @ViewInject(R.id.ll_search)
+    private AutoScaleLinearLayout llSearch;
 
     private static final String TAG = "ChineseMedicalFragment";
     private static final String PKG = "com.witnsoft.interhis";
@@ -291,6 +299,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         if (null == chineseMedSearchAdapter) {
             chineseMedSearchAdapter = new ChineseMedSearchAdapter(getActivity(), searchList);
             gvSearch.setAdapter(chineseMedSearchAdapter);
+            gvSearch.setEmptyView(tvEmpty);
             gvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -773,6 +782,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
      */
     private void initFixedSearchData() {
         final String[] fixedMed = getActivity().getResources().getStringArray(R.array.chinese_fixed_list);
+        showSearchWaiting();
         Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
             @Override
             public void call(Subscriber<? super List<Map<String, String>>> subscriber) {
@@ -818,10 +828,12 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
                     @Override
                     public void onCompleted() {
+                        hideSearchWaiting();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        hideSearchWaiting();
                         Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
@@ -901,6 +913,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     private void searchData(final String pinyin) {
         //根据拼音查询数据
+        showSearchWaiting();
         Observable.create(new Observable.OnSubscribe<List<Map<String, String>>>() {
             @Override
             public void call(Subscriber<? super List<Map<String, String>>> subscriber) {
@@ -942,10 +955,12 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
                     @Override
                     public void onCompleted() {
+                        hideSearchWaiting();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        hideSearchWaiting();
                         Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 
@@ -995,5 +1010,24 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     public void setOnPageChanged(OnPageChanged onPageChanged) {
         this.onPageChanged = onPageChanged;
+    }
+
+    protected ProgressBar progressBar;
+
+    private void showSearchWaiting() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.gravity = Gravity.CENTER;
+                progressBar = new ProgressBar(getActivity());
+                progressBar.setLayoutParams(lp);
+                llSearch.addView(progressBar);
+            }
+        });
+    }
+
+    private void hideSearchWaiting() {
+        llSearch.removeView(progressBar);
     }
 }

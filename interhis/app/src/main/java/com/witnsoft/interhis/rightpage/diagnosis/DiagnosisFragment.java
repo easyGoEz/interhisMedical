@@ -1,13 +1,11 @@
 package com.witnsoft.interhis.rightpage.diagnosis;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
-import com.hyphenate.easeui.EaseConstant;
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.adapter.PatAdapter;
+import com.witnsoft.interhis.base.BaseV4Fragment;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.db.model.DiagnosisModel;
 import com.witnsoft.interhis.db.model.WesternModel;
-import com.witnsoft.interhis.mainpage.MainActivity;
-import com.witnsoft.interhis.rightpage.RightMainFragment;
-import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
 
 import org.xutils.ex.DbException;
@@ -50,7 +42,7 @@ import rx.schedulers.Schedulers;
  */
 
 @ContentView(R.layout.fragment_diagnosis)
-public class DiagnosisFragment extends Fragment {
+public class DiagnosisFragment extends BaseV4Fragment {
 
     @ViewInject(R.id.rv_diagnosis)
     private RecyclerView rvDiagnosis;
@@ -108,7 +100,7 @@ public class DiagnosisFragment extends Fragment {
                                 HisDbManager.getManager().saveDiagnosis(diagnosisModel);
                                 Toast.makeText(getActivity(), getResources().getString(R.string.save_success), Toast.LENGTH_LONG).show();
                             } catch (Exception e) {
-
+                                Toast.makeText(getActivity(), getResources().getString(R.string.save_failed), Toast.LENGTH_LONG).show();
                             }
                             // TODO: 2017/7/4 诊断两主表都存 
 //                            updateChinese();
@@ -177,6 +169,7 @@ public class DiagnosisFragment extends Fragment {
     private List<DiagnosisModel> diagnosisModelList = new ArrayList<>();
 
     private void callDiagnosisDb() {
+        showWaitingDialogCannotCancel();
         Observable.create(new Observable.OnSubscribe<List<DiagnosisModel>>() {
             @Override
             public void call(Subscriber<? super List<DiagnosisModel>> subscriber) {
@@ -203,10 +196,12 @@ public class DiagnosisFragment extends Fragment {
 
                     @Override
                     public void onCompleted() {
+                        hideWaitingDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        hideWaitingDialog();
                         Toast.makeText(getActivity(), getResources().getString(R.string.data_error), Toast.LENGTH_LONG).show();
                     }
 

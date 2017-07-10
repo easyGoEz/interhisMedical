@@ -100,6 +100,7 @@
     <!--DiagnosisFragment begin-->
 
     <!--ChineseMedicalFragment begin-->
+    <string name="no_search">没有搜索结果</string>
     <string name="doc_signature">医师签名:</string>
     <string name="medical_count">共  %1$s  付</string>
     <string name="count">金额：</string>
@@ -151,6 +152,7 @@
     <!--DiagnosisFragment begin-->
     <string name="please_enter_dialogsis">请输入诊断</string>
     <string name="save_success">保存成功</string>
+    <string name="save_failed">保存失败</string>
     <!--DiagnosisFragment end-->
 
     <!--WesternFragment begin-->

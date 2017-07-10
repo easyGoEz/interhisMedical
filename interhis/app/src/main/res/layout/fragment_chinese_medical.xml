@@ -150,12 +150,41 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <GridView
-                    android:id="@+id/gv_search"
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleFrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20px"
-                    android:numColumns="3"/>
+                    android:layout_height="match_parent">
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <GridView
+                            android:id="@+id/gv_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20px"
+                            android:numColumns="3"/>
+
+                        <TextView
+                            android:id="@+id/tv_empty"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/no_search"
+                            android:textColor="@color/text_gray_color"
+                            android:textSize="@dimen/text_big"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:id="@+id/ll_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleFrameLayout>
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
