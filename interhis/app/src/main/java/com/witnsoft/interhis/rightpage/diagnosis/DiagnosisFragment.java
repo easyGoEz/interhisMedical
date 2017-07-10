@@ -2,7 +2,6 @@ package com.witnsoft.interhis.rightpage.diagnosis;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.witnsoft.interhis.BaseV4Fragment;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.base.BaseV4Fragment;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.db.model.DiagnosisModel;

@@ -172,7 +172,8 @@
                             android:gravity="center"
                             android:text="@string/no_search"
                             android:textColor="@color/text_gray_color"
-                            android:textSize="@dimen/text_big"/>
+                            android:textSize="@dimen/text_big"
+                            android:visibility="gone"/>
 
                     </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 

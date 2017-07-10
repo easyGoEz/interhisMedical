@@ -1020,8 +1020,12 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
             public void run() {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 lp.gravity = Gravity.CENTER;
-                progressBar = new ProgressBar(getActivity());
-                progressBar.setLayoutParams(lp);
+                if (null == progressBar) {
+                    progressBar = new ProgressBar(getActivity());
+                    progressBar.setLayoutParams(lp);
+                } else {
+                    llSearch.removeView(progressBar);
+                }
                 llSearch.addView(progressBar);
             }
         });
