@@ -159,7 +159,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
             this.helperId = getArguments().getString("userId");
         }
         this.patName = getArguments().getString("pat_name");
-        aiid = getArguments().getString("aiid");
+        this.aiid = getArguments().getString("aiid");
         this.patSexName = getArguments().getString("pat_sex_name");
         this.patId = getArguments().getString("pat_id");
 //        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
@@ -360,7 +360,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                             }
                         }
                         initTopMed();
-                        initTopMed();
+//                        initTopMed();
                     }
                 });
     }

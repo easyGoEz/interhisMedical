@@ -276,7 +276,12 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                             // 金额
                             if (!TextUtils.isEmpty(model.getJe())) {
                                 je = model.getJe();
-                                tvMedMoney.setText(je + getResources().getString(R.string.yuan));
+                                try {
+                                    double value = convert(Double.parseDouble(je));
+                                    tvMedMoney.setText(String.valueOf(value) + getResources().getString(R.string.yuan));
+                                } catch (Exception e) {
+                                    tvMedMoney.setText("");
+                                }
                             }
                             // 处方明细数量
                             if (!TextUtils.isEmpty(model.getAcMxs())) {
