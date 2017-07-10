@@ -537,18 +537,18 @@ public class MainActivity extends BaseActivity {
                                         dataChatList.get(position).put("color", "changed");
                                         patAdapter.notifyDataSetChanged();
                                         //发送广播
-                                        Intent intent = new Intent("SHUAXIN");
-                                        intent.putExtra("accid", dataChatList.get(position).get("ACCID"));
-                                        sendBroadcast(intent);
+//                                        Intent intent = new Intent("SHUAXIN");
+//                                        intent.putExtra("accid", dataChatList.get(position).get("ACCID"));
+//                                        sendBroadcast(intent);
 
                                         //将患者id传回
-                                        ChuFangChinese chuFangChinese = new ChuFangChinese();
-                                        try {
-                                            chuFangChinese.setHelperId(dataChatList.get(position).get("ACCID"));
-                                            Log.e(TAG, "onClick: " + dataChatList.get(position).get("ACCID"));
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
+//                                        ChuFangChinese chuFangChinese = new ChuFangChinese();
+//                                        try {
+//                                            chuFangChinese.setHelperId(dataChatList.get(position).get("ACCID"));
+//                                            Log.e(TAG, "onClick: " + dataChatList.get(position).get("ACCID"));
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
 
 
                                         //将aiid存入数据库
@@ -568,14 +568,23 @@ public class MainActivity extends BaseActivity {
                                         try {
                                             RightMainFragment rightMainFragment = new RightMainFragment();
                                             Bundle bundle = new Bundle();
+                                            // 问诊id
                                             bundle.putString("aiid", dataChatList.get(position).get("AIID"));
                                             bundle.putString("userName", EaseConstant.EXTRA_USER_ID);
+                                            // 环信聊天唯一标识
                                             bundle.putString("userId", dataChatList.get(position).get("ACCID"));
                                             bundle.putString("type", EaseConstant.EXTRA_CHAT_TYPE);
                                             bundle.putInt("single", EaseConstant.CHATTYPE_SINGLE);
+                                            // 医生头像
                                             bundle.putString("img_doc", headImg);
+                                            // 患者头像
                                             bundle.putString("img_pat", dataChatList.get(position).get("PHOTOURL"));
+                                            // 患者姓名
                                             bundle.putString("pat_name", dataChatList.get(position).get("PATNAME"));
+                                            // 性别
+                                            bundle.putString("pat_sex_name", dataChatList.get(position).get("PATSEXNAME"));
+                                            // 病人id
+                                            bundle.putString("pat_id", dataChatList.get(position).get("PATID"));
                                             rightMainFragment.setArguments(bundle);
                                             fragmentManager = getSupportFragmentManager().beginTransaction();
 //                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -586,18 +595,6 @@ public class MainActivity extends BaseActivity {
                                             e.printStackTrace();
                                             Log.e(TAG, "!!!!!!!!!!!!!ArrayIndexOutOfBoundsException in freshUi()");
                                         }
-
-//                                        HelperFragment helperFragment = (HelperFragment) getSupportFragmentManager().findFragmentById(R.id.helper);
-//                                        try {
-//                                            Log.e(TAG, "!!!!arryay position = " + position + "  and data = " + dataChatList.get(position).get("ACCID"));
-//                                            helperFragment.setContent(dataChatList.get(position).get("AIID"), EaseConstant.EXTRA_USER_ID,
-//                                                    dataChatList.get(position).get("ACCID"),
-//                                                    EaseConstant.EXTRA_CHAT_TYPE,
-//                                                    EaseConstant.CHATTYPE_SINGLE);
-//
-//                                        } catch (ArrayIndexOutOfBoundsException e) {
-//                                            Log.e(TAG, "!!!!!!!!!!!!!ArrayIndexOutOfBoundsException in freshUi()");
-//                                        }
                                     }
                                 });
                                 patAdapter.notifyDataSetChanged();

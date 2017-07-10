@@ -53,6 +53,8 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
     private String imgDoc;
     private String imgPat;
     private String patName;
+    private String patSexName;
+    private String patId;
 
     @ViewInject(R.id.viewpager)
     private ViewPager viewPager;
@@ -103,6 +105,8 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         this.imgDoc = getArguments().getString("img_doc");
         this.imgPat = getArguments().getString("img_pat");
         this.patName = getArguments().getString("pat_name");
+        this.patSexName = getArguments().getString("pat_sex_name");
+        this.patId = getArguments().getString("pat_id");
         EaseChatFragment chatFragment = new EaseChatFragment();
         initChat(chatFragment);
         DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
@@ -228,6 +232,10 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         bundle.putString("aiid", this.aiid);
         bundle.putString("userId", this.helperId);
         bundle.putString("pat_name", this.patName);
+        // 性别
+        bundle.putString("pat_sex_name", this.patSexName);
+        // 病人id
+        bundle.putString("pat_id", this.patId);
         fragment.setArguments(bundle);
     }
 

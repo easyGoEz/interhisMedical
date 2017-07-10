@@ -131,6 +131,8 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
 
     private String helperId;
     private String patName;
+    private String patSexName;
+    private String patId;
 
     @Nullable
     @Override
@@ -157,6 +159,8 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         }
         this.patName = getArguments().getString("pat_name");
         aiid = getArguments().getString("aiid");
+        this.patSexName = getArguments().getString("pat_sex_name");
+        this.patId = getArguments().getString("pat_id");
 //        tvMedCount.setText(String.format(getActivity().getResources().getString(R.string.medical_count), "0"));
         gson = new Gson();
         initSearch();
@@ -525,7 +529,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
     private OkHttpClient okHttpClient;
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    private void callUpdateImg(String awid, String path) {
+    private void callUpdateImg(final String awid, String path) {
         final String url = "https://zy.renyibao.com/FileUploadServlet";
         File file = new File(path);
         okHttpClient = (new OkHttpClient.Builder()).retryOnConnectionFailure(true).connectTimeout(5L, TimeUnit.SECONDS)
@@ -574,7 +578,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
-                                                        createMedical(helperId, "西药", aiid, je, acsm, medTopList);
+                                                        createMedical(helperId, "西药", aiid, je, acsm, awid, medTopList);
                                                         String picUrl = "";
                                                         if (null != map.get("fjlj")) {
                                                             try {
@@ -619,7 +623,7 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
      * 上传服务器成功后转聊天
      */
     private void createMedical(String userName, String yaofangType, String yaofangNum,
-                               String yaofangPrice, String acsm, List<WesternDetailModel> list) {
+                               String yaofangPrice, String acsm, String awid, List<WesternDetailModel> list) {
         EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
         message.setAttribute("type", "yaofang");
         message.setAttribute("userName", userName);
@@ -628,6 +632,12 @@ public class WesternFragment extends Fragment implements WesternMedCountDialog.C
         message.setAttribute("yaofangPrice", yaofangPrice);
         message.setAttribute("name", patName);
         message.setAttribute("acsm", acsm);
+        // 患者性别
+        message.setAttribute("pat_sex_name", patSexName);
+        // 患者id
+        message.setAttribute("pat_id", patId);
+        // 药方号
+        message.setAttribute("acid", awid);
         try {
             JSONArray jsonArray = getJson(list);
             message.setAttribute("med_json", jsonArray);

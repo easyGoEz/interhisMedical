@@ -131,6 +131,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
 
     private String helperId;
     private String patName;
+    private String patSexName;
+    private String patId;
 
     @Nullable
     @Override
@@ -157,6 +159,8 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
         }
         this.patName = getArguments().getString("pat_name");
         this.aiid = getArguments().getString("aiid");
+        this.patSexName = getArguments().getString("pat_sex_name");
+        this.patId = getArguments().getString("pat_id");
         gson = new Gson();
         initSearch();
         initData();
@@ -544,7 +548,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
     private OkHttpClient okHttpClient;
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    private void callUpdateImg(String acid, String path) {
+    private void callUpdateImg(final String acid, String path) {
         final String url = "https://zy.renyibao.com/FileUploadServlet";
         File file = new File(path);
         okHttpClient = (new OkHttpClient.Builder()).retryOnConnectionFailure(true).connectTimeout(5L, TimeUnit.SECONDS)
@@ -594,7 +598,7 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
                                                     public void run() {
                                                         Toast.makeText(getActivity(), getResources().getString(R.string.update_success), Toast.LENGTH_LONG).show();
 
-                                                        createMedical(helperId, "中药", aiid, acmxs, je, acsm, medTopList);
+                                                        createMedical(helperId, "中药", aiid, acmxs, je, acsm, acid, medTopList);
                                                         String picUrl = "";
                                                         if (null != map.get("fjlj")) {
                                                             try {
@@ -639,17 +643,23 @@ public class ChineseMedicalFragment extends Fragment implements MedicalCountDial
      * 上传服务器成功后转聊天
      */
     private void createMedical(String userName, String yaofangType, String yaofangNum,
-                               String yaoNum, String yaofangPrice, String acsm, List<ChineseDetailModel> list) {
+                               String yaoNum, String yaofangPrice, String acsm, String acid, List<ChineseDetailModel> list) {
         EMMessage message = EMMessage.createTxtSendMessage("yaofang", helperId);
         message.setAttribute("type", "yaofang");
         message.setAttribute("userName", userName);
         message.setAttribute("yaofangType", yaofangType);
         message.setAttribute("aiid", yaofangNum);
-//         数量（中药付数，西药天数）
+        // 数量（中药付数，西药天数）
         message.setAttribute("yaoNum", yaoNum);
         message.setAttribute("yaofangPrice", yaofangPrice);
         message.setAttribute("name", patName);
         message.setAttribute("acsm", acsm);
+        // 患者性别
+        message.setAttribute("pat_sex_name", patSexName);
+        // 患者id
+        message.setAttribute("pat_id", patId);
+        // 药方号
+        message.setAttribute("acid", acid);
         try {
             JSONArray jsonArray = getJson(list);
             message.setAttribute("med_json", jsonArray);

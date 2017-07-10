@@ -87,11 +87,14 @@ public class MyEaseChatRowProject extends EaseChatRow {
         if (message.getBooleanAttribute("yaofang", true)) {
             userId = message.getStringAttribute("userName", null);
             yaofangType = message.getStringAttribute("yaofangType", null);
-            yaofangNum = message.getStringAttribute("aiid", null);
+            aiid = message.getStringAttribute("aiid", null);
             yaoNum = message.getStringAttribute("yaoNum", null);
             yaofangPrice = message.getStringAttribute("yaofangPrice", null);
             name = message.getStringAttribute("name", null);
             acsm = message.getStringAttribute("acsm", null);
+            patSexName = message.getStringAttribute("pat_sex_name", null);
+            patId = message.getStringAttribute("pat_id", null);
+            acid = message.getStringAttribute("acid", null);
             try {
                 medJson = message.getJSONArrayAttribute("med_json");
             } catch (Exception e) {
@@ -100,7 +103,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
 
             this.tvUserName.setText("您给" + message.getStringAttribute("name", "患者") + "开了一个");
             this.tvYaofangType.setText(yaofangType + "处方");
-            this.tvYaofangNum.setText("药方号：" + yaofangNum);
+            this.tvYaofangNum.setText("药方号：" + acid);
             if ("中药".equals(yaofangType)) {
                 this.tvYaoNum.setVisibility(VISIBLE);
                 this.tvYaoNum.setText("共" + yaoNum + "付");
@@ -122,7 +125,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
 
     private String userId;
     private String yaofangType;
-    private String yaofangNum;
+    private String aiid;
     private String yaoNum;
     private String yaofangPrice;
     private String name;
@@ -130,6 +133,9 @@ public class MyEaseChatRowProject extends EaseChatRow {
     private String acsm;
     // 处方明细
     private JSONArray medJson;
+    private String patSexName;
+    private String patId;
+    private String acid;
 
     /**
      * 点击气泡
@@ -138,7 +144,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
     protected void onBubbleClick() {
         // 处方详细
         final ChatDetailDialog chatDetailDialog
-                = new ChatDetailDialog(activity, userId, yaofangType, yaofangNum, yaoNum, yaofangPrice, name, acsm, medJson);
+                = new ChatDetailDialog(activity, patId, yaofangType, aiid, yaoNum, yaofangPrice, name, acsm, patSexName, medJson);
         chatDetailDialog.init();
     }
 

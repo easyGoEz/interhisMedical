@@ -27,13 +27,14 @@ import java.util.Map;
 public class ChatDetailDialog {
 
     private Context context;
-    private String userId;
+    private String patId;
     private String medType;
-    private String medNo;
+    private String aiid;
     private String medCount;
     private String medPrice;
     private String name;
     private String acsm;
+    private String patSexname;
     private JSONArray jsonArray;
 
     private AlertDialog ad;
@@ -51,18 +52,19 @@ public class ChatDetailDialog {
 
     private ChatDetailAdapter chatDetailAdapter = null;
 
-    public ChatDetailDialog(Context context, String userId,
-                            String medType, String medNo,
+    public ChatDetailDialog(Context context, String patId,
+                            String medType, String aiid,
                             String medCount, String medPrice,
-                            String name, String acsm, JSONArray jsonArray) {
+                            String name, String acsm, String patSexName, JSONArray jsonArray) {
         this.context = context;
-        this.userId = userId;
+        this.patId = patId;
         this.medType = medType;
-        this.medNo = medNo;
+        this.aiid = aiid;
         this.medCount = medCount;
         this.medPrice = medPrice;
         this.name = name;
         this.acsm = acsm;
+        this.patSexname = patSexName;
         this.jsonArray = jsonArray;
     }
 
@@ -87,9 +89,9 @@ public class ChatDetailDialog {
 
     private void initUi() {
         setText(tvName, name);
-        setText(tvSex, "");
-        setText(tvPatId, userId);
-        setText(tvAiId, "");
+        setText(tvSex, patSexname);
+        setText(tvPatId, patId);
+        setText(tvAiId, aiid);
         setText(tvTime, "");
         setText(tvUsage, acsm);
 //        setText(tvPrice, convert(medPrice));
