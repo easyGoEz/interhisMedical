@@ -54,6 +54,88 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal_25"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_normal_25">
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="@string/withdraw_way"
+                        android:textColor="@color/text_dark_color"
+                        android:textSize="@dimen/text_medium"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_normal_25"
+                        android:gravity="bottom"
+                        android:text="@string/we_chat_change"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_medium"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50px"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="@string/withdraw_count"
+                        android:textColor="@color/text_dark_color"
+                        android:textSize="@dimen/text_medium"/>
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal_25"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:text="@string/rmb"
+                            android:textColor="@color/text_dark_color"
+                            android:textSize="50px"/>
+
+                        <EditText
+                            android:id="@+id/et_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_normal_25"
+                            android:background="@color/colorWhite"
+                            android:gravity="bottom"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true"
+                            android:textColor="@color/text_dark_color"
+                            android:textSize="50px"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/divider_color"/>
+
+                </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 

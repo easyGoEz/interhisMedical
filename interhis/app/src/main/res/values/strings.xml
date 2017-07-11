@@ -13,6 +13,8 @@
     <string name="logout_failed">登出失败</string>
     <string name="init">正在初始化数据，请稍后……</string>
     <!--LoginActivity end-->
+
+    <!--MainActivity begin-->
     <string name="no_contact_list">请选择一个联系人会话</string>
     <string name="not_ever_visit">还未出诊或暂无患者会话</string>
     <string name="load_done">已经全部加载完毕</string>
@@ -26,8 +28,9 @@
     <string name="waiting">等待中</string>
     <string name="all_count">累计</string>
     <string name="today_income">本日收入</string>
+    <!--MainActivity end-->
 
-    <!--SettingActivity end-->
+    <!--SettingActivity begin-->
     <string name="setting_title">设置</string>
     <string name="my_info">我的信息</string>
     <string name="my_ask_history">我的问诊记录</string>
@@ -236,4 +239,12 @@
         <item>m</item>
     </string-array>
     <!--keyboardView end-->
+
+    <!--WithdrawCrashFragment begin-->
+    <string name="withdraw_way">提现方式</string>
+    <string name="we_chat_change">微信零钱</string>
+    <string name="withdraw_count">提现金额</string>
+    <string name="rmb">¥</string>
+    <!--WithdrawCrashFragment end-->
+
 </resources>

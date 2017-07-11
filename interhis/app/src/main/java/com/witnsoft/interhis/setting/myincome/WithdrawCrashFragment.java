@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding.view.RxView;
@@ -26,7 +27,11 @@ import rx.functions.Action1;
 
 @ContentView(R.layout.fragment_withdraw_crash)
 public class WithdrawCrashFragment extends ChildBaseFragment {
-    View rootView;
+
+    @ViewInject(R.id.et_count)
+    private EditText etCount;
+
+    private View rootView;
 
     @ViewInject(R.id.ll_back)
     private AutoScaleLinearLayout llBack;
@@ -43,6 +48,7 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        init();
         initClick();
     }
 
@@ -57,4 +63,8 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
                     }
                 });
     }
+
+    private void init() {
+    }
+
 }
