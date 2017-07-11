@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
@@ -33,6 +35,10 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
 
     @ViewInject(R.id.et_count)
     private EditText etCount;
+    @ViewInject(R.id.tv_my_balance)
+    private TextView tvMyBalance;
+    @ViewInject(R.id.tv_withdraw_way)
+    private TextView tvWithDrawWay;
 
     private View rootView;
 
@@ -51,6 +57,7 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initCountEdit();
         init();
         initClick();
     }
@@ -68,6 +75,16 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
     }
 
     private void init() {
+        // 提现微信账号
+        String weChat = "1234567890";
+        tvWithDrawWay.setText(String.format(getString(R.string.we_chat_change), weChat));
+        // 余额
+        String balanceCount = "1100.00";
+        tvMyBalance.setText(String.format(getString(R.string.my_balance), balanceCount));
+
+    }
+
+    private void initCountEdit() {
         etCount.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         etCount.setFilters(new InputFilter[]{new InputFilter() {
             @Override

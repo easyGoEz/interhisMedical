@@ -242,9 +242,11 @@
 
     <!--WithdrawCrashFragment begin-->
     <string name="withdraw_way">提现方式</string>
-    <string name="we_chat_change">微信零钱</string>
+    <string name="we_chat_change">微信零钱（%1$s）</string>
     <string name="withdraw_count">提现金额</string>
     <string name="rmb">¥</string>
+    <string name="my_balance">我的余额¥%1$s，</string>
+    <string name="withdraw_all">全部提现</string>
     <!--WithdrawCrashFragment end-->
 
 </resources>
