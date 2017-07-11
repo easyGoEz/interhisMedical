@@ -1111,7 +1111,7 @@ public class MainActivity extends BaseActivity {
             }
 //            manager.enqueue(down);
             mDownloadId = manager.enqueue(down);
-            //使用RxJava对下载信息进行轮询，500毫秒一次
+            // 使用RxJava对下载信息进行轮询，500毫秒一次
             Observable.interval(300, 500, TimeUnit.MILLISECONDS)
                     .takeUntil(new Func1<Long, Boolean>() {
                         @Override
