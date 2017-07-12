@@ -247,6 +247,8 @@
     <string name="rmb">¥</string>
     <string name="my_balance">我的余额¥%1$s，</string>
     <string name="withdraw_all">全部提现</string>
+    <string name="withdraw_tip">输入提现金额超过余额</string>
+    <string name="count_error">金额格式错误</string>
     <!--WithdrawCrashFragment end-->
 
 </resources>

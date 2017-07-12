@@ -136,6 +136,31 @@
                         android:background="@color/divider_color"/>
 
                     <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                        android:id="@+id/ll_tip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal_25"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="25px"
+                            android:layout_height="25px"
+                            android:background="@drawable/tip"/>
+
+                        <TextView
+                            android:id="@+id/tv_tip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12px"
+                            android:text="@string/withdraw_tip"
+                            android:textColor="@color/colorRed"
+                            android:textSize="@dimen/text_medium"
+                            android:visibility="visible"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+                    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_normal_25"
@@ -171,7 +196,8 @@
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
                     android:layout_marginTop="50px"
-                    android:background="@drawable/btn_login"
+                    android:background="@drawable/button_normal"
+                    android:enabled="false"
                     android:gravity="center"
                     android:padding="@dimen/margin_normal_25"
                     android:text="@string/to_cash"

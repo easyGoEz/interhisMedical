@@ -3,14 +3,17 @@ package com.witnsoft.interhis.setting.myincome;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,17 +38,27 @@ import rx.functions.Action1;
 @ContentView(R.layout.fragment_withdraw_crash)
 public class WithdrawCrashFragment extends ChildBaseFragment {
 
+    @ViewInject(R.id.btn_withdraw)
+    private Button btnWithDraw;
     @ViewInject(R.id.et_count)
     private EditText etCount;
     @ViewInject(R.id.tv_my_balance)
     private TextView tvMyBalance;
     @ViewInject(R.id.tv_withdraw_way)
     private TextView tvWithDrawWay;
+    @ViewInject(R.id.ll_back)
+    private AutoScaleLinearLayout llBack;
+    @ViewInject(R.id.tv_withdraw_all)
+    private TextView tvWithdrawAll;
+    @ViewInject(R.id.ll_tip)
+    private AutoScaleLinearLayout llTip;
+    @ViewInject(R.id.tv_tip)
+    private TextView tvTip;
 
     private View rootView;
 
-    @ViewInject(R.id.ll_back)
-    private AutoScaleLinearLayout llBack;
+    // 余额
+    String balanceCount = "1100.05";
 
     @Nullable
     @Override
@@ -65,6 +78,7 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
     }
 
     private void initClick() {
+        // 返回
         RxView.clicks(llBack)
                 .throttleFirst(500, TimeUnit.MILLISECONDS)
                 .compose(this.<Void>bindToLifecycle())
@@ -74,36 +88,117 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
                         finishFragment();
                     }
                 });
+        // 全部提现
+        RxView.clicks(tvWithdrawAll)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if (!TextUtils.isEmpty(balanceCount)) {
+                            double balanceCountDb = 0.0;
+                            try {
+                                balanceCountDb = Double.parseDouble(balanceCount);
+                            } catch (Exception e) {
+                                balanceCountDb = 0.0;
+                            }
+                            if (0 < balanceCountDb) {
+                                etCount.setText(balanceCount);
+                                llTip.setVisibility(View.GONE);
+                                btnWithDraw.setEnabled(true);
+                            } else {
+                                llTip.setVisibility(View.VISIBLE);
+                                btnWithDraw.setEnabled(false);
+                            }
+                        }
+                    }
+                });
     }
 
     private void init() {
+        btnWithDraw.setEnabled(false);
         // 提现微信账号
         String weChat = "1234567890";
         tvWithDrawWay.setText(String.format(getString(R.string.we_chat_change), weChat));
-        // 余额
-        String balanceCount = "1100.00";
         tvMyBalance.setText(String.format(getString(R.string.my_balance), balanceCount));
-
     }
 
     private void initCountEdit() {
         etCount.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
-        etCount.setFilters(new InputFilter[]{new InputFilter() {
+        etCount.addTextChangedListener(new TextWatcher() {
             @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.equals(".") && dest.toString().length() == 0) {
-                    return "0.";
-                }
-                if (dest.toString().contains(".")) {
-                    int index = dest.toString().indexOf(".");
-                    int length = dest.toString().substring(index).length();
-                    if (length == 3) {
-                        return "";
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        etCount.setText(s);
+                        etCount.setSelection(s.length());
                     }
                 }
-                return null;
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    etCount.setText(s);
+                    etCount.setSelection(2);
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        etCount.setText(s.subSequence(0, 1));
+                        etCount.setSelection(1);
+                        return;
+                    }
+                }
             }
-        }});
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String count = etCount.getText().toString();
+                if (!TextUtils.isEmpty(count)) {
+                    if (count.trim().substring(0).equals(".")) {
+                        count = "0";
+                    }
+                    try {
+                        if (Double.parseDouble(count) > Double.parseDouble(balanceCount)) {
+                            inputCountBeyond();
+                        } else {
+                            inputCountNormal();
+                        }
+                    } catch (Exception e) {
+                        inputCountError();
+                    }
+                } else {
+                    llTip.setVisibility(View.GONE);
+                    btnWithDraw.setEnabled(false);
+                }
+            }
+        });
+    }
+
+    // 输入金额异常处理
+    private void inputCountError() {
+        llTip.setVisibility(View.VISIBLE);
+        tvTip.setText(getActivity().getResources().getString(R.string.count_error));
+        btnWithDraw.setEnabled(false);
+    }
+
+    // 输入金额超额处理
+    private void inputCountBeyond() {
+        llTip.setVisibility(View.VISIBLE);
+        tvTip.setText(getActivity().getResources().getString(R.string.withdraw_tip));
+        btnWithDraw.setEnabled(false);
+    }
+
+    // 出入金额正常处理
+    private void inputCountNormal() {
+        llTip.setVisibility(View.GONE);
+        btnWithDraw.setEnabled(true);
     }
 
 }
