@@ -97,7 +97,7 @@ public class MyInfoFragment extends ChildBaseFragment {
         public static final int REQUEST_ALBUM_PERMISSION = 200;
     }
 
-    View rootView;
+    private View rootView;
     private String strImgPath;
     private Gson gson;
     private CallBackPathImg callBackPathImg;
