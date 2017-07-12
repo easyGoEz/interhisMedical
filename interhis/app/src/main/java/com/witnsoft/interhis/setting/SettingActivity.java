@@ -3,9 +3,11 @@ package com.witnsoft.interhis.setting;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -175,6 +177,10 @@ public class SettingActivity extends BaseActivity implements MyInfoFragment.Call
         ll3.setBackgroundColor(getResources().getColor(R.color.background_divider_color));
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.fl_content, fragment);
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
         ft.commit();
     }
 

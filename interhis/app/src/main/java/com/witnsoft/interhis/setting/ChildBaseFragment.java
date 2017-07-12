@@ -2,11 +2,13 @@ package com.witnsoft.interhis.setting;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -50,12 +52,21 @@ public class ChildBaseFragment extends BaseFragment {
         if (isToBackStack) {
             transaction.addToBackStack(null);
         }
+        hideSoftInput();
         transaction.commit();
     }
 
     public void finishFragment() {
+        hideSoftInput();
         mFragmentManager = getFragmentManager();
         mFragmentManager.popBackStack();
+    }
+
+    public void hideSoftInput() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
     public void load(String url, ImageView iv, int id) {
