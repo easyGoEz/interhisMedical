@@ -536,33 +536,6 @@ public class MainActivity extends BaseActivity {
                                         }
                                         dataChatList.get(position).put("color", "changed");
                                         patAdapter.notifyDataSetChanged();
-                                        //发送广播
-//                                        Intent intent = new Intent("SHUAXIN");
-//                                        intent.putExtra("accid", dataChatList.get(position).get("ACCID"));
-//                                        sendBroadcast(intent);
-
-                                        //将患者id传回
-//                                        ChuFangChinese chuFangChinese = new ChuFangChinese();
-//                                        try {
-//                                            chuFangChinese.setHelperId(dataChatList.get(position).get("ACCID"));
-//                                            Log.e(TAG, "onClick: " + dataChatList.get(position).get("ACCID"));
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                        }
-
-
-                                        //将aiid存入数据库
-//                                        ChineseModel chinesemodel = new ChineseModel();
-//                                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-//                                        String date = sDateFormat.format(new java.util.Date());
-//                                        chinesemodel.setTime(date);
-//                                        chinesemodel.setAiId(dataChatList.get(position).get("AIID"));
-//                                        chinesemodel.setAccId(dataChatList.get(position).get("ACCID"));
-//                                        try {
-//                                            HisDbManager.getManager().saveAskChinese(chinesemodel);
-//                                        } catch (DbException e) {
-//                                            e.printStackTrace();
-//                                        }
                                         Log.e(TAG, "onClick: " + dataChatList.get(position).get("AIID"));
                                         //启动会话列表
                                         try {
@@ -894,16 +867,6 @@ public class MainActivity extends BaseActivity {
                     } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                         // 显示帐号在其他设备登录
                         Toast.makeText(MainActivity.this, getResources().getString(R.string.chat_has_been_tick_out), Toast.LENGTH_LONG).show();
-//                        isVisiting = false;
-//                        setBtnRest();
-//                        dataChatList.clear();
-//                        pageNo = 1;
-//                        if (null != patAdapter) {
-//                            patAdapter.notifyDataSetChanged();
-//                        }
-//                        checkedPosition = -1;
-//                        tvNoContact.setVisibility(View.VISIBLE);
-//                        recyclerView.setVisibility(View.GONE);
                         chatLogout();
                     } else {
                         if (NetUtils.hasNetwork(MainActivity.this)) {

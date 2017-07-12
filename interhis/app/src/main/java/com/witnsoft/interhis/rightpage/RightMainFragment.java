@@ -242,6 +242,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
     private void initDiagnosis(Fragment fragment) {
         Bundle bundle = new Bundle();
         bundle.putString("userId", this.helperId);
+        bundle.putString("aiid", this.aiid);
         fragment.setArguments(bundle);
     }
 
