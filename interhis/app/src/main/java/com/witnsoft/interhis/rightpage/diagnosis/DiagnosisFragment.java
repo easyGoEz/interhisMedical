@@ -175,6 +175,9 @@ public class DiagnosisFragment extends BaseV4Fragment {
             }
         });
         adapter.notifyDataSetChanged();
+        if (null != diagnosisModelList && 0 < diagnosisModelList.size()) {
+            rvDiagnosis.smoothScrollToPosition(diagnosisModelList.size() - 1);
+        }
     }
 
     /**
