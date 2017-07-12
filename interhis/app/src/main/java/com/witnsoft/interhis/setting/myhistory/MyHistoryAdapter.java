@@ -32,7 +32,7 @@ public class MyHistoryAdapter extends ComRecyclerAdapter<Map<String, String>> {
         // 年龄
         comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_age, item.get("PATNL"));
         // 症状
-        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_content, item.get("JBMS"));
+        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_content, item.get("JBMC"));
         // 头像
         comRecyclerViewHolder.setImageUrl(context, R.id.fragment_doctor_recycleView_item_image, item.get("PHOTOURL"), R.drawable.touxiang);
     }

@@ -31,7 +31,7 @@ public class PatAdapter extends ComRecyclerAdapter<Map<String, String>> {
         comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_name, item.get("PATNAME"));
         comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_age, item.get("PATNL"));
         comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_sex, item.get("PATSEXNAME"));
-        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_content, item.get("JBMS"));
+        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_content, item.get("JBMC"));
         if (!TextUtils.isEmpty(item.get("color"))) {
             if ("changed".equals(item.get("color"))) {
                 comRecyclerViewHolder.setBackgroundColor(R.id.ll_back, R.color.colorWhite);
