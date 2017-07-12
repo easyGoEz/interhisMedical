@@ -251,4 +251,14 @@
     <string name="count_error">金额格式错误</string>
     <!--WithdrawCrashFragment end-->
 
+    <!--MyHistoryDetailFragment begin-->
+    <string name="my_history_detail">问诊详情</string>
+    <string name="pay_fee">付款金额：¥</string>
+    <string name="brief_introduction">疾病名称：</string>
+    <string name="brief_detail">疾病明细：</string>
+    <string name="has_pay">已付费</string>
+    <string name="ever_pay">未付费</string>
+    <string name="age">岁</string>
+    <!--MyHistoryDetailFragment end-->
+
 </resources>

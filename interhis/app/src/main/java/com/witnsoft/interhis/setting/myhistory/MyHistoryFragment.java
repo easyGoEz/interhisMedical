@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.mainpage.LoginActivity;
 import com.witnsoft.interhis.setting.ChildBaseFragment;
+import com.witnsoft.interhis.setting.myhistory.model.SerializableMap;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libnet.model.DataModel;
@@ -37,6 +38,7 @@ import java.util.Map;
 
 @ContentView(R.layout.fragment_my_history)
 public class MyHistoryFragment extends ChildBaseFragment {
+
     private View rootView;
     private MyHistoryAdapter adapter;
     private List<Map<String, String>> historyList = new ArrayList<>();
@@ -134,6 +136,9 @@ public class MyHistoryFragment extends ChildBaseFragment {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
+                } else {
+                    slRefresh.setRefreshing(false);
+                    slRefresh.setEnabled(true);
                 }
             }
 
@@ -169,7 +174,12 @@ public class MyHistoryFragment extends ChildBaseFragment {
         adapter.setOnItemClickListener(new ComRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Toast.makeText(getActivity(), "点击了" + String.valueOf(position), Toast.LENGTH_LONG).show();
+                Bundle bundle = new Bundle();
+                SerializableMap map = new SerializableMap();
+                map.setMap(historyList.get(position));
+                bundle.putSerializable("history_detail", map);
+                MyHistoryDetailFragment myHistoryDetailFragment = new MyHistoryDetailFragment();
+                pushFragment(myHistoryDetailFragment, bundle, true);
             }
         });
         adapter.notifyDataSetChanged();
