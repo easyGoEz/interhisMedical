@@ -117,15 +117,15 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
             } else {
                 age = "";
             }
-            setText(tvAge, detailMap.get("PATNL"));
+            setText(tvAge, age);
             // 创建时间
             setText(tvTime, detailMap.get("CREATETIME"));
             // 是否初诊
             if (!TextUtils.isEmpty(detailMap.get("WZMD"))) {
                 if ("first".equals(detailMap.get("WZMD"))) {
-                    setText(tvAskType, detailMap.get("WZMD"));
+                    setText(tvAskType, getActivity().getResources().getString(R.string.first_ask));
                 } else if ("more".equals(detailMap.get("WZMD"))) {
-                    setText(tvAskType, detailMap.get("WZMD"));
+                    setText(tvAskType, getActivity().getResources().getString(R.string.more_ask));
                 }
             }
             // 是否付费
@@ -139,17 +139,17 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
             // 付款金额
             setText(tvFee, detailMap.get("ASKFEE"));
             // 疾病名称
-            if(!TextUtils.isEmpty(detailMap.get("JBMC"))){
+            if (!TextUtils.isEmpty(detailMap.get("JBMC"))) {
                 llIntroduction.setVisibility(View.VISIBLE);
                 setText(tvBriefIntroduction, detailMap.get("JBMC"));
-            }else {
+            } else {
                 llIntroduction.setVisibility(View.GONE);
             }
             // 疾病明细
-            if(!TextUtils.isEmpty(detailMap.get("JBMX"))){
+            if (!TextUtils.isEmpty(detailMap.get("JBMX"))) {
                 llDetail.setVisibility(View.VISIBLE);
                 setText(tvBriefDetail, detailMap.get("JBMX"));
-            }else {
+            } else {
                 llDetail.setVisibility(View.GONE);
             }
         }

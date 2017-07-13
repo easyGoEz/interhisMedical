@@ -259,6 +259,8 @@
     <string name="has_pay">已付费</string>
     <string name="ever_pay">未付费</string>
     <string name="age">岁</string>
+    <string name="first_ask">初诊</string>
+    <string name="more_ask">复诊</string>
     <!--MyHistoryDetailFragment end-->
 
 </resources>
