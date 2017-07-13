@@ -357,6 +357,10 @@ public class MainActivity extends BaseActivity {
                                 headImg = data.get(DocInfoResponseKey.PHOTO_URL);
                                 ThriftPreUtils.putHeadImg(MainActivity.this, headImg);
                             }
+                            // 医生擅长
+                            if (!TextUtils.isEmpty(data.get("sc"))) {
+                                ThriftPreUtils.putDocExpert(MainActivity.this, data.get("sc"));
+                            }
                         }
                     }
 //                    callPatApi();

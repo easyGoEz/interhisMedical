@@ -3,6 +3,7 @@ package com.witnsoft.interhis.setting.myinfo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,9 @@ public class MyExpertFragment extends ChildBaseFragment {
 
     private void init() {
         docId = ThriftPreUtils.getDocId(getActivity());
+        if (!TextUtils.isEmpty(ThriftPreUtils.getDocExpert(getActivity()))) {
+            etMyExpert.setText(ThriftPreUtils.getDocExpert(getActivity()));
+        }
     }
 
     private void initClick() {
@@ -122,6 +126,7 @@ public class MyExpertFragment extends ChildBaseFragment {
                     etMyExpert.setEnabled(false);
                     Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_LONG).show();
                     tvEdit.setText(getResources().getString(R.string.edit));
+                    ThriftPreUtils.putDocExpert(getActivity(), etMyExpert.getText().toString());
                 } else if (ErrCode.ErrCode_504.equals(resultCode)) {
                     // token失效
                     Intent intent = new Intent(getActivity(), LoginActivity.class);

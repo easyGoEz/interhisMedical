@@ -134,7 +134,7 @@ public class MyIncomeFragment extends ChildBaseFragment {
         // TN 接口辨别
         otRequest.setTN("F27.APP.01.12");
 
-        NetTool.getInstance().startRequest(false, false, getActivity(), null, otRequest, new CallBack<Map, String>() {
+        NetTool.getInstance().startRequest(false, true, getActivity(), null, otRequest, new CallBack<Map, String>() {
             @Override
             public void onSuccess(Map response, String resultCode) {
                 if (ErrCode.ErrCode_200.equals(resultCode)) {
