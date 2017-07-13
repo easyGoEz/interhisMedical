@@ -24,13 +24,23 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@id/tv_read"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/margin_normal_25">
 
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4px"
+                    android:textSize="@dimen/text_small"
+                    tools:text="2017-01-01"/>
+
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/fragment_doctor_recycleView_item_image"
+                    android:id="@+id/iv_head"
                     android:layout_width="90px"
                     android:layout_height="90px"
+                    android:layout_marginLeft="@dimen/margin_normal_25"
                     android:src="@mipmap/touxiang"/>
 
                 <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
@@ -40,45 +50,27 @@
                     android:orientation="vertical">
 
                     <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/fragment_doctor_recycleView_item_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/text_small"
-                            tools:text="李四"/>
-
-                        <TextView
-                            android:id="@+id/fragment_doctor_recycleView_item_sex"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10px"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/text_small"
-                            tools:text="男"/>
-
-                        <TextView
-                            android:id="@+id/fragment_doctor_recycleView_item_age"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10px"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/text_small"
-                            tools:text="54"/>
-
-                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
-
-                    <TextView
-                        android:id="@+id/fragment_doctor_recycleView_item_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4px"
-                        android:textSize="@dimen/text_small"
-                        tools:text="咳嗽头痛"/>
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_big"
+                            tools:text="+350.00¥"/>
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4px"
+                            android:textSize="@dimen/text_small"
+                            tools:text="患者姓名"/>
+
+                    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
                 </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 

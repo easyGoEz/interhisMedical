@@ -45,18 +45,19 @@
         android:layout_height="1px"
         android:background="@color/divider_color"/>
 
-    <com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/sl_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doctor_count">
 
-        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_bill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/colorGray"
+            android:scrollbars="vertical"/>
 
-
-        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
-
-    </com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

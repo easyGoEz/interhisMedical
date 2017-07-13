@@ -181,7 +181,7 @@ public class MyIncomeFragment extends ChildBaseFragment {
     }
 
     private void toIncomeBill() {
-        InComeBillFragment inComeBillFragment = new InComeBillFragment();
-        pushFragment(inComeBillFragment, null, true);
+        IncomeBillFragment incomeBillFragment = new IncomeBillFragment();
+        pushFragment(incomeBillFragment, null, true);
     }
 }
