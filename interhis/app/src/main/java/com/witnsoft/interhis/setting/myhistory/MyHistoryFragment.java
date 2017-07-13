@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,10 +84,57 @@ public class MyHistoryFragment extends ChildBaseFragment {
 
     private void init() {
         docId = ThriftPreUtils.getDocId(getActivity());
-        tvVisitCountAll.setText("33");
-        tvVisitCountMonth.setText("22");
-        tvVisitCountDaily.setText("11");
+        callCount();
         callSavePersonalIntroduction(true);
+    }
+
+    /**
+     * F27.APP.01.12 我的问诊记录查询
+     */
+    private void callCount() {
+        OTRequest otRequest = new OTRequest(getActivity());
+        // DATA
+        DataModel data = new DataModel();
+        data.setParam("docid", docId);
+        data.setParam("gettype", "jzltj");
+        otRequest.setDATA(data);
+        // TN 接口辨别
+        otRequest.setTN("F27.APP.01.12");
+
+        NetTool.getInstance().startRequest(false, false, getActivity(), null, otRequest, new CallBack<Map, String>() {
+            @Override
+            public void onSuccess(Map response, String resultCode) {
+                if (ErrCode.ErrCode_200.equals(resultCode)) {
+                    if (null != response) {
+                        if (null != response) {
+                            Map<String, String> data = (Map<String, String>) response.get("DATA");
+                            // 总接诊量
+                            if (!TextUtils.isEmpty(data.get("all"))) {
+                                tvVisitCountAll.setText(data.get("all"));
+                            }
+                            // 月接诊量
+                            if (!TextUtils.isEmpty(data.get("yue"))) {
+                                tvVisitCountMonth.setText(data.get("yue"));
+                            }
+                            // 本日接诊量
+                            if (!TextUtils.isEmpty(data.get("ri"))) {
+                                tvVisitCountDaily.setText(data.get("ri"));
+                            }
+                        }
+                    }
+
+                } else if (ErrCode.ErrCode_504.equals(resultCode)) {
+                    // token失效
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+            }
+        });
     }
 
     /**
