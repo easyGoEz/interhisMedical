@@ -38,7 +38,7 @@ import rx.functions.Action1;
 @ContentView(R.layout.fragment_my_expert)
 public class MyExpertFragment extends ChildBaseFragment {
 
-    View rootView;
+    private View rootView;
 
     @ViewInject(R.id.ll_back)
     private AutoScaleLinearLayout llBack;
@@ -50,11 +50,6 @@ public class MyExpertFragment extends ChildBaseFragment {
     private EditText etMyExpert;
 
     private String docId;
-
-    private final class ErrCode {
-        private static final String ErrCode_200 = "200";
-        private static final String ErrCode_504 = "504";
-    }
 
     @Nullable
     @Override

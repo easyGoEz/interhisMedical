@@ -50,11 +50,6 @@ public class IntroductionFragment extends ChildBaseFragment {
 
     private String docId;
 
-    private final class ErrCode {
-        private static final String ErrCode_200 = "200";
-        private static final String ErrCode_504 = "504";
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

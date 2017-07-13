@@ -1,9 +1,11 @@
 package com.witnsoft.interhis.setting.myincome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +16,20 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
+import com.witnsoft.interhis.mainpage.LoginActivity;
 import com.witnsoft.interhis.setting.ChildBaseFragment;
 import com.witnsoft.interhis.utils.ui.ItemSettingRight;
+import com.witnsoft.libinterhis.utils.ThriftPreUtils;
+import com.witnsoft.libnet.model.DataModel;
+import com.witnsoft.libnet.model.OTRequest;
+import com.witnsoft.libnet.net.CallBack;
+import com.witnsoft.libnet.net.NetTool;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import rx.functions.Action1;
@@ -31,7 +40,9 @@ import rx.functions.Action1;
 
 @ContentView(R.layout.fragment_my_income)
 public class MyIncomeFragment extends ChildBaseFragment {
-    View rootView;
+
+    private View rootView;
+    private String docId;
 
     // 提现入口
     @ViewInject(R.id.rl_to_cash)
@@ -76,9 +87,8 @@ public class MyIncomeFragment extends ChildBaseFragment {
         rlBankCard.setTvTitle(getResources().getString(R.string.my_bank_card), false);
         // 收入账单
         rlBill.setTvTitle(getResources().getString(R.string.income_bill));
-        tvBalance.setText("1500");
-        tvIncome.setText("3000");
-        tvMonth.setText("1000");
+        docId = ThriftPreUtils.getDocId(getActivity());
+        callCount();
     }
 
     private void initClick() {
@@ -109,6 +119,55 @@ public class MyIncomeFragment extends ChildBaseFragment {
                         toIncomeBill();
                     }
                 });
+    }
+
+    /**
+     * F27.APP.01.12 我的问诊记录查询
+     */
+    private void callCount() {
+        OTRequest otRequest = new OTRequest(getActivity());
+        // DATA
+        DataModel data = new DataModel();
+        data.setParam("docid", docId);
+        data.setParam("gettype", "srtj");
+        otRequest.setDATA(data);
+        // TN 接口辨别
+        otRequest.setTN("F27.APP.01.12");
+
+        NetTool.getInstance().startRequest(false, false, getActivity(), null, otRequest, new CallBack<Map, String>() {
+            @Override
+            public void onSuccess(Map response, String resultCode) {
+                if (ErrCode.ErrCode_200.equals(resultCode)) {
+                    if (null != response) {
+                        if (null != response) {
+                            Map<String, String> data = (Map<String, String>) response.get("DATA");
+                            // 账户余额
+                            if (!TextUtils.isEmpty(data.get("ye"))) {
+                                tvBalance.setText(data.get("ye"));
+                            }
+                            // 我的总收入
+                            if (!TextUtils.isEmpty(data.get("all"))) {
+                                tvIncome.setText(data.get("all"));
+                            }
+                            // 本月收入金额
+                            if (!TextUtils.isEmpty(data.get("yue"))) {
+                                tvMonth.setText(data.get("yue"));
+                            }
+                        }
+                    }
+
+                } else if (ErrCode.ErrCode_504.equals(resultCode)) {
+                    // token失效
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+            }
+        });
     }
 
     private void toWithdrawCrash() {

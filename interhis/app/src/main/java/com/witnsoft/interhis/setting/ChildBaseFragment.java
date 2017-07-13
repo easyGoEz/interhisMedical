@@ -23,6 +23,11 @@ public class ChildBaseFragment extends BaseFragment {
 
     private FragmentManager mFragmentManager;
 
+    public final class ErrCode {
+        public static final String ErrCode_200 = "200";
+        public static final String ErrCode_504 = "504";
+    }
+
     @Override
     protected View initView(View view, LayoutInflater layoutInflater, ViewGroup viewGroup) {
         return null;

@@ -58,7 +58,7 @@ public class WithdrawCrashFragment extends ChildBaseFragment {
     private View rootView;
 
     // 余额
-    String balanceCount = "1100.05";
+    private String balanceCount = "1100.05";
 
     @Nullable
     @Override

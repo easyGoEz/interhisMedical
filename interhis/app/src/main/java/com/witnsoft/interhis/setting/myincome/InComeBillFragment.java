@@ -26,7 +26,8 @@ import rx.functions.Action1;
 
 @ContentView(R.layout.fragment_income_bill)
 public class InComeBillFragment extends ChildBaseFragment {
-    View rootView;
+
+    private View rootView;
 
     @ViewInject(R.id.ll_back)
     private AutoScaleLinearLayout llBack;

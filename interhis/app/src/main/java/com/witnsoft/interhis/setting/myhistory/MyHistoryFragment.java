@@ -47,11 +47,6 @@ public class MyHistoryFragment extends ChildBaseFragment {
     private int pageNo = 1;
     private static final int PAGE_COUNT = 10;
 
-    private final class ErrCode {
-        private static final String ErrCode_200 = "200";
-        private static final String ErrCode_504 = "504";
-    }
-
     // 总计接诊量
     @ViewInject(R.id.tv_visit_count_all)
     private TextView tvVisitCountAll;

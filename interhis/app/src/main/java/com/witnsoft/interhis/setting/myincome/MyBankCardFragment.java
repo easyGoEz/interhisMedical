@@ -26,7 +26,8 @@ import rx.functions.Action1;
 
 @ContentView(R.layout.fragment_my_bank_card)
 public class MyBankCardFragment extends ChildBaseFragment {
-    View rootView;
+
+    private View rootView;
 
     @ViewInject(R.id.ll_back)
     private AutoScaleLinearLayout llBack;
