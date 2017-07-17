@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    <!--<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -22,9 +22,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:name=".tool.Application"
@@ -67,8 +67,7 @@
         <service
             android:name="com.hyphenate.chat.EMJobService"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            />
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
         <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
@@ -97,8 +96,6 @@
         <activity
             android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
             android:screenOrientation="landscape"/>
-
-
 
     </application>
 
