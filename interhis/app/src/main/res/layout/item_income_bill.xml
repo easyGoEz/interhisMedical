@@ -63,6 +63,14 @@
                             tools:text="+350.00¥"/>
 
                         <TextView
+                            android:id="@+id/tv_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4px"
+                            android:textSize="@dimen/text_small"
+                            tools:text="图文问诊"/>
+
+                        <TextView
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

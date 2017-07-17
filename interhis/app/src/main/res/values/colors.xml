@@ -15,4 +15,16 @@
     <color name="login_btn">#189ad5</color>
     <color name="app_logo">#31f92f</color>
     <color name="light_gray_bg">#66000000</color>
+
+    <color name="rainbow1">#d33925</color>
+    <color name="rainbow2">#e9ac44</color>
+    <color name="rainbow3">#ffea55</color>
+    <color name="rainbow4">#82ab4f</color>
+    <color name="rainbow5">#6194c1</color>
+    <color name="rainbow6">#304989</color>
+    <color name="rainbow7">#9062a0</color>
+
+    <color name="red">#fe0000</color>
+    <color name="green">#00ff01</color>
+    <color name="blue">#0000fe</color>
 </resources>

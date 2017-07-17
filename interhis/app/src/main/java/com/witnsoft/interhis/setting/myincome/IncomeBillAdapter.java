@@ -26,10 +26,11 @@ public class IncomeBillAdapter extends ComRecyclerAdapter<Map<String, String>> {
 
     @Override
     public void convert(ComRecyclerViewHolder comRecyclerViewHolder, Map<String, String> item) {
-        comRecyclerViewHolder.setText(R.id.tv_time, item.get("time"));
-        comRecyclerViewHolder.setText(R.id.tv_name, item.get("name"));
-        if (!TextUtils.isEmpty(item.get("count"))) {
-            comRecyclerViewHolder.setText(R.id.tv_count, "+" + item.get("count") + "¥");
+        comRecyclerViewHolder.setText(R.id.tv_time, item.get("OPTIME"));
+        comRecyclerViewHolder.setText(R.id.tv_name, item.get("PATNAME"));
+        comRecyclerViewHolder.setText(R.id.tv_type, item.get("DSMC"));
+        if (!TextUtils.isEmpty(item.get("ZF_JE"))) {
+            comRecyclerViewHolder.setText(R.id.tv_count, "+" + item.get("ZF_JE") + "¥");
         }
     }
 
