@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,10 @@ import java.util.Map;
 public class SickChatRow extends EaseChatRow {
 
     private TextView sickNameTv, sickSexTv, sickAgeTv, sickNumber, sickHeight, sickWeight, sickConditionTv, sickHope, sickPay, jzTv;
-    private ImageView sickImg;
+    //    private ImageView sickImg;
+    private TextView tvImgTip;
+    private RelativeLayout rlAsk;
+    private ArrayList<String> piclist = new ArrayList<>();
 
 
     public SickChatRow(Context context, EMMessage message, int position, BaseAdapter adapter, String imgDoc, String imgPat) {
@@ -54,15 +58,10 @@ public class SickChatRow extends EaseChatRow {
         sickHope = (TextView) findViewById(R.id.tv_sick_hope);
         sickPay = (TextView) findViewById(R.id.tv_pay_state);
         jzTv = (TextView) findViewById(R.id.tv_jiezhen);
+        tvImgTip = (TextView) findViewById(R.id.tv_img_tip);
+        rlAsk = (RelativeLayout) findViewById(R.id.rl_ask);
 
-        jzTv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "开始接诊", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        sickImg = (ImageView) findViewById(R.id.sick_picture);
+//        sickImg = (ImageView) findViewById(R.id.sick_picture);
 
     }
 
@@ -103,19 +102,41 @@ public class SickChatRow extends EaseChatRow {
         sickHope.setText(hope);
 
 
-        List<String> piclist = (List<String>) contentMap.get("piclist");
-        for (int i = 0; i < piclist.size(); i++) {
-            Glide.with(context).load(piclist.get(i)).into(sickImg);
+        List<String> list = (List<String>) contentMap.get("piclist");
+        if (null != list && 0 < list.size()) {
+            tvImgTip.setVisibility(VISIBLE);
+            piclist.clear();
+            for (String str : list) {
+                piclist.add(str);
+            }
+        } else {
+            tvImgTip.setVisibility(GONE);
         }
-        Log.e("piclist.size()", "piclist.size():" + piclist.size());
-
-
-        // Log.e("patinfo!!!!!!!!!!", content);
+        rlAsk.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "开始接诊", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tvImgTip.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != piclist && 0 < piclist.size()) {
+                    final SickChatDetailDialog sickChatDetailDialog
+                            = new SickChatDetailDialog(activity, piclist);
+                    sickChatDetailDialog.init();
+                }
+            }
+        });
 
     }
 
     @Override
     protected void onBubbleClick() {
-
+//        if (null != piclist && 0 < piclist.size()) {
+//            final SickChatDetailDialog sickChatDetailDialog
+//                    = new SickChatDetailDialog(activity, piclist);
+//            sickChatDetailDialog.init();
+//        }
     }
 }

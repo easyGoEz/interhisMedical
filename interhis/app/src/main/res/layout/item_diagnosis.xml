@@ -5,24 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="left"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_normal_25"
+    android:paddingRight="@dimen/margin_normal_25"
+    android:paddingTop="18px">
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:padding="@dimen/margin_normal_25"
         android:textColor="@color/text_gray_color"
-        android:textSize="@dimen/text_big"
+        android:textSize="@dimen/text_little"
         tools:text="2017-01-01"/>
 
     <TextView
         android:id="@+id/tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="9px"
         android:gravity="left"
-        android:padding="@dimen/margin_normal_25"
         android:textColor="@color/text_medium_color"
         android:textSize="@dimen/text_big"
         tools:text="内容内容内容内容"/>

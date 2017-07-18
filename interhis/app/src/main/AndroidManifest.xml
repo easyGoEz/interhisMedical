@@ -87,6 +87,11 @@
             android:theme="@style/horizontal_slide"/>
 
         <activity
+            android:name="com.hyphenate.easeui.SilkImageActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/horizontal_slide"/>
+
+        <activity
             android:name=".mainpage.MedicalDetailsActivity"
             android:theme="@style/MyDialogActivityTheme"/>
 

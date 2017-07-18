@@ -112,11 +112,11 @@
                     android:text="咳嗽老不好"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                <ImageView
-                    android:id="@+id/sick_picture"
-                    android:src="@drawable/ic_launcher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/sick_picture"-->
+                    <!--android:src="@drawable/ic_launcher"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"/>-->
                 <TextView
                     android:id="@+id/tv_sick_hope"
                     android:text="希望找大夫开点中药，调理一下"
@@ -179,7 +179,6 @@
                         android:textColor="#818181"
                         android:textSize="14sp" />
                 </RelativeLayout>
->>>>>>> 0c559781747dbdbee04a856b9da2d14d85c2e2a2
             </LinearLayout>
 
 
