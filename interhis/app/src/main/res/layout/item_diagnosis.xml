@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="left">
+    android:gravity="left"
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/item_text"
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_normal_25"
         android:gravity="left"
+        android:padding="@dimen/margin_normal_25"
         android:textColor="@color/text_gray_color"
-        android:textSize="@dimen/text_big"/>
+        android:textSize="@dimen/text_big"
+        tools:text="2017-01-01"/>
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:padding="@dimen/margin_normal_25"
+        android:textColor="@color/text_medium_color"
+        android:textSize="@dimen/text_big"
+        tools:text="内容内容内容内容"/>
 
 </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

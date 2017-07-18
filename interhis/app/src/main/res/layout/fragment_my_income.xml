@@ -133,11 +133,11 @@
         android:layout_marginTop="@dimen/margin_normal_25"/>
 
     <!--我的银行卡-->
-    <com.witnsoft.interhis.utils.ui.ItemSettingRight
-        android:id="@+id/rl_bank_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal_25"/>
+    <!--<com.witnsoft.interhis.utils.ui.ItemSettingRight-->
+        <!--android:id="@+id/rl_bank_card"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="@dimen/margin_normal_25"/>-->
 
     <!--收入账单-->
     <com.witnsoft.interhis.utils.ui.ItemSettingRight

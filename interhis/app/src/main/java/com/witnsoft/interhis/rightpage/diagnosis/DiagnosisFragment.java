@@ -32,6 +32,7 @@ import org.xutils.x;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -204,8 +205,12 @@ public class DiagnosisFragment extends BaseV4Fragment {
                             try {
                                 DiagnosisModel diagnosisModel = new DiagnosisModel();
                                 SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-                                String date = sDateFormat.format(new java.util.Date());
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                                Date dateUtil = new Date();
+                                String date = sDateFormat.format(dateUtil);
+                                String dateFormat = format.format(dateUtil);
                                 diagnosisModel.setTime(date + accId);
+                                diagnosisModel.setDesTime(dateFormat);
                                 diagnosisModel.setAccId(accId);
                                 diagnosisModel.setDescribe(etDiagnosis.getText().toString());
                                 HisDbManager.getManager().saveDiagnosis(diagnosisModel);

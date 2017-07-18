@@ -29,7 +29,8 @@ public class DiagnosisAdapter extends ComRecyclerAdapter<DiagnosisModel> {
 
     @Override
     public void convert(ComRecyclerViewHolder comRecyclerViewHolder, DiagnosisModel item) {
-        comRecyclerViewHolder.setText(R.id.item_text, item.getDescribe());
+        comRecyclerViewHolder.setText(R.id.tv_text, item.getDescribe());
+        comRecyclerViewHolder.setText(R.id.tv_time, item.getDesTime());
     }
 
     @Override

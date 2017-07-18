@@ -11,7 +11,7 @@ import org.xutils.db.annotation.Table;
 public class DiagnosisModel {
 
     // primary key
-    @Column(name = "Time",
+    @Column(name = "TIME",
             isId = true,
             autoGen = true)
     private String time;
@@ -21,6 +21,9 @@ public class DiagnosisModel {
 
     @Column(name = "ACCID")
     private String accId;
+
+    @Column(name = "DES_TIME")
+    private String desTime;
 
     public void setTime(String time) {
         this.time = time;
@@ -44,5 +47,13 @@ public class DiagnosisModel {
 
     public String getAccId() {
         return accId;
+    }
+
+    public void setDesTime(String desTime) {
+        this.desTime = desTime;
+    }
+
+    public String getDesTime() {
+        return desTime;
     }
 }
