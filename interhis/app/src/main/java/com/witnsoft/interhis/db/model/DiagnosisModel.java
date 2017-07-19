@@ -25,6 +25,12 @@ public class DiagnosisModel {
     @Column(name = "DES_TIME")
     private String desTime;
 
+    @Column(name = "AIID")
+    private String aiid;
+
+    @Column(name = "DOCID")
+    private String docId;
+
     public void setTime(String time) {
         this.time = time;
     }
@@ -56,4 +62,21 @@ public class DiagnosisModel {
     public String getDesTime() {
         return desTime;
     }
+
+    public void setAiid(String aiid) {
+        this.aiid = aiid;
+    }
+
+    public String getAiid() {
+        return aiid;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getDocId() {
+        return docId;
+    }
+
 }

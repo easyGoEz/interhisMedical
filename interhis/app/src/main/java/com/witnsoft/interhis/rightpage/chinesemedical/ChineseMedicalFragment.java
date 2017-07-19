@@ -45,6 +45,7 @@ import com.witnsoft.interhis.db.model.ChineseModel;
 import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.interhis.utils.ui.HisKeyboardView;
 import com.witnsoft.libinterhis.utils.ClearEditText;
+import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
@@ -231,7 +232,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
             @Override
             public void call(Subscriber<? super ChineseModel> subscriber) {
                 try {
-                    ChineseModel model = HisDbManager.getManager().findChineseModel(helperId);
+                    ChineseModel model = HisDbManager.getManager().findChineseModel(helperId, aiid, ThriftPreUtils.getDocId(getActivity()));
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onNext(model);
                         subscriber.onCompleted();
@@ -345,7 +346,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
             @Override
             public void call(Subscriber<? super List<ChineseDetailModel>> subscriber) {
                 try {
-                    List<ChineseDetailModel> chineseTopList = HisDbManager.getManager().findChineseDetailModel(helperId);
+                    List<ChineseDetailModel> chineseTopList = HisDbManager.getManager().findChineseDetailModel(helperId, aiid, ThriftPreUtils.getDocId(getActivity()));
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onNext(chineseTopList);
                         subscriber.onCompleted();
@@ -415,6 +416,8 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
         // 处方增加
         if (null != searchModel) {
             searchModel.setAccid(helperId);
+            searchModel.setAiid(aiid);
+            searchModel.setDocId(ThriftPreUtils.getDocId(getActivity()));
             medTopList.add(searchModel);
             chineseMedTopAdapter.notifyDataSetChanged();
             amountShow();
@@ -428,6 +431,8 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
             for (int i = 0; i < medTopList.size(); i++) {
                 if (medTopList.get(i).getCmc().equals(searchModel.getCmc())) {
                     searchModel.setAccid(helperId);
+                    searchModel.setAiid(aiid);
+                    searchModel.setDocId(ThriftPreUtils.getDocId(getActivity()));
                     medTopList.set(i, searchModel);
                     break;
                 }
@@ -755,6 +760,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                 chineseModel.setAcMxs(acmxs);
                 chineseModel.setAiId(aiid);
                 chineseModel.setAcSm(acsm);
+                chineseModel.setAcOper(ThriftPreUtils.getDocId(getActivity()));
                 HisDbManager.getManager().saveAskChinese(chineseModel);
             } catch (DbException e) {
 

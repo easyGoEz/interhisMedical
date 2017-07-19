@@ -65,6 +65,12 @@ public class ChineseDetailModel {
     @Column(name = "DJ")
     private String bzjg;
 
+    @Column(name = "DOCID")
+    private String docId;
+
+    @Column(name = "AIID")
+    private String aiid;
+
     public ChineseModel getChinese(DbManager db) throws DbException {
         return db.findById(ChineseModel.class, accid);
     }
@@ -139,5 +145,21 @@ public class ChineseDetailModel {
 
     public String getDj() {
         return bzjg;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setAiid(String aiid) {
+        this.aiid = aiid;
+    }
+
+    public String getAiid() {
+        return aiid;
     }
 }

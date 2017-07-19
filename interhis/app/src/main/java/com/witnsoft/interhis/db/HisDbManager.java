@@ -146,8 +146,8 @@ public class HisDbManager {
         return (List<ChineseModel>) message;
     }
 
-    public ChineseModel findChineseModel(String acid) throws DbException {
-        Object message = this.manager.selector(ChineseModel.class).where("ACCID", "=", acid).findFirst();
+    public ChineseModel findChineseModel(String acid, String aiid, String docId) throws DbException {
+        Object message = this.manager.selector(ChineseModel.class).where("ACCID", "=", acid).and("AIID", "=", aiid).and("ACOPER", "=", docId).findFirst();
         if (message == null) {
             return null;
         } else {
@@ -155,8 +155,8 @@ public class HisDbManager {
         }
     }
 
-    public WesternModel findWesternModel(String acid) throws DbException {
-        Object message = this.manager.selector(WesternModel.class).where("AWID", "=", acid).findFirst();
+    public WesternModel findWesternModel(String acid, String aiid, String docId) throws DbException {
+        Object message = this.manager.selector(WesternModel.class).where("AWID", "=", acid).and("AIID", "=", aiid).and("ACOPER", "=", docId).findFirst();
         if (message == null) {
             return null;
         } else {
@@ -180,16 +180,16 @@ public class HisDbManager {
         this.manager.delete(list);
     }
 
-    public List<ChineseDetailModel> findChineseDetailModel(String accid) throws DbException {
-        Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).findAll();
+    public List<ChineseDetailModel> findChineseDetailModel(String accid, String aiid, String docId) throws DbException {
+        Object message = this.manager.selector(ChineseDetailModel.class).where("ACCID", "=", accid).and("AIID", "=", aiid).and("DOCID", "=", docId).findAll();
         if (null == message) {
             message = new ArrayList();
         }
         return (List<ChineseDetailModel>) message;
     }
 
-    public List<WesternDetailModel> findWesternDetailList(String accid) throws DbException {
-        Object message = this.manager.selector(WesternDetailModel.class).where("ACCID", "=", accid).findAll();
+    public List<WesternDetailModel> findWesternDetailList(String accid, String aiid, String docId) throws DbException {
+        Object message = this.manager.selector(WesternDetailModel.class).where("ACCID", "=", accid).and("AIID", "=", aiid).and("DOCID", "=", docId).findAll();
         if (null == message) {
             message = new ArrayList();
         }
@@ -216,8 +216,8 @@ public class HisDbManager {
         this.manager.saveOrUpdate(model);
     }
 
-    public List<DiagnosisModel> findDiagnosisList(String accid) throws DbException {
-        Object message = this.manager.selector(DiagnosisModel.class).where("ACCID", "=", accid).findAll();
+    public List<DiagnosisModel> findDiagnosisList(String aiid, String docId) throws DbException {
+        Object message = this.manager.selector(DiagnosisModel.class).where("AIID", "=", aiid).and("DOCID", "=", docId).findAll();
         if (null == message) {
             message = new ArrayList();
         }

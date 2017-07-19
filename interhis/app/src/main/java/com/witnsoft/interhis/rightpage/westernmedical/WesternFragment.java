@@ -46,6 +46,7 @@ import com.witnsoft.interhis.mainpage.WritePadDialog;
 import com.witnsoft.interhis.updatemodel.ChuFangChinese;
 import com.witnsoft.interhis.utils.ui.HisKeyboardView;
 import com.witnsoft.libinterhis.utils.ClearEditText;
+import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
@@ -221,7 +222,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
             @Override
             public void call(Subscriber<? super WesternModel> subscriber) {
                 try {
-                    WesternModel model = HisDbManager.getManager().findWesternModel(helperId);
+                    WesternModel model = HisDbManager.getManager().findWesternModel(helperId, aiid, ThriftPreUtils.getDocId(getActivity()));
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onNext(model);
                         subscriber.onCompleted();
@@ -320,7 +321,8 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
             @Override
             public void call(Subscriber<? super List<WesternDetailModel>> subscriber) {
                 try {
-                    List<WesternDetailModel> chineseTopList = HisDbManager.getManager().findWesternDetailList(helperId);
+                    List<WesternDetailModel> chineseTopList =
+                            HisDbManager.getManager().findWesternDetailList(helperId, aiid, ThriftPreUtils.getDocId(getActivity()));
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onNext(chineseTopList);
                         subscriber.onCompleted();
@@ -390,6 +392,8 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
         // 处方增加
         if (null != searchModel) {
             searchModel.setAccid(helperId);
+            searchModel.setAiid(aiid);
+            searchModel.setDocId(ThriftPreUtils.getDocId(getActivity()));
             medTopList.add(searchModel);
             chineseMedTopAdapter.notifyDataSetChanged();
             amountShow();
@@ -403,6 +407,8 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
             for (int i = 0; i < medTopList.size(); i++) {
                 if (medTopList.get(i).getCmc().equals(searchModel.getCmc())) {
                     searchModel.setAccid(helperId);
+                    searchModel.setAiid(aiid);
+                    searchModel.setDocId(ThriftPreUtils.getDocId(getActivity()));
                     medTopList.set(i, searchModel);
                     break;
                 }

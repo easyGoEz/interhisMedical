@@ -20,6 +20,7 @@ import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.DiagnosisModel;
 import com.witnsoft.interhis.mainpage.LoginActivity;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
+import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
@@ -117,7 +118,7 @@ public class DiagnosisFragment extends BaseV4Fragment {
             @Override
             public void call(Subscriber<? super List<DiagnosisModel>> subscriber) {
                 try {
-                    List<DiagnosisModel> list = HisDbManager.getManager().findDiagnosisList(accId);
+                    List<DiagnosisModel> list = HisDbManager.getManager().findDiagnosisList(aiid, ThriftPreUtils.getDocId(getActivity()));
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onNext(list);
                         subscriber.onCompleted();
@@ -212,6 +213,8 @@ public class DiagnosisFragment extends BaseV4Fragment {
                                 diagnosisModel.setTime(date + accId);
                                 diagnosisModel.setDesTime(dateFormat);
                                 diagnosisModel.setAccId(accId);
+                                diagnosisModel.setAiid(aiid);
+                                diagnosisModel.setDocId(ThriftPreUtils.getDocId(getActivity()));
                                 diagnosisModel.setDescribe(etDiagnosis.getText().toString());
                                 HisDbManager.getManager().saveDiagnosis(diagnosisModel);
                                 Toast.makeText(getActivity(), getResources().getString(R.string.save_success), Toast.LENGTH_LONG).show();

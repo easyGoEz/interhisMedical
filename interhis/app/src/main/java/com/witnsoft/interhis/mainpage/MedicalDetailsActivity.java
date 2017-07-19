@@ -14,6 +14,7 @@ import com.witnsoft.interhis.adapter.ChineseMedicalDetailsAdapter;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.libinterhis.base.BaseActivity;
+import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
@@ -84,7 +85,7 @@ public class MedicalDetailsActivity extends BaseActivity {
 
     private void initData() {
         try {
-            list = HisDbManager.getManager().findChineseDetailModel(acid);
+            list = HisDbManager.getManager().findChineseDetailModel(acid, aiid, ThriftPreUtils.getDocId(MedicalDetailsActivity.this));
         } catch (DbException e) {
             e.printStackTrace();
         }

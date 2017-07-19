@@ -19,6 +19,13 @@ public class WesternDetailModel {
     @Column(name = "ACCID")
     private String accid;
 
+    //问诊id
+    @Column(name = "AIID")
+    private String aiid;
+
+    @Column(name = "DOCID")
+    private String docId;
+
     // 西药代码
     @Column(name = "AWDM")
     private String awDm;
@@ -129,6 +136,22 @@ public class WesternDetailModel {
 
     public String getDj() {
         return dj;
+    }
+
+    public void setAiid(String aiid) {
+        this.aiid = aiid;
+    }
+
+    public String getAiid() {
+        return aiid;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getDocId() {
+        return docId;
     }
 }
 

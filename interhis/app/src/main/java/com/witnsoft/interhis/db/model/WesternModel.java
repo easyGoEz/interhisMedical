@@ -18,7 +18,6 @@ public class WesternModel {
             autoGen = false)
     private String time;
 
-    // 问诊ID
     @Column(name = "AWID")
     private String awId;
 
