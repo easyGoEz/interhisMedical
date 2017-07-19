@@ -54,13 +54,6 @@ public class MyEaseChatRowProject extends EaseChatRow {
         tvYaoNum = (TextView) findViewById(R.id.tv_yao_num);
         tvYaofangPrice = (TextView) findViewById(R.id.tv_yaofang_price);
         tvSearchContent = (TextView) findViewById(R.id.tv_searchcontent);
-//        searchContent.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
     }
 
     /**
@@ -95,6 +88,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
             patSexName = message.getStringAttribute("pat_sex_name", null);
             patId = message.getStringAttribute("pat_id", null);
             acid = message.getStringAttribute("acid", null);
+            time = message.getStringAttribute("time", null);
             try {
                 medJson = message.getJSONArrayAttribute("med_json");
             } catch (Exception e) {
@@ -129,6 +123,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
     private String yaoNum;
     private String yaofangPrice;
     private String name;
+    private String time;
     // 用法用量
     private String acsm;
     // 处方明细
@@ -144,7 +139,7 @@ public class MyEaseChatRowProject extends EaseChatRow {
     protected void onBubbleClick() {
         // 处方详细
         final ChatDetailDialog chatDetailDialog
-                = new ChatDetailDialog(activity, patId, yaofangType, aiid, yaoNum, yaofangPrice, name, acsm, patSexName, medJson);
+                = new ChatDetailDialog(activity, patId, yaofangType, aiid, yaoNum, yaofangPrice, name, acsm, patSexName, time, medJson);
         chatDetailDialog.init();
     }
 

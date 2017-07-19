@@ -673,6 +673,9 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
         message.setAttribute("pat_id", patId);
         // 药方号
         message.setAttribute("acid", acid);
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sDateFormat.format(new java.util.Date());
+        message.setAttribute("time", date);
         try {
             JSONArray jsonArray = getJson(list);
             message.setAttribute("med_json", jsonArray);

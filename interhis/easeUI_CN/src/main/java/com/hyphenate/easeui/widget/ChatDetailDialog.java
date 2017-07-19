@@ -35,6 +35,7 @@ public class ChatDetailDialog {
     private String name;
     private String acsm;
     private String patSexname;
+    private String time;
     private JSONArray jsonArray;
 
     private AlertDialog ad;
@@ -55,7 +56,7 @@ public class ChatDetailDialog {
     public ChatDetailDialog(Context context, String patId,
                             String medType, String aiid,
                             String medCount, String medPrice,
-                            String name, String acsm, String patSexName, JSONArray jsonArray) {
+                            String name, String acsm, String patSexName, String time, JSONArray jsonArray) {
         this.context = context;
         this.patId = patId;
         this.medType = medType;
@@ -65,6 +66,7 @@ public class ChatDetailDialog {
         this.name = name;
         this.acsm = acsm;
         this.patSexname = patSexName;
+        this.time = time;
         this.jsonArray = jsonArray;
     }
 
@@ -92,9 +94,8 @@ public class ChatDetailDialog {
         setText(tvSex, patSexname);
         setText(tvPatId, patId);
         setText(tvAiId, aiid);
-        setText(tvTime, "");
+        setText(tvTime, time);
         setText(tvUsage, acsm);
-//        setText(tvPrice, convert(medPrice));
         if (!TextUtils.isEmpty(medPrice)) {
             tvPrice.setText(convert(medPrice) + "元");
         } else {
