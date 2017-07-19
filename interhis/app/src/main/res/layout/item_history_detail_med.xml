@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_white_corner"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_normal_25"
+    android:paddingRight="@dimen/margin_normal_25"
+    android:paddingTop="@dimen/margin_normal_25">
+
+    <TextView
+        android:id="@+id/tv_med_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_gray_color"
+        android:textSize="@dimen/text_medium"
+        tools:text="2017-06-01"/>
+
+    <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--中西药-->
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_med_type"
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5px"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_med_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"
+                tools:text="中药"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <!--处方号-->
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_med_no"
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/med_no"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_med_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"
+                tools:text="123"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <!--数量-->
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_med_count"
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/med_count"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:id="@+id/tv_med_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"
+                tools:text="12"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+        <!--价格-->
+        <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+            android:id="@+id/ll_med_price"
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/med_price"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"/>
+
+            <TextView
+                android:id="@+id/tv_med_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_medium_color"
+                android:textSize="@dimen/text_medium"
+                tools:text="234"/>
+
+        </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+    <TextView
+        android:id="@+id/tv_med_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5px"
+        android:textColor="@color/text_gray_color"
+        android:textSize="@dimen/text_big"
+        tools:text="med"/>
+
+</com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>

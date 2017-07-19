@@ -261,6 +261,11 @@
     <string name="age">岁</string>
     <string name="first_ask">初诊</string>
     <string name="more_ask">复诊</string>
+    <string name="diagnosis">诊断</string>
+    <string name="med">开具药方</string>
+    <string name="med_no">处方号：</string>
+    <string name="med_count">处方量：</string>
+    <string name="med_price">处方价格（¥）：</string>
     <!--MyHistoryDetailFragment end-->
 
 </resources>

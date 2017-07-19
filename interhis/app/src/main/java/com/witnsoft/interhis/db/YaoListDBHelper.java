@@ -60,6 +60,7 @@ public class YaoListDBHelper extends SQLiteOpenHelper {
                 "xmmc varchar, " +
                 "xmrj varchar, " +
                 "sfdlbm varchar, " +
+                "gg, " +
                 "bzjg varchar)");
         initYaoList(db, "k_bg02_new.sql");
     }

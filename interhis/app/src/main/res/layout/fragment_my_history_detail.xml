@@ -223,6 +223,49 @@
 
             </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
+            <TextView
+                android:id="@+id/tv_diagnosis_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_normal_25"
+                android:layout_marginTop="@dimen/margin_normal_25"
+                android:text="@string/diagnosis"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/text_big"
+                android:visibility="gone"/>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/ll_diagnosis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5px"
+                android:background="@drawable/background_white_corner"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_normal_25"
+                android:visibility="gone">
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
+            <TextView
+                android:id="@+id/tv_med_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_normal_25"
+                android:layout_marginTop="@dimen/margin_normal_25"
+                android:text="@string/med"
+                android:textColor="@color/text_gray_color"
+                android:textSize="@dimen/text_big"
+                android:visibility="gone"/>
+
+            <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
+                android:id="@+id/ll_med"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5px"
+                android:orientation="vertical">
+
+            </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
+
         </com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout>
 
     </com.witnsoft.libinterhis.utils.ui.AutoScaleScrollView>
