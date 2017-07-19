@@ -93,9 +93,8 @@ public class ChatDetailAdapter extends BaseAdapter {
                     holder.tvCount.setText(json.getString("sl") + "g");
                 } else if (1 == this.type) {
                     // 西药
-                    holder.tvCount.setText(json.getString("sl") + "天");
+                    holder.tvCount.setText(json.getString("gg") + "×️" + json.getString("sl") + "天");
                 } else {
-
                     holder.tvCount.setText(json.getString("sl"));
                 }
             } else {

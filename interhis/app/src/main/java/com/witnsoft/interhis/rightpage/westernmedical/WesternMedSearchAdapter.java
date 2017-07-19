@@ -1,6 +1,7 @@
 package com.witnsoft.interhis.rightpage.westernmedical;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,14 @@ public class WesternMedSearchAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         holder = (WesternMedSearchAdapter.ViewHolder) convertView.getTag();
-        holder.tv_ss.setText(list.get(position).getCmc());
+        String content = "";
+        if (!TextUtils.isEmpty(list.get(position).getCmc())) {
+            content = list.get(position).getCmc();
+        }
+        if (!TextUtils.isEmpty(list.get(position).getAwGgMc())) {
+            content = content + "（" + list.get(position).getAwGgMc() + "）";
+        }
+        holder.tv_ss.setText(content);
         return convertView;
     }
 

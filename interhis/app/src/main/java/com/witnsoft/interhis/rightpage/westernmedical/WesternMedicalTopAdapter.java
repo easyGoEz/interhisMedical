@@ -60,11 +60,14 @@ public class WesternMedicalTopAdapter extends BaseAdapter {
         } else {
             holder.tvName.setText("");
         }
-        if (!TextUtils.isEmpty(list.get(position).getSl())) {
-            holder.tvCount.setText("×" + list.get(position).getSl() + context.getResources().getString(R.string.day));
-        } else {
-            holder.tvCount.setText("");
+        String content = "";
+        if (!TextUtils.isEmpty(list.get(position).getAwGgMc())) {
+            content = list.get(position).getAwGgMc();
         }
+        if (!TextUtils.isEmpty(list.get(position).getSl())) {
+            content = content + "×" + list.get(position).getSl() + context.getResources().getString(R.string.day);
+        }
+        holder.tvCount.setText(content);
         return convertView;
     }
 

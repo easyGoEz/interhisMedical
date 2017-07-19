@@ -245,13 +245,13 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
                                                     String medContent = "";
                                                     for (Map<String, String> mapDetail : list) {
                                                         if (isChinese) {
-                                                            // 中药  (名称（价格）单价*数量（g）)
-                                                            medContent = medContent + mapDetail.get("ymc") + "（" + mapDetail.get("yje") + "元）"
+                                                            // 中药
+                                                            medContent = medContent + mapDetail.get("ymc") + "  " + mapDetail.get("yje") + "元："
                                                                     + mapDetail.get("ydj") + "元" + strWithSign(mapDetail.get("ysl")) + "\n";
                                                         } else {
-                                                            // 西药 (名称（价格）单价*规格名称*数量（天）)
-                                                            medContent = medContent + mapDetail.get("ymc") + "(" + mapDetail.get("yje") + "元）"
-                                                                    + mapDetail.get("ydj") + "元" + strWithSign(mapDetail.get("yggmc"))
+                                                            // 西药
+                                                            medContent = medContent + mapDetail.get("ymc") + "（" + mapDetail.get("yggmc") + "）  "
+                                                                    + mapDetail.get("yje") + "元" + "：" + mapDetail.get("ydj") + "元"
                                                                     + strWithDay(mapDetail.get("ysl")) + "\n";
                                                         }
                                                     }

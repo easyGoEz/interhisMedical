@@ -44,7 +44,9 @@ public class ChuFangChinese extends ChuFangBase {
                         .put("awsl", list.get(i).getSl())
                         .put("awdm", list.get(i).getAwDm())
                         .put("dj", list.get(i).getDj())
-                        .put("je", list.get(i).getJe());
+                        .put("je", list.get(i).getJe())
+                        .put("awggmc", list.get(i).getAwGgMc())
+                        .put("awggdm", list.get(i).getAwGgDm());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

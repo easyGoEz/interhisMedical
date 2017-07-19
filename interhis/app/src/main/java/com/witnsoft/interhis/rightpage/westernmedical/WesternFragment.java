@@ -360,7 +360,6 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                             }
                         }
                         initTopMed();
-//                        initTopMed();
                     }
                 });
     }
@@ -662,7 +661,9 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                             // 药品名
                             .put("cmc", model.getCmc())
                             // 药品数量（中药"g"，西药"天"）
-                            .put("sl", model.getSl());
+                            .put("sl", model.getSl())
+                            // 规格名称
+                            .put("gg", model.getAwGgMc());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -837,6 +838,10 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                             western.setDj(map.get("bzjg"));
                             // 西药代码
                             western.setAwDm(map.get("sfxmbm"));
+                            // 规格名称
+                            western.setAwGgMc(map.get("gg"));
+                            // 规格代码
+                            western.setAwGgDm(map.get("gg"));
                             searchList.add(western);
                         }
                         chineseMedSearchAdapter.notifyDataSetChanged();
@@ -955,6 +960,10 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                             western.setDj(map.get("bzjg"));
                             // 中药代码
                             western.setAwDm(map.get("sfxmbm"));
+                            // 规格名称
+                            western.setAwGgMc(map.get("gg"));
+                            // 规格代码
+                            western.setAwGgDm(map.get("gg"));
                             searchList.add(western);
                         }
                         chineseMedSearchAdapter.notifyDataSetChanged();
