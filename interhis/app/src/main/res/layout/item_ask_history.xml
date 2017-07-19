@@ -18,6 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="35px"
+                android:layout_height="35px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_normal_25"
+                android:background="@drawable/right"/>
+
             <com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
