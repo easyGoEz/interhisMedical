@@ -1186,10 +1186,10 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (System.currentTimeMillis() - exitTime > 2000) {
             Toast.makeText(getApplicationContext(), getString(R.string.quit), Toast.LENGTH_SHORT).show();
-
             exitTime = System.currentTimeMillis();
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
+            finish();
         }
     }
 }
