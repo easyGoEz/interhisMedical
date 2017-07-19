@@ -113,7 +113,17 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
     }
 
     private void init() {
-        SerializableMap map = (SerializableMap) getArguments().get("history_detail");
+        final SerializableMap map = (SerializableMap) getArguments().get("history_detail");
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                freshTopUi(map);
+            }
+        });
+        callHistory();
+    }
+
+    private void freshTopUi(SerializableMap map) {
         if (null != map) {
             detailMap = map.getMap();
             aiid = detailMap.get("AIID");
@@ -174,7 +184,6 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
                 llDetail.setVisibility(View.GONE);
             }
         }
-        callHistory();
     }
 
     /**
@@ -200,86 +209,91 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
                 if (ErrCode.ErrCode_200.equals(resultCode)) {
                     if (null != response) {
                         if (null != response) {
-                            Map<String, Object> data = (Map<String, Object>) response.get("DATA");
+                            final Map<String, Object> data = (Map<String, Object>) response.get("DATA");
                             if (null != data) {
-                                // 处方
-                                if (null != data.get("chufang")) {
-                                    List<Map<String, Object>> listMed = (List<Map<String, Object>>) data.get("chufang");
-                                    if (null != listMed && 0 < listMed.size()) {
-                                        llMed.setVisibility(View.VISIBLE);
-                                        tvMedTip.setVisibility(View.VISIBLE);
-                                        llMed.removeAllViews();
-                                        for (Map<String, Object> map : listMed) {
-                                            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_history_detail_med, null, false);
-                                            matchParams.setMargins(0, px2dip(getActivity(), 5), 0, 0);
-                                            view.setLayoutParams(matchParams);
-                                            // 药方
-                                            TextView tvMedContent = (TextView) view.findViewById(R.id.tv_med_content);
-                                            // 时间
-                                            TextView tvMedTime = (TextView) view.findViewById(R.id.tv_med_time);
-                                            // 中西药区分
-                                            TextView tvMedType = (TextView) view.findViewById(R.id.tv_med_type);
-                                            // 处方号
-                                            TextView tvMedNo = (TextView) view.findViewById(R.id.tv_med_no);
-                                            // 数量
-                                            TextView tvMedCount = (TextView) view.findViewById(R.id.tv_med_count);
-                                            // 价格
-                                            TextView tvMedPrice = (TextView) view.findViewById(R.id.tv_med_price);
-                                            setText(tvMedTime, String.valueOf(map.get("cftime")));
-                                            setText(tvMedNo, String.valueOf(map.get("cfh")));
-                                            setText(tvMedCount, String.valueOf(map.get("cfmxs")));
-                                            setText(tvMedPrice, String.valueOf(map.get("cfje")));
-                                            boolean isChinese = true;
-                                            if (!TextUtils.isEmpty(String.valueOf(map.get("cflb")))) {
-                                                if ("chinese".equals(String.valueOf(map.get("cflb")))) {
-                                                    tvMedType.setText("中药");
-                                                    isChinese = true;
-                                                } else {
-                                                    tvMedType.setText("西药");
-                                                    isChinese = false;
-                                                }
-                                            }
-                                            if (null != map.get("chufangmx")) {
-                                                List<Map<String, String>> list = (List<Map<String, String>>) map.get("chufangmx");
-                                                if (null != list && 0 < list.size()) {
-                                                    String medContent = "";
-                                                    for (Map<String, String> mapDetail : list) {
-                                                        if (isChinese) {
-                                                            // 中药
-                                                            medContent = medContent + mapDetail.get("ymc") + "  " + mapDetail.get("yje") + "元："
-                                                                    + mapDetail.get("ydj") + "元" + strWithSign(mapDetail.get("ysl")) + "\n";
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // 处方
+                                        if (null != data.get("chufang")) {
+                                            List<Map<String, Object>> listMed = (List<Map<String, Object>>) data.get("chufang");
+                                            if (null != listMed && 0 < listMed.size()) {
+                                                llMed.setVisibility(View.VISIBLE);
+                                                tvMedTip.setVisibility(View.VISIBLE);
+                                                llMed.removeAllViews();
+                                                for (Map<String, Object> map : listMed) {
+                                                    View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_history_detail_med, null, false);
+                                                    matchParams.setMargins(0, px2dip(getActivity(), 5), 0, 0);
+                                                    view.setLayoutParams(matchParams);
+                                                    // 药方
+                                                    TextView tvMedContent = (TextView) view.findViewById(R.id.tv_med_content);
+                                                    // 时间
+                                                    TextView tvMedTime = (TextView) view.findViewById(R.id.tv_med_time);
+                                                    // 中西药区分
+                                                    TextView tvMedType = (TextView) view.findViewById(R.id.tv_med_type);
+                                                    // 处方号
+                                                    TextView tvMedNo = (TextView) view.findViewById(R.id.tv_med_no);
+                                                    // 数量
+                                                    TextView tvMedCount = (TextView) view.findViewById(R.id.tv_med_count);
+                                                    // 价格
+                                                    TextView tvMedPrice = (TextView) view.findViewById(R.id.tv_med_price);
+                                                    setText(tvMedTime, String.valueOf(map.get("cftime")));
+                                                    setText(tvMedNo, String.valueOf(map.get("cfh")));
+                                                    setText(tvMedCount, String.valueOf(map.get("cfmxs")));
+                                                    setText(tvMedPrice, String.valueOf(map.get("cfje")));
+                                                    boolean isChinese = true;
+                                                    if (!TextUtils.isEmpty(String.valueOf(map.get("cflb")))) {
+                                                        if ("chinese".equals(String.valueOf(map.get("cflb")))) {
+                                                            tvMedType.setText("中药");
+                                                            isChinese = true;
                                                         } else {
-                                                            // 西药
-                                                            medContent = medContent + mapDetail.get("ymc") + "（" + mapDetail.get("yggmc") + "）  "
-                                                                    + mapDetail.get("yje") + "元" + "：" + mapDetail.get("ydj") + "元"
-                                                                    + strWithDay(mapDetail.get("ysl")) + "\n";
+                                                            tvMedType.setText("西药");
+                                                            isChinese = false;
                                                         }
                                                     }
-                                                    setText(tvMedContent, medContent);
+                                                    if (null != map.get("chufangmx")) {
+                                                        List<Map<String, String>> list = (List<Map<String, String>>) map.get("chufangmx");
+                                                        if (null != list && 0 < list.size()) {
+                                                            String medContent = "";
+                                                            for (Map<String, String> mapDetail : list) {
+                                                                if (isChinese) {
+                                                                    // 中药
+                                                                    medContent = medContent + mapDetail.get("ymc") + "  " + mapDetail.get("yje") + "元："
+                                                                            + mapDetail.get("ydj") + "元" + strWithSign(mapDetail.get("ysl")) + "\n";
+                                                                } else {
+                                                                    // 西药
+                                                                    medContent = medContent + mapDetail.get("ymc") + "（" + mapDetail.get("yggmc") + "）  "
+                                                                            + mapDetail.get("yje") + "元" + "：" + mapDetail.get("ydj") + "元"
+                                                                            + strWithDay(mapDetail.get("ysl")) + "\n";
+                                                                }
+                                                            }
+                                                            setText(tvMedContent, medContent);
+                                                        }
+                                                    }
+                                                    llMed.addView(view);
                                                 }
                                             }
-                                            llMed.addView(view);
+                                        }
+                                        // 诊断
+                                        if (null != data.get("zdxx")) {
+                                            List<Map<String, String>> listDiagnosis = (List<Map<String, String>>) data.get("zdxx");
+                                            if (null != listDiagnosis && 0 < listDiagnosis.size()) {
+                                                llDiagnosis.setVisibility(View.VISIBLE);
+                                                tvDiagnosisTip.setVisibility(View.VISIBLE);
+                                                llDiagnosis.removeAllViews();
+                                                for (Map<String, String> map : listDiagnosis) {
+                                                    View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_diagnosis, null, false);
+                                                    view.setLayoutParams(params);
+                                                    TextView tvTime = (TextView) view.findViewById(R.id.tv_time);
+                                                    TextView tvText = (TextView) view.findViewById(R.id.tv_text);
+                                                    setText(tvText, map.get("zdsm"));
+                                                    setText(tvTime, map.get("optime"));
+                                                    llDiagnosis.addView(view);
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                                // 诊断
-                                if (null != data.get("zdxx")) {
-                                    List<Map<String, String>> listDiagnosis = (List<Map<String, String>>) data.get("zdxx");
-                                    if (null != listDiagnosis && 0 < listDiagnosis.size()) {
-                                        llDiagnosis.setVisibility(View.VISIBLE);
-                                        tvDiagnosisTip.setVisibility(View.VISIBLE);
-                                        llDiagnosis.removeAllViews();
-                                        for (Map<String, String> map : listDiagnosis) {
-                                            View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_diagnosis, null, false);
-                                            view.setLayoutParams(params);
-                                            TextView tvTime = (TextView) view.findViewById(R.id.tv_time);
-                                            TextView tvText = (TextView) view.findViewById(R.id.tv_text);
-                                            setText(tvText, map.get("zdsm"));
-                                            setText(tvTime, map.get("optime"));
-                                            llDiagnosis.addView(view);
-                                        }
-                                    }
-                                }
+                                });
                             }
                         }
                     }
