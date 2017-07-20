@@ -32,6 +32,7 @@ public class IncomeBillAdapter extends ComRecyclerAdapter<Map<String, String>> {
         if (!TextUtils.isEmpty(item.get("ZF_JE"))) {
             comRecyclerViewHolder.setText(R.id.tv_count, "+" + item.get("ZF_JE") + "¥");
         }
+        comRecyclerViewHolder.setImageUrl(context, R.id.iv_head, item.get("PATPHOTOURL"), R.drawable.touxiang);
     }
 
     @Override

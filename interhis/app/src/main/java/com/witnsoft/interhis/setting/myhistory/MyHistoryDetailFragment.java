@@ -235,19 +235,22 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
                                                     TextView tvMedNo = (TextView) view.findViewById(R.id.tv_med_no);
                                                     // 数量
                                                     TextView tvMedCount = (TextView) view.findViewById(R.id.tv_med_count);
+                                                    AutoScaleLinearLayout llMedCount = (AutoScaleLinearLayout) view.findViewById(R.id.ll_med_count);
                                                     // 价格
                                                     TextView tvMedPrice = (TextView) view.findViewById(R.id.tv_med_price);
                                                     setText(tvMedTime, String.valueOf(map.get("cftime")));
                                                     setText(tvMedNo, String.valueOf(map.get("cfh")));
-                                                    setText(tvMedCount, String.valueOf(map.get("cfmxs")));
                                                     setText(tvMedPrice, String.valueOf(map.get("cfje")));
                                                     boolean isChinese = true;
                                                     if (!TextUtils.isEmpty(String.valueOf(map.get("cflb")))) {
                                                         if ("chinese".equals(String.valueOf(map.get("cflb")))) {
                                                             tvMedType.setText("中药");
+                                                            llMedCount.setVisibility(View.VISIBLE);
+                                                            setText(tvMedCount, String.valueOf(map.get("cfmxs")));
                                                             isChinese = true;
                                                         } else {
                                                             tvMedType.setText("西药");
+                                                            llMedCount.setVisibility(View.INVISIBLE);
                                                             isChinese = false;
                                                         }
                                                     }

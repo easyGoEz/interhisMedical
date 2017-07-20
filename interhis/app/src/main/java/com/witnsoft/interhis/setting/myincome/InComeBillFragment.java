@@ -7,17 +7,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.mainpage.LoginActivity;
 import com.witnsoft.interhis.setting.ChildBaseFragment;
+import com.witnsoft.interhis.setting.myhistory.model.SerializableMap;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
+import com.witnsoft.libinterhis.utils.ui.AutoScaleRelativeLayout;
 import com.witnsoft.libnet.model.DataModel;
 import com.witnsoft.libnet.model.OTRequest;
 import com.witnsoft.libnet.net.CallBack;
@@ -27,8 +32,10 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -42,9 +49,10 @@ import rx.functions.Action1;
 @ContentView(R.layout.fragment_income_bill)
 public class IncomeBillFragment extends ChildBaseFragment {
 
+    private static final String TAG = "IncomeBillFragment";
     private View rootView;
     private IncomeBillAdapter incomeBillAdapter = null;
-    private List<Map<String, String>> historyList = new ArrayList<>();
+    private List<Map<String, String>> list = new ArrayList<>();
     private String docId;
     private int pageNo = 1;
     private static final int PAGE_COUNT = 10;
@@ -55,6 +63,20 @@ public class IncomeBillFragment extends ChildBaseFragment {
     private SwipeRefreshLayout slRefresh;
     @ViewInject(R.id.rv_bill)
     private RecyclerView rvBill;
+    @ViewInject(R.id.ll_day)
+    private AutoScaleLinearLayout llDay;
+    @ViewInject(R.id.rl_picker)
+    private AutoScaleRelativeLayout rlPicker;
+    @ViewInject(R.id.dp_date)
+    private DatePicker dbDate;
+    @ViewInject(R.id.ll_date_dismiss)
+    private AutoScaleLinearLayout llDateDismiss;
+    @ViewInject(R.id.tv_date)
+    private TextView tvDate;
+    @ViewInject(R.id.tv_cancel)
+    private TextView tvCancel;
+    @ViewInject(R.id.tv_ensure)
+    private TextView tvEnsure;
 
     @Nullable
     @Override
@@ -82,38 +104,120 @@ public class IncomeBillFragment extends ChildBaseFragment {
                         finishFragment();
                     }
                 });
+        RxView.clicks(llDay)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if (View.VISIBLE == rlPicker.getVisibility()) {
+                            rlPicker.setVisibility(View.GONE);
+                        } else {
+                            rlPicker.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+        RxView.clicks(llDateDismiss)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        rlPicker.setVisibility(View.GONE);
+                    }
+                });
+        RxView.clicks(tvCancel)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        rlPicker.setVisibility(View.GONE);
+                    }
+                });
+        RxView.clicks(tvEnsure)
+                .throttleFirst(500, TimeUnit.MILLISECONDS)
+                .compose(this.<Void>bindToLifecycle())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        rlPicker.setVisibility(View.GONE);
+                        tvDate.setText(
+                                getString(R.string.date_format,
+                                        String.valueOf(dbDate.getYear()), String.valueOf(dbDate.getMonth() + 1)));
+                        incomeBillAdapter = null;
+                        list.clear();
+                        pageNo = 1;
+                        callIncomeBill(true);
+                    }
+                });
     }
 
     private void init() {
+        initDatePicker();
         docId = ThriftPreUtils.getDocId(getActivity());
         callIncomeBill(true);
     }
 
+    private int year;
+    private int month;
 
-//    private void callIncomeBill(boolean isRefresh) {
-////        historyList.clear();
-//        int c1 = 0;
-//        int c2 = 1;
-//        int c3 = 2;
-//        for (int i = 0; i < 1000; i++) {
-//            Map<String, String> map = new HashMap<>();
-//            map.put("time", "2017-01-01-" + String.valueOf(historyList.size()));
-//            map.put("count", String.valueOf(historyList.size() * 5));
-//            map.put("name", "patname");
-//            if (c1 == i) {
-//                map.put("color", String.valueOf(R.color.red));
-//                c1 = c1 + 3;
-//            } else if (c2 == i) {
-//                map.put("color", String.valueOf(R.color.green));
-//                c2 = c2 + 3;
-//            } else if (c3 == i) {
-//                map.put("color", String.valueOf(R.color.blue));
-//                c3 = c3 + 3;
-//            }
-//            historyList.add(map);
-//        }
-//        freshUi();
-//    }
+    private void initDatePicker() {
+        Calendar c = Calendar.getInstance();
+        try {
+            // 隐藏日
+            ((ViewGroup) (((ViewGroup) dbDate.getChildAt(0)).getChildAt(0)))
+                    .getChildAt(2).setVisibility(View.GONE);
+        } catch (Exception e) {
+
+        }
+        dbDate.setMaxDate(c.getTime().getTime());
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        this.tvDate.setText(getString(R.string.date_format,
+                String.valueOf(year), String.valueOf(month + 1)));
+//        this.dbDate.init(year, month + 1, 0,
+//                new DatePicker.OnDateChangedListener() {
+//                    @Override
+//                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                        IncomeBillFragment.this.tvDate.setText(
+//                                getString(R.string.date_format,
+//                                        String.valueOf(year), String.valueOf(monthOfYear + 1)));
+//                    }
+//                });
+    }
+
+    public static String getDateStart(int year, int monthOfYear) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, monthOfYear);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date firstDate = cal.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String str = sdf.format(firstDate);
+        Log.d(TAG, "billIncome startTime" + str);
+        return str;
+    }
+
+    public static String getDateEnd(int year, int monthOfYear) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, monthOfYear);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        Date lastDate = cal.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String str = sdf.format(lastDate);
+        Log.d(TAG, "billIncome endTime" + str);
+        return str;
+    }
 
     /**
      * F27.APP.01.13 收入账单查询
@@ -125,8 +229,8 @@ public class IncomeBillFragment extends ChildBaseFragment {
         // DATA
         DataModel data = new DataModel();
         data.setParam("docid", docId);
-        data.setParam("stime", "");
-        data.setParam("etime", "");
+        data.setParam("stime", getDateStart(dbDate.getYear(), dbDate.getMonth()));
+        data.setParam("etime", getDateEnd(dbDate.getYear(), dbDate.getMonth() + 1));
         data.setParam("rowsperpage", String.valueOf(PAGE_COUNT));
         data.setParam("pageno", String.valueOf(pageNo));
         data.setParam("ordercolumn", "optime");
@@ -145,14 +249,14 @@ public class IncomeBillFragment extends ChildBaseFragment {
                         if (null != respList && 0 < respList.size()) {
                             if (1 == pageNo) {
                                 // 如果是第一页，表示重新加载数据
-                                historyList.clear();
+                                list.clear();
                                 for (int i = 0; i < respList.size(); i++) {
-                                    historyList.add(respList.get(i));
+                                    list.add(respList.get(i));
                                 }
                             } else {
                                 // 不是第一页，表示分页加载
                                 for (int i = 0; i < respList.size(); i++) {
-                                    historyList.add(respList.get(i));
+                                    list.add(respList.get(i));
                                 }
                             }
                         }
@@ -180,7 +284,7 @@ public class IncomeBillFragment extends ChildBaseFragment {
 
     private void freshUi() {
         if (null == incomeBillAdapter) {
-            incomeBillAdapter = new IncomeBillAdapter(getActivity().getBaseContext(), historyList, R.layout.item_income_bill);
+            incomeBillAdapter = new IncomeBillAdapter(getActivity().getBaseContext(), list, R.layout.item_income_bill);
             incomeBillAdapter.setFootViewId(R.layout.activity_load_footer);
             rvBill.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
             rvBill.setHasFixedSize(true);
@@ -202,7 +306,12 @@ public class IncomeBillFragment extends ChildBaseFragment {
         incomeBillAdapter.setOnItemClickListener(new ComRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, int position) {
-
+                Bundle bundle = new Bundle();
+                SerializableMap map = new SerializableMap();
+                map.setMap(list.get(position));
+                bundle.putSerializable("income_bill", map);
+                IncomeBillDetailFragment incomeBillDetailFragment = new IncomeBillDetailFragment();
+                pushFragment(incomeBillDetailFragment, bundle, true);
             }
         });
         incomeBillAdapter.notifyDataSetChanged();
@@ -226,7 +335,7 @@ public class IncomeBillFragment extends ChildBaseFragment {
                         slRefresh.setEnabled(false);
                         slRefresh.setRefreshing(true);
                         incomeBillAdapter = null;
-                        historyList.clear();
+                        list.clear();
                         pageNo = 1;
                         callIncomeBill(false);
                     }

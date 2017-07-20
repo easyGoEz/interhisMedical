@@ -268,4 +268,9 @@
     <string name="med_price">处方价格（¥）：</string>
     <!--MyHistoryDetailFragment end-->
 
+    <!--IncomeBillDetailFragment begin-->
+    <string name="income_bill_detail">收入账单详情</string>
+    <string name="date_format">%1$s年%2$s月</string>
+    <!--IncomeBillDetailFragment end-->
+
 </resources>
