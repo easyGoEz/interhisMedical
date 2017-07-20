@@ -315,14 +315,6 @@ public class MyHistoryDetailFragment extends ChildBaseFragment {
         });
     }
 
-    private void setText(TextView tv, String str) {
-        if (!TextUtils.isEmpty(str)) {
-            tv.setText(str);
-        } else {
-            tv.setText("");
-        }
-    }
-
     private String strWithDay(String str) {
         if (!TextUtils.isEmpty(str)) {
             if (str.contains("天")) {

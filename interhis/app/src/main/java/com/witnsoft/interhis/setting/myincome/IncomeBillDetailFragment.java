@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
@@ -34,6 +35,10 @@ public class IncomeBillDetailFragment extends ChildBaseFragment {
 
     @ViewInject(R.id.ll_back)
     private AutoScaleLinearLayout llBack;
+    @ViewInject(R.id.tv_count)
+    private TextView tvCount;
+    @ViewInject(R.id.tv_time)
+    private TextView tvTime;
 
     @Nullable
     @Override
@@ -66,5 +71,7 @@ public class IncomeBillDetailFragment extends ChildBaseFragment {
 
     private void init() {
         final SerializableMap map = (SerializableMap) getArguments().get("income_bill");
+        setText(tvCount, "¥" + map.getMap().get("ZF_JE"));
+        setText(tvTime, map.getMap().get("OPTIME"));
     }
 }

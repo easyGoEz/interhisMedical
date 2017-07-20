@@ -271,6 +271,10 @@
     <!--IncomeBillDetailFragment begin-->
     <string name="income_bill_detail">收入账单详情</string>
     <string name="date_format">%1$s年%2$s月</string>
+    <string name="income_count">收款金额：</string>
+    <string name="income_time">收款时间：</string>
+    <string name="income_status">当前状态：</string>
+    <string name="income_no">交易单号：</string>
     <!--IncomeBillDetailFragment end-->
 
 </resources>

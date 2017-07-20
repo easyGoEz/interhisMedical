@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.witnsoft.interhis.R;
@@ -83,6 +84,14 @@ public class ChildBaseFragment extends BaseFragment {
                     .load(url)
                     .error(id)
                     .into(iv);
+        }
+    }
+
+    public void setText(TextView tv, String str) {
+        if (!TextUtils.isEmpty(str)) {
+            tv.setText(str);
+        } else {
+            tv.setText("");
         }
     }
 }
