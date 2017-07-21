@@ -26,6 +26,7 @@
                 android:background="@drawable/edittext"
                 android:gravity="start"
                 android:hint="@string/diagnosis_enter_tip"
+                android:maxLength="100"
                 android:padding="20px"
                 android:textColor="@color/text_dark_color"
                 android:textSize="@dimen/text_big"/>
