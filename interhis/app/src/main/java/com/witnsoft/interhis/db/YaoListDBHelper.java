@@ -24,7 +24,6 @@ public class YaoListDBHelper extends SQLiteOpenHelper {
     public YaoListDBHelper(Context context, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, version);
         mContext = context;
-        // TODO Auto-generated constructor stub
     }
 
     @Override
