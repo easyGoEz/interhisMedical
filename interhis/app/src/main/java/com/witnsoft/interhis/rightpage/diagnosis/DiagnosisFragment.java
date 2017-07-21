@@ -62,6 +62,8 @@ public class DiagnosisFragment extends BaseV4Fragment {
     private String aiid;
     private DiagnosisAdapter adapter = null;
 
+    private boolean isChatOn;
+
     private final class ErrCode {
         private static final String ErrCode_200 = "200";
         private static final String ErrCode_504 = "504";
@@ -90,6 +92,7 @@ public class DiagnosisFragment extends BaseV4Fragment {
             this.accId = getArguments().getString("userId");
         }
         this.aiid = getArguments().getString("aiid");
+        this.isChatOn = getArguments().getBoolean("input_flag");
         callDiagnosisDb();
     }
 
@@ -98,7 +101,10 @@ public class DiagnosisFragment extends BaseV4Fragment {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        if (!TextUtils.isEmpty(etDiagnosis.getText().toString())) {
+                        if (!isChatOn) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.chat_close_diagnosis),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (!TextUtils.isEmpty(etDiagnosis.getText().toString())) {
                             callSaveDiagnosis();
                         } else {
                             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_dialogsis), Toast.LENGTH_LONG).show();

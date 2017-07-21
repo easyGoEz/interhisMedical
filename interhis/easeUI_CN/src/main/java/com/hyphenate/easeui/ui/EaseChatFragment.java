@@ -6,15 +6,19 @@ import android.app.ProgressDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMMessageListener;
@@ -119,6 +124,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private String imgDoc = "";
     private String imgPat = "";
 
+    private boolean isInputVisible;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_chat, container, false);
@@ -131,9 +138,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         // check if single chat or group chat
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         // userId you are chat with or group id
-        toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
+        this.toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
         this.imgDoc = fragmentArgs.getString("img_doc");
         this.imgPat = fragmentArgs.getString("img_pat");
+
+        this.isInputVisible = fragmentArgs.getBoolean("input_flag");
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -149,6 +158,20 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
         // message list layout
         messageList = (EaseChatMessageList) getView().findViewById(R.id.message_list);
+        messageList.setOnReceiveListener(new EaseChatMessageList.OnReceiveListener() {
+            @Override
+            public void onReceiveClicked(TextView tv) {
+                // 接诊
+                if (View.VISIBLE == inputMenu.getVisibility()) {
+                    return;
+                } else {
+                    // 接诊
+                    if (null != onReceiveListener) {
+                        onReceiveListener.onReceiveClicked(inputMenu, tv);
+                    }
+                }
+            }
+        });
         if (chatType != EaseConstant.CHATTYPE_SINGLE)
             messageList.setShowUserNick(true);
         listView = messageList.getListView();
@@ -189,6 +212,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        if (isInputVisible) {
+            inputMenu.setVisibility(View.VISIBLE);
+        } else {
+            inputMenu.setVisibility(View.GONE);
+        }
     }
 
     protected void setUpView() {
@@ -281,7 +310,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     }
 
     protected void onMessageListInit() {
-        messageList.init(imgDoc, imgPat, toChatUsername, chatType, chatFragmentHelper != null ?
+        messageList.init(isInputVisible, imgDoc, imgPat, toChatUsername, chatType, chatFragmentHelper != null ?
                 chatFragmentHelper.onSetCustomChatRowProvider() : null);
         setListItemClickListener();
 
@@ -1214,6 +1243,16 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
          * @return
          */
         EaseCustomChatRowProvider onSetCustomChatRowProvider();
+    }
+
+    public OnReceivedListener onReceiveListener;
+
+    public void setOnReceivedListener(OnReceivedListener onReceiveListener) {
+        this.onReceiveListener = onReceiveListener;
+    }
+
+    public interface OnReceivedListener {
+        void onReceiveClicked(EaseChatInputMenu inputMenu, TextView tv);
     }
 
 }

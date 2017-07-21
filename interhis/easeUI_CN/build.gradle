@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23+'
+    compile 'com.android.support:support-v4:25.1.0'
     compile files('libs/glide-3.6.1.jar')
     compile files('libs/google-play-services.jar')
     compile files('libs/HwPush_SDK_V2705_nomap.jar')

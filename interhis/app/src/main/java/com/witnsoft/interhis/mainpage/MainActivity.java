@@ -521,7 +521,7 @@ public class MainActivity extends BaseActivity {
                                 });
                                 patAdapter.setOnItemClickListener(new ComRecyclerAdapter.OnItemClickListener() {
                                     @Override
-                                    public void onClick(View v, int position) {
+                                    public void onClick(View v, final int position) {
                                         checkedPosition = position;
                                         for (int i = 0; i < dataChatList.size(); i++) {
                                             // 设置点击变色
@@ -544,6 +544,13 @@ public class MainActivity extends BaseActivity {
                                         //启动会话列表
                                         try {
                                             RightMainFragment rightMainFragment = new RightMainFragment();
+                                            rightMainFragment.setOnReceivedListener(new RightMainFragment.OnReceivedListener() {
+                                                @Override
+                                                public void onReceiveClicked() {
+                                                    // 接诊成功
+                                                    dataChatList.get(position).put("BEGINFLAG", "y");
+                                                }
+                                            });
                                             Bundle bundle = new Bundle();
                                             // 问诊id
                                             bundle.putString("aiid", dataChatList.get(position).get("AIID"));
@@ -562,6 +569,10 @@ public class MainActivity extends BaseActivity {
                                             bundle.putString("pat_sex_name", dataChatList.get(position).get("PATSEXNAME"));
                                             // 病人id
                                             bundle.putString("pat_id", dataChatList.get(position).get("PATID"));
+                                            // 接诊(开始问诊)标识
+                                            bundle.putString("begin_flag", dataChatList.get(position).get("BEGINFLAG"));
+                                            // 结束问诊标识
+                                            bundle.putString("end_type", dataChatList.get(position).get("ENDTYPE"));
                                             rightMainFragment.setArguments(bundle);
                                             fragmentManager = getSupportFragmentManager().beginTransaction();
 //                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

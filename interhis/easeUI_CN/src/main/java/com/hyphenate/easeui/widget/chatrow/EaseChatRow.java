@@ -358,4 +358,14 @@ public abstract class EaseChatRow extends LinearLayout {
      */
     protected abstract void onBubbleClick();
 
+    public OnReceiveListener onReceiveListener;
+
+    public void setOnReceiveListener(OnReceiveListener onReceiveListener) {
+        this.onReceiveListener = onReceiveListener;
+    }
+
+    public interface OnReceiveListener {
+        void onReceiveClicked(TextView tv);
+    }
+
 }

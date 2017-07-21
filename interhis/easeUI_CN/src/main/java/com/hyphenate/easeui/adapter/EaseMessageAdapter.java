@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
@@ -31,6 +32,7 @@ import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.MyEaseChatRowProject;
 import com.hyphenate.easeui.SickChatRow;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowBigExpression;
@@ -96,14 +98,16 @@ public class EaseMessageAdapter extends BaseAdapter {
     private String imgDoc;
     private String imgPat;
 
+    private boolean isInputVisible;
 
-    public EaseMessageAdapter(Context context, String username, int chatType, ListView listView, String imgDoc, String imgPat) {
+    public EaseMessageAdapter(Context context, String username, int chatType, ListView listView, String imgDoc, String imgPat, boolean isInputVisible) {
         this.context = context;
         this.listView = listView;
         toChatUsername = username;
         this.conversation = EMClient.getInstance().chatManager().getConversation(username, EaseCommonUtils.getConversationType(chatType), true);
         this.imgDoc = imgDoc;
         this.imgPat = imgPat;
+        this.isInputVisible = isInputVisible;
     }
 
     Handler handler = new Handler() {
@@ -269,7 +273,17 @@ public class EaseMessageAdapter extends BaseAdapter {
                 } else if ("yaofang".equals(message.getStringAttribute("type", ""))) {
                     chatRow = new MyEaseChatRowProject(context, message, position, this, imgDoc, imgPat);
                 } else if (mSickType != null && mSickType.equals("imgtxt_ask")) {
-                    chatRow = new SickChatRow(context, message, position, this, imgDoc, imgPat);
+                    // 接诊
+                    chatRow = new SickChatRow(context, message, position, this, imgDoc, imgPat, isInputVisible);
+                    chatRow.setOnReceiveListener(new EaseChatRow.OnReceiveListener() {
+                        @Override
+                        public void onReceiveClicked(TextView tv) {
+                            // 点击接诊
+                            if (null != onReceiveClickListener) {
+                                onReceiveClickListener.onReceiveClicked(EaseMessageAdapter.this, tv);
+                            }
+                        }
+                    });
                 } else {
                     chatRow = new EaseChatRowText(context, message, position, this, imgDoc, imgPat);
                 }
@@ -363,6 +377,17 @@ public class EaseMessageAdapter extends BaseAdapter {
 
     public Drawable getOtherBuddleBg() {
         return otherBuddleBg;
+    }
+
+
+    OnReceiveClickListener onReceiveClickListener;
+
+    public void setOnReceiveClickListener(OnReceiveClickListener listener) {
+        this.onReceiveClickListener = listener;
+    }
+
+    public interface OnReceiveClickListener {
+        void onReceiveClicked(EaseMessageAdapter adapter, TextView tv);
     }
 
 }

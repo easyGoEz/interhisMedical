@@ -1,18 +1,24 @@
 package com.witnsoft.interhis.rightpage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.hyphenate.easeui.ui.EaseChatFragment;
+import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.witnsoft.interhis.R;
+import com.witnsoft.interhis.mainpage.LoginActivity;
 import com.witnsoft.interhis.rightpage.chinesemedical.ChineseMedicalFragment;
 import com.witnsoft.interhis.rightpage.chinesemedical.OnPageChanged;
 import com.witnsoft.interhis.rightpage.diagnosis.DiagnosisFragment;
@@ -20,12 +26,17 @@ import com.witnsoft.interhis.rightpage.history.HistoryFragment;
 import com.witnsoft.interhis.rightpage.westernmedical.OnWesternPageChanged;
 import com.witnsoft.interhis.rightpage.westernmedical.WesternFragment;
 import com.witnsoft.interhis.rightpage.withchinesemedical.WithChineseMedicalFragment;
+import com.witnsoft.libnet.model.DataModel;
+import com.witnsoft.libnet.model.OTRequest;
+import com.witnsoft.libnet.net.CallBack;
+import com.witnsoft.libnet.net.NetTool;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by zhengchengpeng on 2017/6/29.
@@ -34,6 +45,7 @@ import java.util.ArrayList;
 @ContentView(R.layout.fragment_right_main)
 public class RightMainFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "RightMainFragment";
     private View rootView;
     private ArrayList<Fragment> viewContainter = new ArrayList<Fragment>();
     private OnPageChanged onPageChanged;
@@ -55,6 +67,8 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
     private String patName;
     private String patSexName;
     private String patId;
+
+    private boolean isInputVisible;
 
     @ViewInject(R.id.viewpager)
     private ViewPager viewPager;
@@ -107,7 +121,32 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         this.patName = getArguments().getString("pat_name");
         this.patSexName = getArguments().getString("pat_sex_name");
         this.patId = getArguments().getString("pat_id");
+
+        if (TextUtils.isEmpty(getArguments().getString("end_type"))) {
+            if ((!TextUtils.isEmpty(getArguments().getString("begin_flag")))
+                    && ("y".equals(getArguments().getString("begin_flag")))) {
+                // 问诊已经开始，打开输入
+                Log.e(TAG, "!!!!!!!!!!!ask going on");
+                isInputVisible = true;
+            } else {
+                // 问诊还未开始（未接诊），隐藏输入
+                Log.e(TAG, "!!!!!!!!!!!ask ever begin");
+                isInputVisible = false;
+            }
+        } else {
+            Log.e(TAG, "!!!!!!!!!!!ask end");
+            // 已经结束问诊，隐藏输入
+            isInputVisible = false;
+        }
+
         EaseChatFragment chatFragment = new EaseChatFragment();
+        chatFragment.setOnReceivedListener(new EaseChatFragment.OnReceivedListener() {
+            @Override
+            public void onReceiveClicked(EaseChatInputMenu inputMenu, TextView tv) {
+                // 接诊
+                callReceiveApi(inputMenu, tv);
+            }
+        });
         initChat(chatFragment);
         DiagnosisFragment diagnosisFragment = new DiagnosisFragment();
         initDiagnosis(diagnosisFragment);
@@ -224,6 +263,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         bundle.putInt("single", this.single1);
         bundle.putString("img_doc", this.imgDoc);
         bundle.putString("img_pat", this.imgPat);
+        bundle.putBoolean("input_flag", isInputVisible);
         fragment.setArguments(bundle);
     }
 
@@ -236,6 +276,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         bundle.putString("pat_sex_name", this.patSexName);
         // 病人id
         bundle.putString("pat_id", this.patId);
+        bundle.putBoolean("input_flag", isInputVisible);
         fragment.setArguments(bundle);
     }
 
@@ -243,6 +284,7 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
         Bundle bundle = new Bundle();
         bundle.putString("userId", this.helperId);
         bundle.putString("aiid", this.aiid);
+        bundle.putBoolean("input_flag", isInputVisible);
         fragment.setArguments(bundle);
     }
 
@@ -291,5 +333,58 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
             return list.get(arg0);
         }
 
+    }
+
+    private final class ErrCode {
+        private static final String ErrCode_200 = "200";
+        private static final String ErrCode_504 = "504";
+    }
+
+    /**
+     * F27.APP.01.04 接诊
+     */
+    private void callReceiveApi(final EaseChatInputMenu inputMenu, final TextView tv) {
+        OTRequest otRequest = new OTRequest(getActivity());
+        // DATA
+        DataModel data = new DataModel();
+        data.setParam("aiid", aiid);
+        otRequest.setDATA(data);
+        // TN 接口辨别
+        otRequest.setTN("F27.APP.01.04");
+
+        NetTool.getInstance().startRequest(false, true, getActivity(), null, otRequest, new CallBack<Map, String>() {
+            @Override
+            public void onSuccess(Map response, String resultCode) {
+                if (ErrCode.ErrCode_200.equals(resultCode)) {
+                    if (null != response) {
+                        RightMainFragment.this.isInputVisible = isInputVisible;
+                        tv.setText("已接诊");
+                        inputMenu.setVisibility(View.VISIBLE);
+                        if (null != onReceiveListener) {
+                            onReceiveListener.onReceiveClicked();
+                        }
+                    }
+                } else if (ErrCode.ErrCode_504.equals(resultCode)) {
+                    // token失效
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+            }
+        });
+    }
+
+    public OnReceivedListener onReceiveListener;
+
+    public void setOnReceivedListener(OnReceivedListener onReceiveListener) {
+        this.onReceiveListener = onReceiveListener;
+    }
+
+    public interface OnReceivedListener {
+        void onReceiveClicked();
     }
 }

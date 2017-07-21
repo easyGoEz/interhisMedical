@@ -27,15 +27,18 @@ import java.util.Map;
 
 public class SickChatRow extends EaseChatRow {
 
-    private TextView sickNameTv, sickSexTv, sickAgeTv, sickNumber, sickHeight, sickWeight, sickConditionTv, sickHope, sickPay, jzTv;
+    private TextView sickNameTv, sickSexTv, sickAgeTv, sickNumber, sickHeight, sickWeight, sickConditionTv, sickHope, sickPay, tvReceive;
     //    private ImageView sickImg;
     private TextView tvImgTip;
     private RelativeLayout rlAsk;
     private ArrayList<String> piclist = new ArrayList<>();
 
+    private boolean isInputVisible;
 
-    public SickChatRow(Context context, EMMessage message, int position, BaseAdapter adapter, String imgDoc, String imgPat) {
+
+    public SickChatRow(Context context, EMMessage message, int position, BaseAdapter adapter, String imgDoc, String imgPat, boolean isInputVisible) {
         super(context, message, position, adapter, imgDoc, imgPat);
+        this.isInputVisible = isInputVisible;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class SickChatRow extends EaseChatRow {
         sickWeight = (TextView) findViewById(R.id.tv_sick_weight);
         sickHope = (TextView) findViewById(R.id.tv_sick_hope);
         sickPay = (TextView) findViewById(R.id.tv_pay_state);
-        jzTv = (TextView) findViewById(R.id.tv_jiezhen);
+        tvReceive = (TextView) findViewById(R.id.tv_jiezhen);
         tvImgTip = (TextView) findViewById(R.id.tv_img_tip);
         rlAsk = (RelativeLayout) findViewById(R.id.rl_ask);
 
@@ -72,6 +75,13 @@ public class SickChatRow extends EaseChatRow {
 
     @Override
     protected void onSetUpView() {
+        if (isInputVisible) {
+            tvReceive.setText("已接诊");
+            rlAsk.setEnabled(false);
+        } else {
+            tvReceive.setText("接诊");
+            rlAsk.setEnabled(true);
+        }
         Map<String, Object> extMap = message.ext();
 
         String paytypemc = (String) extMap.get("paytypemc");
@@ -101,7 +111,6 @@ public class SickChatRow extends EaseChatRow {
         String hope = (String) contentMap.get("hope");
         sickHope.setText(hope);
 
-
         List<String> list = (List<String>) contentMap.get("piclist");
         if (null != list && 0 < list.size()) {
             tvImgTip.setVisibility(VISIBLE);
@@ -112,10 +121,15 @@ public class SickChatRow extends EaseChatRow {
         } else {
             tvImgTip.setVisibility(GONE);
         }
+
+
         rlAsk.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "开始接诊", Toast.LENGTH_SHORT).show();
+                // 接诊
+                if (onReceiveListener != null) {
+                    onReceiveListener.onReceiveClicked(tvReceive);
+                }
             }
         });
         tvImgTip.setOnClickListener(new OnClickListener() {
@@ -139,4 +153,5 @@ public class SickChatRow extends EaseChatRow {
 //            sickChatDetailDialog.init();
 //        }
     }
+
 }

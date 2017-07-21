@@ -136,6 +136,8 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
     private String patSexName;
     private String patId;
 
+    private boolean isChatOn;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -163,6 +165,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
         this.aiid = getArguments().getString("aiid");
         this.patSexName = getArguments().getString("pat_sex_name");
         this.patId = getArguments().getString("pat_id");
+        this.isChatOn = getArguments().getBoolean("input_flag");
         gson = new Gson();
         initSearch();
         initData();
@@ -198,7 +201,10 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        if (TextUtils.isEmpty(etUsage.getText().toString())) {
+                        if (!isChatOn) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.chat_close),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (TextUtils.isEmpty(etUsage.getText().toString())) {
                             Toast.makeText(getActivity(), getResources().getString(R.string.pleas_enter_usage),
                                     Toast.LENGTH_LONG).show();
                         } else {

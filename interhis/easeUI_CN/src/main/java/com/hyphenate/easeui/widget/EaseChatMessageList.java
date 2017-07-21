@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -61,12 +62,20 @@ public class EaseChatMessageList extends RelativeLayout {
      * @param chatType
      * @param customChatRowProvider
      */
-    public void init(String imgDoc, String imgPat, String toChatUsername, int chatType, EaseCustomChatRowProvider customChatRowProvider) {
+    public void init(boolean isInputVisible, String imgDoc, String imgPat, String toChatUsername, int chatType, EaseCustomChatRowProvider customChatRowProvider) {
         this.chatType = chatType;
         this.toChatUsername = toChatUsername;
 
         conversation = EMClient.getInstance().chatManager().getConversation(toChatUsername, EaseCommonUtils.getConversationType(chatType), true);
-        messageAdapter = new EaseMessageAdapter(context, toChatUsername, chatType, listView, imgDoc, imgPat);
+        messageAdapter = new EaseMessageAdapter(context, toChatUsername, chatType, listView, imgDoc, imgPat, isInputVisible);
+        messageAdapter.setOnReceiveClickListener(new EaseMessageAdapter.OnReceiveClickListener() {
+            @Override
+            public void onReceiveClicked(EaseMessageAdapter adapter, TextView tv) {
+                if (null != onReceiveListener) {
+                    onReceiveListener.onReceiveClicked(tv);
+                }
+            }
+        });
         messageAdapter.setShowAvatar(showAvatar);
         messageAdapter.setShowUserNick(showUserNick);
         messageAdapter.setMyBubbleBg(myBubbleBg);
@@ -176,5 +185,15 @@ public class EaseChatMessageList extends RelativeLayout {
         if (messageAdapter != null) {
             messageAdapter.setCustomChatRowProvider(rowProvider);
         }
+    }
+
+    public OnReceiveListener onReceiveListener;
+
+    public void setOnReceiveListener(OnReceiveListener onReceiveListener) {
+        this.onReceiveListener = onReceiveListener;
+    }
+
+    public interface OnReceiveListener {
+        void onReceiveClicked(TextView tv);
     }
 }

@@ -150,6 +150,8 @@
     <string name="yuan">元</string>
     <string name="please_choose_med_count">请选择开具付数</string>
     <string name="count_unit">付</string>
+    <string name="chat_close">还未接诊或已结束，无法开处方</string>
+    <string name="chat_close_diagnosis">还未接诊或已结束，无法开诊断</string>
     <!--ChineseMedicalFragment end-->
 
     <!--DiagnosisFragment begin-->
