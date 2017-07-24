@@ -62,7 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="王二小"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/tv_sick_sex"
@@ -78,7 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="48岁"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/tv_sick_number"
@@ -87,7 +89,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:text="18333333333"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -101,7 +104,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="2dp"
                     android:text="身高"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/tv_sick_weight"
@@ -110,7 +114,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="2dp"
                     android:text="体重"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
 
             </LinearLayout>
 
@@ -126,7 +131,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="咳嗽老不好"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/tv_sick_hope"
@@ -135,7 +141,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="希望找大夫开点中药，调理一下"
-                    android:textColor="@color/text_medium_color"/>
+                    android:textColor="@color/text_medium_color"
+                    android:textSize="14dp"/>
 
             </LinearLayout>
 
@@ -149,12 +156,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
                     android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
                     android:text="点击查看问诊图片"
                     android:textColor="@color/btn_answer_pressed"
+                    android:textSize="14dp"
                     android:visibility="gone"/>
 
             </RelativeLayout>
@@ -177,7 +185,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="已支付20元"
-                    android:textColor="@color/text_gray_color"/>
+                    android:textColor="@color/text_gray_color"
+                    android:textSize="14dp"/>
 
                 <TextView
                     android:id="@+id/tv_jiezhen"
@@ -185,10 +194,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="接诊"
-                    android:textColor="@color/text_gray_color"/>
+                    android:textColor="@color/text_gray_color"
+                    android:textSize="14dp"/>
             </RelativeLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bubble"
+            android:layout_marginLeft="@dimen/margin_chat_activity"
+            android:layout_toRightOf="@id/iv_userhead"
+            android:gravity="center_vertical|right"
+            android:padding="10dp"
+            android:text="查看历史记录"
+            android:textColor="@color/text_gray_color"
+            android:textSize="14dp"/>
 
     </RelativeLayout>
 

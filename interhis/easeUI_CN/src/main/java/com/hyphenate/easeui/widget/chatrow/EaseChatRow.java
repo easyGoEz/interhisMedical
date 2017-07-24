@@ -366,6 +366,8 @@ public abstract class EaseChatRow extends LinearLayout {
 
     public interface OnReceiveListener {
         void onReceiveClicked(TextView tv);
+
+        void onHistoryClicked();
     }
 
 }

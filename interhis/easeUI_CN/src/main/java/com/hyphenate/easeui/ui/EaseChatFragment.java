@@ -171,6 +171,13 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     }
                 }
             }
+
+            @Override
+            public void onHistoryClicked() {
+                if (null != onReceiveListener) {
+                    onReceiveListener.onHistoryClicked();
+                }
+            }
         });
         if (chatType != EaseConstant.CHATTYPE_SINGLE)
             messageList.setShowUserNick(true);
@@ -1253,6 +1260,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     public interface OnReceivedListener {
         void onReceiveClicked(EaseChatInputMenu inputMenu, TextView tv);
+
+        void onHistoryClicked();
     }
 
 }

@@ -146,6 +146,12 @@ public class RightMainFragment extends Fragment implements View.OnClickListener 
                 // 接诊
                 callReceiveApi(inputMenu, tv);
             }
+
+            @Override
+            public void onHistoryClicked() {
+                // 查看历史记录
+                viewPager.setCurrentItem(TAG_HISTORY);
+            }
         });
         initChat(chatFragment);
         DiagnosisFragment diagnosisFragment = new DiagnosisFragment();

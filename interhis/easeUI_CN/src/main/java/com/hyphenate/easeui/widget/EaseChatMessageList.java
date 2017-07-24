@@ -75,6 +75,13 @@ public class EaseChatMessageList extends RelativeLayout {
                     onReceiveListener.onReceiveClicked(tv);
                 }
             }
+
+            @Override
+            public void onHistoryClicked(EaseMessageAdapter adapter) {
+                if (null != onReceiveListener) {
+                    onReceiveListener.onHistoryClicked();
+                }
+            }
         });
         messageAdapter.setShowAvatar(showAvatar);
         messageAdapter.setShowUserNick(showUserNick);
@@ -195,5 +202,7 @@ public class EaseChatMessageList extends RelativeLayout {
 
     public interface OnReceiveListener {
         void onReceiveClicked(TextView tv);
+
+        void onHistoryClicked();
     }
 }

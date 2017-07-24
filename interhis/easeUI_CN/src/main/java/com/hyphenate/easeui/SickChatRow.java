@@ -30,6 +30,7 @@ public class SickChatRow extends EaseChatRow {
     private TextView sickNameTv, sickSexTv, sickAgeTv, sickNumber, sickHeight, sickWeight, sickConditionTv, sickHope, sickPay, tvReceive;
     //    private ImageView sickImg;
     private TextView tvImgTip;
+    private TextView tvHistory;
     private RelativeLayout rlAsk;
     private ArrayList<String> piclist = new ArrayList<>();
 
@@ -63,6 +64,7 @@ public class SickChatRow extends EaseChatRow {
         tvReceive = (TextView) findViewById(R.id.tv_jiezhen);
         tvImgTip = (TextView) findViewById(R.id.tv_img_tip);
         rlAsk = (RelativeLayout) findViewById(R.id.rl_ask);
+        tvHistory = (TextView) findViewById(R.id.tv_history);
 
 //        sickImg = (ImageView) findViewById(R.id.sick_picture);
 
@@ -140,6 +142,12 @@ public class SickChatRow extends EaseChatRow {
                             = new SickChatDetailDialog(activity, piclist);
                     sickChatDetailDialog.init();
                 }
+            }
+        });
+        tvHistory.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onReceiveListener.onHistoryClicked();
             }
         });
 

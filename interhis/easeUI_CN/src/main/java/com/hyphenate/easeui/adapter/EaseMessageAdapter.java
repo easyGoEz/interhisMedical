@@ -283,6 +283,14 @@ public class EaseMessageAdapter extends BaseAdapter {
                                 onReceiveClickListener.onReceiveClicked(EaseMessageAdapter.this, tv);
                             }
                         }
+
+                        @Override
+                        public void onHistoryClicked() {
+                            // 查看历史
+                            if (null != onReceiveClickListener) {
+                                onReceiveClickListener.onHistoryClicked(EaseMessageAdapter.this);
+                            }
+                        }
                     });
                 } else {
                     chatRow = new EaseChatRowText(context, message, position, this, imgDoc, imgPat);
@@ -388,6 +396,8 @@ public class EaseMessageAdapter extends BaseAdapter {
 
     public interface OnReceiveClickListener {
         void onReceiveClicked(EaseMessageAdapter adapter, TextView tv);
+
+        void onHistoryClicked(EaseMessageAdapter adapter);
     }
 
 }
