@@ -1025,6 +1025,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
         etSearch.setInputType(InputType.TYPE_NULL);
         kb.init(getActivity());
         kb.setOnKeyboardActionListener(new HisKeyboardView.OnKeyboardActionListener() {
+
             @Override
             public void onKey(String str) {
                 Editable editable = etSearch.getText();
