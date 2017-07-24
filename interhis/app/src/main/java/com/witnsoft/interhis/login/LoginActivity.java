@@ -1,18 +1,15 @@
-package com.witnsoft.interhis.mainpage;
+package com.witnsoft.interhis.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
+import com.witnsoft.interhis.mainpage.MainActivity;
 import com.witnsoft.libinterhis.base.BaseActivity;
 import com.witnsoft.libinterhis.utils.ClearEditText;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
@@ -24,7 +21,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 

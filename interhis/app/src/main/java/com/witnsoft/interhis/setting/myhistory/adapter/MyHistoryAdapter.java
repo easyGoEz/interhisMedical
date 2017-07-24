@@ -1,7 +1,6 @@
-package com.witnsoft.interhis.setting.myincome;
+package com.witnsoft.interhis.setting.myhistory.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
@@ -11,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by zhengchengpeng on 2017/7/13.
+ * Created by zhengchengpeng on 2017/6/14.
  */
 
-public class IncomeBillAdapter extends ComRecyclerAdapter<Map<String, String>> {
+public class MyHistoryAdapter extends ComRecyclerAdapter<Map<String, String>> {
 
     private Context context;
 
-    public IncomeBillAdapter(Context context, List<Map<String, String>> list, int layoutId) {
+    public MyHistoryAdapter(Context context, List<Map<String, String>> list, int layoutId) {
         super(context, list, layoutId);
         this.context = context;
         this.list = list;
@@ -26,13 +25,16 @@ public class IncomeBillAdapter extends ComRecyclerAdapter<Map<String, String>> {
 
     @Override
     public void convert(ComRecyclerViewHolder comRecyclerViewHolder, Map<String, String> item) {
-        comRecyclerViewHolder.setText(R.id.tv_time, item.get("OPTIME"));
-        comRecyclerViewHolder.setText(R.id.tv_name, item.get("PATNAME"));
-        comRecyclerViewHolder.setText(R.id.tv_type, item.get("DSMC"));
-        if (!TextUtils.isEmpty(item.get("ZF_JE"))) {
-            comRecyclerViewHolder.setText(R.id.tv_count, "+" + item.get("ZF_JE") + "¥");
-        }
-        comRecyclerViewHolder.setImageUrl(context, R.id.iv_head, item.get("PATPHOTOURL"), R.drawable.touxiang);
+        // 姓名
+        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_name, item.get("PATNAME"));
+        // 性别
+        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_sex, item.get("PATSEXNAME"));
+        // 年龄
+        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_age, item.get("PATNL"));
+        // 症状
+        comRecyclerViewHolder.setText(R.id.fragment_doctor_recycleView_item_content, item.get("JBMC"));
+        // 头像
+        comRecyclerViewHolder.setImageUrl(context, R.id.fragment_doctor_recycleView_item_image, item.get("PATPHOTOURL"), R.drawable.touxiang);
     }
 
     @Override

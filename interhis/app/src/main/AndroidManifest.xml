@@ -37,7 +37,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".mainpage.SplashActivity"
+            android:name=".splash.SplashActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -52,7 +52,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
 
         <activity
-            android:name=".mainpage.LoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
 

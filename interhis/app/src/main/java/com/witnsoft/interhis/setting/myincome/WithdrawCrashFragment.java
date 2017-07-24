@@ -1,26 +1,21 @@
 package com.witnsoft.interhis.setting.myincome;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.InputType;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.setting.ChildBaseFragment;
+import com.witnsoft.interhis.base.ChildBaseFragment;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 
 import org.xutils.view.annotation.ContentView;

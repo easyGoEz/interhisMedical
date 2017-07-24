@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.updatemodel;
+package com.witnsoft.interhis.rightpage.updatemodel;
 
 
 import com.witnsoft.interhis.db.model.ChineseDetailModel;

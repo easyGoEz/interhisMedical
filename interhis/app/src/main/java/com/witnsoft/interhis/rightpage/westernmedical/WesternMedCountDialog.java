@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
-import com.witnsoft.interhis.rightpage.chinesemedical.MedicalCountAdapter;
+import com.witnsoft.interhis.rightpage.chinesemedical.adapter.MedicalCountAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

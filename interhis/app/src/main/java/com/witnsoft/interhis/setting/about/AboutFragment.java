@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.setting.ChildBaseFragment;
+import com.witnsoft.interhis.base.ChildBaseFragment;
 import com.witnsoft.interhis.utils.AppUtils;
 import com.witnsoft.interhis.utils.ui.ItemSettingRight;
 

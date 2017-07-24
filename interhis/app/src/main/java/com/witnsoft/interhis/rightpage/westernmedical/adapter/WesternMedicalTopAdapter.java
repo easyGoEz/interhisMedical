@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.rightpage.westernmedical;
+package com.witnsoft.interhis.rightpage.westernmedical.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -9,9 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
-import com.witnsoft.interhis.rightpage.chinesemedical.ChineseMedicalTopAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

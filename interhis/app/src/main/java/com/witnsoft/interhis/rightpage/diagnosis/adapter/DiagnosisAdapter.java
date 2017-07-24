@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.rightpage.diagnosis;
+package com.witnsoft.interhis.rightpage.diagnosis.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;

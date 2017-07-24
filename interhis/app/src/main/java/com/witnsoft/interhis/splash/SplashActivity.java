@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.mainpage;
+package com.witnsoft.interhis.splash;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
@@ -13,9 +13,10 @@ import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle.components.RxActivity;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.db.DataHelper;
 import com.witnsoft.interhis.db.OnDbOpened;
 import com.witnsoft.interhis.db.YaoListDBHelper;
+import com.witnsoft.interhis.login.LoginActivity;
+import com.witnsoft.interhis.mainpage.MainActivity;
 import com.witnsoft.libinterhis.utils.ImageUtility;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
@@ -23,8 +24,6 @@ import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import rx.Observable;
 
 /**
  * Created by zhengchengpeng on 2017/5/12.

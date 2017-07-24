@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.rightpage.chinesemedical;
+package com.witnsoft.interhis.rightpage.chinesemedical.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.witnsoft.interhis.R;
+import com.witnsoft.interhis.db.model.ChineseDetailModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,13 @@ import java.util.List;
  * Created by zhengchengpeng on 2017/6/29.
  */
 
-public class MedicalCountAdapter extends BaseAdapter {
-    private List<String> list = new ArrayList<String>();
+public class ChineseMedSearchAdapter extends BaseAdapter {
+    private List<ChineseDetailModel> list = new ArrayList<ChineseDetailModel>();
     private Context context;
-    private String unit;
 
-    public MedicalCountAdapter(Context context, List<String> list, String unit) {
+    public ChineseMedSearchAdapter(Context context, List<ChineseDetailModel> list) {
         this.context = context;
         this.list = list;
-        this.unit = unit;
     }
 
     @Override
@@ -44,20 +43,19 @@ public class MedicalCountAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        MedicalCountAdapter.ViewHolder holder = null;
+        ChineseMedSearchAdapter.ViewHolder holder = null;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_search, null);
-            holder = new MedicalCountAdapter.ViewHolder();
-            holder.tvName = (TextView) convertView.findViewById(R.id.item_text);
+            holder = new ChineseMedSearchAdapter.ViewHolder();
+            holder.tv_ss = (TextView) convertView.findViewById(R.id.item_text);
             convertView.setTag(holder);
         }
-        holder = (MedicalCountAdapter.ViewHolder) convertView.getTag();
-        holder.tvName.setText(list.get(position) + unit);
+        holder = (ChineseMedSearchAdapter.ViewHolder) convertView.getTag();
+        holder.tv_ss.setText(list.get(position).getCmc());
         return convertView;
     }
 
     class ViewHolder {
-        TextView tvName;
-
+        TextView tv_ss;
     }
 }

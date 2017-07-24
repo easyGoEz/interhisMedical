@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.setting;
+package com.witnsoft.interhis.base;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;

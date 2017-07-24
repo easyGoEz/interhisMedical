@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.adapter;
+package com.witnsoft.interhis.mainpage.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;

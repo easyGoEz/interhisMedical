@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.mainpage.LoginActivity;
-import com.witnsoft.interhis.setting.ChildBaseFragment;
+import com.witnsoft.interhis.login.LoginActivity;
+import com.witnsoft.interhis.base.ChildBaseFragment;
+import com.witnsoft.interhis.setting.myhistory.adapter.MyHistoryAdapter;
 import com.witnsoft.interhis.setting.myhistory.model.SerializableMap;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;

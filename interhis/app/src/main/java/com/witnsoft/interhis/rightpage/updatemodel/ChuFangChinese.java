@@ -1,7 +1,8 @@
-package com.witnsoft.interhis.updatemodel;
+package com.witnsoft.interhis.rightpage.updatemodel;
 
 import com.witnsoft.interhis.db.model.ChineseDetailModel;
 import com.witnsoft.interhis.db.model.WesternDetailModel;
+import com.witnsoft.interhis.rightpage.updatemodel.ChuFangBase;
 
 import org.json.JSONArray;
 import org.json.JSONException;

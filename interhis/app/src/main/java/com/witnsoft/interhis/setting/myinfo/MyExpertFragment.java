@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.mainpage.LoginActivity;
-import com.witnsoft.interhis.setting.ChildBaseFragment;
+import com.witnsoft.interhis.login.LoginActivity;
+import com.witnsoft.interhis.base.ChildBaseFragment;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libinterhis.utils.ui.AutoScaleLinearLayout;
 import com.witnsoft.libnet.model.DataModel;

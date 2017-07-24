@@ -1,11 +1,9 @@
-package com.witnsoft.interhis;
+package com.witnsoft.interhis.base;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
-
-import com.witnsoft.libinterhis.base.BaseActivity;
 
 /**
  * Created by zhengchengpeng on 2017/7/10.

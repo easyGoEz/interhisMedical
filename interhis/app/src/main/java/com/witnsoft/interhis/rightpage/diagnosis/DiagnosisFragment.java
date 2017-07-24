@@ -14,11 +14,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.witnsoft.interhis.BaseV4Fragment;
+import com.witnsoft.interhis.base.BaseV4Fragment;
 import com.witnsoft.interhis.R;
 import com.witnsoft.interhis.db.HisDbManager;
 import com.witnsoft.interhis.db.model.DiagnosisModel;
-import com.witnsoft.interhis.mainpage.LoginActivity;
+import com.witnsoft.interhis.login.LoginActivity;
+import com.witnsoft.interhis.rightpage.diagnosis.adapter.DiagnosisAdapter;
 import com.witnsoft.interhis.utils.ComRecyclerAdapter;
 import com.witnsoft.libinterhis.utils.ThriftPreUtils;
 import com.witnsoft.libnet.model.DataModel;

@@ -1,4 +1,4 @@
-package com.witnsoft.interhis.rightpage.chinesemedical;
+package com.witnsoft.interhis.rightpage.chinesemedical.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;

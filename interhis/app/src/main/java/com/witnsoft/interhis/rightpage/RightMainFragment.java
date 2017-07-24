@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.witnsoft.interhis.R;
-import com.witnsoft.interhis.mainpage.LoginActivity;
+import com.witnsoft.interhis.login.LoginActivity;
 import com.witnsoft.interhis.rightpage.chinesemedical.ChineseMedicalFragment;
 import com.witnsoft.interhis.rightpage.chinesemedical.OnPageChanged;
 import com.witnsoft.interhis.rightpage.diagnosis.DiagnosisFragment;
