@@ -996,11 +996,6 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
         kb.init(getActivity());
         kb.setOnKeyboardActionListener(new HisKeyboardView.OnKeyboardActionListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-
-            @Override
             public void onKey(String str) {
                 Editable editable = etSearch.getText();
                 int start = etSearch.getSelectionStart();
@@ -1017,11 +1012,6 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                         editable.delete(start - 1, start);
                     }
                 }
-            }
-
-            @Override
-            public void onLongDelete() {
-
             }
         });
     }
