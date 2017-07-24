@@ -92,10 +92,6 @@
             android:theme="@style/horizontal_slide"/>
 
         <activity
-            android:name=".mainpage.MedicalDetailsActivity"
-            android:theme="@style/MyDialogActivityTheme"/>
-
-        <activity
             android:name=".setting.SettingActivity"
             android:screenOrientation="landscape"/>
         <activity
