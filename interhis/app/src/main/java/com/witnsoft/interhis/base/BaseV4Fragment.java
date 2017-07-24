@@ -2,14 +2,13 @@ package com.witnsoft.interhis.base;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 
 /**
  * Created by zhengchengpeng on 2017/7/10.
  */
 
-public class BaseV4Fragment extends Fragment {
+public class BaseV4Fragment extends RxFragment {
 
     private ProgressDialog progressDialog;
 

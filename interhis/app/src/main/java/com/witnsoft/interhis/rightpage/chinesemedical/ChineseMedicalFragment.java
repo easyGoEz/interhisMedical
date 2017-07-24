@@ -256,6 +256,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<ChineseModel>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ChineseModel>() {
 
@@ -371,6 +372,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<ChineseDetailModel>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<ChineseDetailModel>>() {
 
@@ -857,6 +859,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<Map<String, String>>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Map<String, String>>>() {
 
@@ -984,6 +987,7 @@ public class ChineseMedicalFragment extends BaseV4Fragment implements MedicalCou
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<Map<String, String>>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Map<String, String>>>() {
 

@@ -142,6 +142,7 @@ public class DiagnosisFragment extends BaseV4Fragment {
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<DiagnosisModel>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<DiagnosisModel>>() {
 

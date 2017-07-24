@@ -246,6 +246,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<WesternModel>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WesternModel>() {
 
@@ -347,6 +348,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<WesternDetailModel>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<WesternDetailModel>>() {
 
@@ -828,6 +830,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<Map<String, String>>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Map<String, String>>>() {
 
@@ -950,6 +953,7 @@ public class WesternFragment extends BaseV4Fragment implements WesternMedCountDi
                 }
             }
         }).subscribeOn(Schedulers.newThread())
+                .compose(this.<List<Map<String, String>>>bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Map<String, String>>>() {
 
